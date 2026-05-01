@@ -1,0 +1,9 @@
+{
+  "name": "pi-coding-agent",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "@mariozechner/pi-coding-agent": "latest",
+    "@mariozechner/pi-tui": "latest"
+  }
+}

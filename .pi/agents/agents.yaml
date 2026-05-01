@@ -1,0 +1,58 @@
+# Homepage Building Agent Team
+# Each agent specializes in a different aspect of homepage creation
+
+homepage-builder:  # Primary team for building homepages
+  - design-agent
+  - content-agent  
+  - dev-agent
+  - research-agent
+  - marketing-agent
+
+seo-team:
+  - content-agent
+  - marketing-agent
+  - search-agent
+  - analytics-agent
+
+creative-team:
+  - design-agent
+  - image-agent
+  - blog-agent
+  - podcast-agent
+  - vision-agent
+
+content-team:
+  - content-agent
+  - research-agent
+  - docx-agent
+  - pdf-agent
+  - blog-agent
+
+media-team:
+  - podcast-agent
+  - video-agent
+  - vision-agent
+  - media-agent
+
+development-team:
+  - dev-agent
+  - web-agent
+  - webdev-agent
+  - code-agent
+  - fullstack-agent
+
+content-pipeline:
+  - research-agent
+  - content-agent
+  - design-agent
+  - dev-agent
+
+psychology-team:
+  - anti-pua-agent
+  - psychology-agent
+
+research-team:
+  - research-agent
+  - academic-agent
+  - news-agent
+  - fortune-agent

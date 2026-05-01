@@ -1,0 +1,12 @@
+{
+  "model": "claude-3-5-sonnet-20240620",
+  "enableSkillCommands": true,
+  "skills": [
+    "/home/zerwiz/pihomepage/skills",
+    "/home/zerwiz/pihomepage/skills/marketing-mode",
+    "/home/zerwiz/pihomepage/skills/ui-ux-pro-max"
+  ],
+  "agents": [
+    "/home/zerwiz/pihomepage/.pi/agents"
+  ]
+}

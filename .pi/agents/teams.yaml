@@ -1,0 +1,142 @@
+# Homepage Builder Agent Team Configuration
+# This file defines how agents are organized into teams for different use cases
+# The first team listed is the default that runs on session start
+
+# Primary team - Complete homepage building workflow
+homepage-builder-team:
+  - design-agent
+  - frontend-coder
+  - content-agent
+  - dev-agent
+  - research-agent
+  - marketing-agent
+  - image-agent
+  - seo-agent
+  - accessibility-agent
+
+# SEO-focused homepage team
+seo-optimization-team:
+  - research-agent
+  - content-agent
+  - seo-agent
+  - analytics-agent
+  - marketing-agent
+
+# Creative design team - Focus on visuals and aesthetics
+creative-design-team:
+  - design-agent
+  - image-agent
+  - vision-agent
+  - blog-agent
+
+# Content creation pipeline - Research → Content → Design → Dev
+content-pipeline:
+  - research-agent
+  - content-agent
+  - design-agent
+  - dev-agent
+
+# Accessibility-focused team - Ensures inclusive web experiences
+accessibility-first-team:
+  - accessibility-agent
+  - design-agent
+  - dev-agent
+
+# Quick build team - For rapid homepage creation
+quick-build-team:
+  - design-agent
+  - frontend-coder
+  - dev-agent
+  - content-agent
+  - seo-agent
+
+# Documentation team - For building document-heavy sites
+documentation-team:
+  - docx-agent
+  - pdf-agent
+  - blog-agent
+  - write-agent
+
+# Marketing-focused team
+marketing-team:
+  - marketing-agent
+  - content-agent
+  - research-agent
+  - analytics-agent
+
+# Analysis team - For research and competitive analysis
+analysis-team:
+  - research-agent
+  - news-agent
+  - analytics-agent
+  - charts-agent
+
+# Portfolio team - For building portfolio sites
+portfolio-team:
+  - design-agent
+  - content-agent
+  - dev-agent
+  - seo-agent
+
+# Business team - For business/homepage sites
+business-site-team:
+  - research-agent
+  - content-agent
+  - design-agent
+  - dev-agent
+  - marketing-agent
+  - seo-agent
+  - accessibility-agent
+
+# Personal site team - For personal webpages (simple)
+personal-site-team:
+  - design-agent
+  - content-agent
+  - dev-agent
+  - image-agent
+
+# E-commerce team - For e-commerce homepages
+ecommerce-team:
+  - research-agent
+  - design-agent
+  - content-agent
+  - dev-agent
+  - marketing-agent
+  - analytics-agent
+
+# Landing page team - For product/service landing pages
+landing-page-team:
+  - research-agent
+  - frontend-coder
+  - content-agent
+  - design-agent
+  - dev-agent
+  - conversion-agent
+
+# Expert team - For building expert/authority sites
+expert-team:
+  - research-agent
+  - content-agent
+  - dev-agent
+  - seo-agent
+  - accessibility-agent
+
+# Visual design team - Focus entirely on visual aspects
+visual-team:
+  - frontend-coder
+  - design-agent
+  - image-agent
+  - vision-agent
+  
+# Full stack team - Complete development capability
+fullstack-team:
+  - research-agent
+  - frontend-coder
+  - content-agent
+  - design-agent
+  - image-agent
+  - dev-agent
+  - seo-agent
+  - accessibility-agent
+  - marketing-agent
+  - analytics-agent
