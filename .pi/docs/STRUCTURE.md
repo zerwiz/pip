@@ -201,17 +201,7 @@ These extensions boot the REGULAR www.pi.dev way as they always have.
 
 ---
 
-### TUI Extensions (DO NOT BOOT REGULAR WAY)
-**Location**: `/home/zerwiz/pip/.pi/extensions/ui/` (TUI Extensions)
-- `agent-chain.ts`
-- `agent-team-chain.ts`
-- `agent-team.ts`
-- `cross-agent.ts`
-- `pi-pi.ts`
-- `subagent-widget.ts`
-- `tilldone.ts`
 
-**These extensions are for TUI (Terminal User Interface) only** and must boot as the `justfile` at `/home/zerwiz/pip/justfile` specifies. DO NOT BOOT LIKE REGULAR PI EXTENSIONS!!!
 
 ---
 
@@ -311,15 +301,17 @@ These agents assist with development:
 
 **IMPORTANT**: Only root extensions boot regular www.pi.dev way!!!
 
-#### Root Extensions (www.pi.dev way)
-- `theme-cycler.ts` - Theme cycling (boots regular way) - now in `.pi/extensions/src/ui/`
-- `themeMap.ts` - Theme mappings (boots regular way) - now in `.pi/extensions/src/ui/`
-
-#### TUI Extensions (justfile way)
+#### Main UI Extensions (justfile way)
 Located in `/home/zerwiz/pip/.pi/extensions/ui/`
 - Boot only as specified in `/home/zerwiz/pip/justfile`
-- These are for terminal user interface only
-- DO NOT BOOT REGULAR PI DEV WAY!!!
+- **All UI components and TUI extensions**
+- Includes: agent-chain, agent-team, cross-agent, tilldone, subagent-widget, etc.
+
+#### Feature UI Extensions (justfile way)
+Located in `/home/zerwiz/pip/.pi/extensions/src/ui/`
+- Boot only as specified in `/home/zerwiz/pip/justfile`
+- **Feature UI components and widgets**
+- Includes: agent-widget, conversation-viewer, manager, theme-cycler, themeMap, tool-counter, etc.
 
 #### Feature Extensions (justfile way)
 Located in `/home/zerwiz/pip/.pi/extensions/util/`
@@ -328,11 +320,12 @@ Located in `/home/zerwiz/pip/.pi/extensions/util/`
 - DO NOT BOOT REGULAR PI DEV WAY!!!
 
 #### Extra Functions (justfile way)
-Located in `/home/zerwiz/pip/.pi/extensions/src/` and `.pi/extensions/src/ui/`
+Located in `/home/zerwiz/pip/.pi/extensions/src/`
 - Boot only as specified in `/home/zerwiz/pip/justfile`
 - These are extra function extensions
-- Now includes theme-cycler.ts and themeMap.ts in `.pi/extensions/src/ui/`
 - DO NOT BOOT REGULAR PI DEV WAY!!!
+
+**IMPORTANT**: All UI things (both Main UIs and Feature UIs) are in the locations above
 
 ### 6. Python Modules (`py/`)
 - `model_resolver.py` - Model resolution logic
@@ -342,11 +335,21 @@ Located in `/home/zerwiz/pip/.pi/extensions/src/` and `.pi/extensions/src/ui/`
 - `test_memory_export.py` - Memory export tests
 - `test_openai_model_filtering.py` - Model filtering tests
 
-### 7. TypeScript Source (`src/ui/`)
+### 7. Main UI Extensions (`/home/zerwiz/pip/.pi/extensions/ui/`)
+- **Main UI Components** for Terminal User Interface
+- All UI things location for main UI components
+- Includes: agent-chain, agent-team, agent-team-chain, cross-agent, etc.
+
+### 8. Feature UI Extensions (`/home/zerwiz/pip/.pi/extensions/src/ui/`)
 - `agent-widget.ts` - Agent widget component
 - `conversation-viewer.ts` - Conversation viewer
 - `conversation-viewer.test.ts` - Conversation viewer tests
 - `manager.ts` - UI manager
+- `theme-cycler.ts` - Theme cycling
+- `themeMap.ts` - Theme mappings
+- `tool-counter-widget.ts` - Tool counter widget
+- `tool-counter.ts` - Tool counter
+- **Feature UIs location** for all feature UI components
 
 ### 8. Themes (`themes/`)
 11 pre-configured color themes in JSON format:
@@ -398,14 +401,14 @@ Project documentation directory where:
 ## Key Patterns
 
 1. **Root Extensions** (`/home/zerwiz/pip/.pi/extensions/`): Boot regular www.pi.dev way
-2. **TUI Extensions** (`/home/zerwiz/pip/.pi/extensions/ui/`): Boot only via justfile
-3. **Feature Extensions** (`/home/zerwiz/pip/.pi/extensions/util/`): Boot only via justfile
-4. **Extra Functions** (`/home/zerwiz/pip/.pi/extensions/src/`): Boot only via justfile
-5. **Agents**: Each agent has a `.md` documentation file with optional `.yaml` configuration for management agents
-6. **Extensions**: All utilities (except root) live in extension subdirectories and boot via justfile
-7. **Theming**: Themes organized in `themes/` directory with JSON configs
-8. **Python**: Model-related modules in `py/` directory
-9. **TypeScript Source**: UI components in `src/ui/`
+2. **Main UIs** (`/home/zerwiz/pip/.pi/extensions/ui/`): **All UI things** - Main UI components, TUI extensions
+3. **Feature UIs** (`/home/zerwiz/pip/.pi/extensions/src/ui/`): Feature UI components and widgets
+4. **Feature Utilities** (`/home/zerwiz/pip/.pi/extensions/util/`): Boot only via justfile
+5. **Extra Functions** (`/home/zerwiz/pip/.pi/extensions/src/`): Boot only via justfile
+6. **Agents**: Each agent has a `.md` documentation file with optional `.yaml` configuration for management agents
+7. **Extensions**: All utilities (except root) live in extension subdirectories and boot via justfile
+8. **Theming**: Themes organized in `themes/` directory with JSON configs
+9. **Python**: Model-related modules in `py/` directory
 10. **Planning**: All agent planning documents saved in `plans/` directory
 11. **Documentation**: All project documentation in `docs/` directory
 
@@ -468,15 +471,13 @@ Project documentation directory where:
 | `.pi/agents/` | Agent system definitions | N/A |
 | `.pi/docs/` | All project documentation | N/A |
 | `.pi/extensions/` | Root extensions (www.pi.dev way) | Regular boot |
-| `.pi/extensions/ui/` | TUI extensions (justfile way) | Justfile boot |
-| `.pi/extensions/util/` | Feature extensions (justfile way) | Justfile boot |
+| `.pi/extensions/ui/` | **Main UIs** - All UI things (TUI extensions, widgets) | Justfile boot |
+| `.pi/extensions/util/` | Feature utilities (justfile way) | Justfile boot |
 | `.pi/extensions/src/` | Extra functions (justfile way) | Justfile boot |
-| `.pi/extensions/theme-cycler.ts` | Theme cycling (www.pi.dev way) | Regular boot |
-| `.pi/extensions/themeMap.ts` | Theme mappings (www.pi.dev way) | Regular boot |
+| `.pi/extensions/src/ui/` | **Feature UIs** - Feature UI components and widgets | Justfile boot |
 | `.pi/agents/homepageteam/` | Target location for migrated z.ai agents | Migration target |
 | `.pi/npm/` | npm packages | N/A |
 | `.pi/py/` | Python modules | N/A |
-| `.pi/src/ui/` | TypeScript UI components | N/A |
 | `.pi/themes/` | Color theme configurations | N/A |
 | `.pi/plans/` | Agent planning and documentation storage | N/A |
 
@@ -707,19 +708,7 @@ These extensions boot the REGULAR www.pi.dev way as they always have. DO NOT CHA
 
 ---
 
-### TUI Extensions (DO NOT BOOT REGULAR WAY)
-**Location**: `/home/zerwiz/pip/.pi/extensions/ui/`
-- `agent-chain.ts`
-- `agent-team-chain.ts`
-- `agent-team.ts`
-- `cross-agent.ts`
-- `pi-pi.ts`
-- `subagent-widget.ts`
-- `tilldone.ts`
 
-**These extensions are for TUI (Terminal User Interface) only** and must boot as the `justfile` at `/home/zerwiz/pip/justfile` specifies. DO NOT BOOT LIKE REGULAR PI EXTENSIONS!!!
-
----
 
 ### Feature Extensions (DO NOT BOOT REGULAR WAY)
 **Location**: `/home/zerwiz/pip/.pi/extensions/util/`
@@ -755,23 +744,10 @@ These extensions boot the REGULAR www.pi.dev way as they always have. DO NOT CHA
 ## System Components
 
 ### 1. Root Justfile (`/home/zerwiz/pip/justfile`)
-- Build system configuration at project root
-- Defines how to boot ALL extensions (EXCEPT root extensions)
-- **CRITICAL**: This is the ONLY place that knows how to boot non-root extensions
-- **DO NOT MODIFY**: Just make it work as intended
-- This file tells the system where to find all the moved extensions
 
 ### 2. Project Configuration (`.pi/` root)
-- **Safety**: `damage-control-rules.yaml`
-- **Build Chain**: `justfilechain`
-- **Dependencies**: `package.json`
-- **Settings**: `settings.json`
-- **Teams**: `teams.yaml`
-- **TypeScript Config**: `tsconfig.json`
 
 ### 3. Context & Sessions
-- **`.context/`**: Stores project runtime context and metadata
-- **`agent-sessions/`**: Stores runtime agent session data
 
 ### 4. Agents System (`agents/`)
 
@@ -817,39 +793,56 @@ These agents assist with development:
 - `theme-cycler.ts` - Theme cycling (boots regular way)
 - `themeMap.ts` - Theme mappings (boots regular way)
 
-#### TUI Extensions (justfile way)
+#### Main UI Extensions (justfile way)
 Located in `/home/zerwiz/pip/.pi/extensions/ui/`
+- **All UI things** - Main UI components and TUI extensions
 - Boot only as specified in `/home/zerwiz/pip/justfile`
-- These are for terminal user interface only
-- DO NOT BOOT LIKE REGULAR PI DEV EXTENSIONS!!!
+- Includes: agent-chain, agent-team, agent-team-chain, cross-agent, tilldone, etc.
+- DO NOT BOOT REGULAR PI DEV WAY!!!
 
-#### Feature Extensions (justfile way)
+#### Feature UI Extensions (justfile way)
+Located in `/home/zerwiz/pip/.pi/extensions/src/ui/`
+- **Feature UIs** - Feature UI components and widgets
+- Boot only as specified in `/home/zerwiz/pip/justfile`
+- Includes: agent-widget, conversation-viewer, manager, theme-cycler, themeMap, tool-counter, etc.
+- DO NOT BOOT REGULAR PI DEV WAY!!!
+
+#### Feature Utilities (justfile way)
 Located in `/home/zerwiz/pip/.pi/extensions/util/`
 - Boot only as specified in `/home/zerwiz/pip/justfile`
 - These are feature utilities
-- DO NOT BOOT LIKE REGULAR PI DEV EXTENSIONS!!!
-
-#### Extra Functions (justfile way)
-Located in `/home/zerwiz/pip/.pi/extensions/src/`
-- Boot only as specified in `/home/zerwiz/pip/justfile`
-- These are extra function extensions
-- DO NOT BOOT LIKE REGULAR PI DEV EXTENSIONS!!!
+- DO NOT BOOT REGULAR PI DEV WAY!!!
 
 ### 6. Python Modules (`py/`)
 - `model_resolver.py` - Model resolution logic
-- `model_selector.py` - Model selection logic
-- `models.py` - Core model definitions
-- `prompt_templates.py` - Prompt templates
-- `test_memory_export.py` - Memory export tests
-- `test_openai_model_filtering.py` - Model filtering tests
 
-### 7. TypeScript Source (`src/ui/`)
+### 7. Main UI Components (`/home/zerwiz/pip/.pi/extensions/ui/`)
+- **All main UI things location**
+- **TUI extensions and main UI components**
+- `agent-chain.ts` - Agent chain functionality
+- `agent-team.ts` - Agent team functionality
+- `cross-agent.ts` - Cross-agent command/skill discovery
+- `pi-pi.ts` - Pi-Pi integration
+- `subagent-widget.ts` - Subagent widget
+- `tilldone.ts` - TillDone integration
+- `agent-team-chain.ts` - Agent team chain (moved to src/ui)
+
+### 8. Feature UI Components (`/home/zerwiz/pip/.pi/extensions/src/ui/`)
+- **All feature UIs location**
+- **Feature UI components and widgets**
+- **Extra features for UIs**: `pure-focus.ts`, `minimal.ts`
 - `agent-widget.ts` - Agent widget component
 - `conversation-viewer.ts` - Conversation viewer
 - `conversation-viewer.test.ts` - Conversation viewer tests
 - `manager.ts` - UI manager
+- `theme-cycler.ts` - Theme cycling
+- `themeMap.ts` - Theme mappings
+- `tool-counter-widget.ts` - Tool counter widget
+- `tool-counter.ts` - Tool counter
 
-### 8. Themes (`themes/`)
+### 10. Documentation (`docs/`)
+
+### 11. Plans (`plans/`)
 11 pre-configured color themes in JSON format:
 - `catppuccin-mocha.json`
 - `cyberpunk.json`

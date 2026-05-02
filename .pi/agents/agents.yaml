@@ -1,194 +1,163 @@
-# Agents Registry for sipatch agent discovery
-# Each agent is defined by their specialist_id for reliable identification
-# This file enables the sipatch agent to discover and dispatch all available agents
+# Master Agent Registry
+# Synchronized with .md files in the agent tree
 
-# Headless browser automation agent
-bowser:
-  description: Headless browser automation agent using Playwright CLI. Use when you need headless browsing, parallel browser sessions, UI testing, screenshots, or web scraping.
-  specialist_id: bowser
-  models: nemotron-cascade-2:30b
-  color: orange
-  tools:
-    - read
-    - write
-    - ls
-
-# Implementation and code generation agent
-developer:
-  description: Implementation and code generation specialist. English speaking, precise, and disciplined.
-  specialist_id: developer
-  models: null
-  tools:
-    - read
-    - write
-    - edit
-    - bash
-    - grep
-    - find
-    - ls
-
-# Documentation and README generation agent
-documenter:
-  description: Documentation and README generation specialist. The Archivist of the team.
-  specialist_id: documenter
-  models: null
-  tools:
-    - read
-    - write
-    - edit
-    - grep
-    - find
-    - ls
-
-# Pi extensions expert agent
-ext-builder:
-  description: Pi extensions expert — knows how to build custom tools, event handlers, commands, shortcuts, state management, custom rendering, and tool overrides.
-  specialist_id: ext-builder
-  models: null
-  tools:
-    - read
-    - write
-    - edit
-    - bash
-    - grep
-    - find
-    - ls
-
-# UI/UX implementation and component generation agent
-frontend-coder:
-  description: UI/UX implementation, component generation, and styling specialist.
-  specialist_id: frontend-coder
-  models: null
-  tools:
-    - read
-    - write
-    - edit
-    - bash
-    - grep
-    - find
-    - ls
-
-# Netlify troubleshooting agent
-netlify-troubleshooter:
-  description: CI/CD diagnostics, build-pipeline optimization, and dependency resolution for Netlify environments.
-  specialist_id: netlify-troubleshooter
-  models: gemini-2.5-flash-preview-09-2025
-  tools:
-    - read
-    - write
-    - edit
-    - bash
-    - grep
-    - find
-    - ls
-
-# Pi Coding Agent ecosystem specialist
-pi-dev-expert:
-  description: Specialized in the Pi Coding Agent ecosystem, including core primitives, extensions, skills, and terminal-first orchestration.
-  specialist_id: pi-dev-expert
-  models: null
-  tools:
-    - read
-    - write
-    - edit
-    - bash
-    - grep
-    - find
-    - ls
-
-# Plan critic agent
-plan-reviewer:
-  description: Plan critic — reviews, challenges, and validates implementation plans before they reach the builder.
-  specialist_id: plan-reviewer
-  models: null
-  tools:
-    - read
-    - grep
-    - find
-    - ls
-
-# Architecture and implementation planning agent
-planner:
-  description: Architecture and implementation planning specialist. Designs risk-aware, actionable implementation strategies.
-  specialist_id: planner
-  models: null
-  tools:
-    - read
-    - grep
-    - find
-    - ls
-    - write
-
-# Code review and quality checks agent
-reviewer:
-  description: Code review and quality checks agent. The final line of defense. Objective, high-stakes, critical, and unforgiving.
-  specialist_id: reviewer
-  models: null
-  tools:
-    - read
-    - bash
-    - grep
-    - find
-    - ls
-    - write
-
-# Fast recon and codebase exploration agent
 scout:
+  name: scout
   description: Fast recon and codebase exploration agent. Specialized in discovering file paths, configurations, and documentation storage locations across the agent system.
-  specialist_id: scout
-  models:
-    - gpt-4-turbo-preview
-    - gpt-3.5-turbo
-    - o1-preview
-    - claude-3-5-sonnet-20240620
-    - gemini-1.5-pro
-    - mistral-large
-    - phi-3-medium-vision
-    - llama-3
-    - command-r-plus
-    - deepseek-v2-0725
-    - grok
-    - palm2
-    - qwen2.5-coder
-    - xai-grover
-    - deep-hybrid-v1.1
-    - llama3.1-instruct-405b
-    - llama3.2-vision
-    - llama3.3
-    - mistral-large2411
-    - mixtral-8x25b
-    - mixtral-8x7b
-    - phi-3.5-mini
-    - phi-3-medium
-    - gemma2-9b-it
-    - llava
-    - llama-vision
-    - qwen2-vl
-    - qwq32b
-    - gemma
-    - gpt-2
-  tools:
-    - write
-    - find
-    - grep
-    - read
-    - edit
-    - shell
+  tools: read,grep,find,ls
 
-# Session management agent
+planner:
+  name: planner
+  description: Architecture and implementation planning
+  tools: read,grep,find,ls,write
+
+developer:
+  name: developer
+  description: Implementation and code generation
+  tools: read,write,edit,bash,grep,find,ls
+
+reviewer:
+  name: reviewer
+  description: Code review and quality checks
+  tools: read,bash,grep,find,ls,write
+
+documenter:
+  name: documenter
+  description: Documentation and README generation
+  tools: read,write,edit,grep,find,ls
+
+red-team:
+  name: red-team
+  description: Security and adversarial testing
+  tools: read,bash,grep,find,ls
+
 session-manager:
-  description: Session management agent for handling chat sessions, retrieving session metadata, managing session history, and coordinating multi-session operations. Use when you need to access session data, list sessions, or manage session lifecycle.
-  specialist_id: session-manager
-  models: opus
-  color: blue
-  skills:
-    - session-query
-    - session-list
-    - session-manage
-  tools:
-    - bash
-    - grep
-    - find
-    - file-manager
-    - jq
-    - csvkit
+  name: session-manager
+  description: Session management agent for handling chat sessions, retrieving session metadata, managing session history, and coordinating multi-session operations.
+  tools: read,write,grep,find,ls
+
+frontendcoder:
+  name: frontend-coder
+  description: UI/UX implementation, component generation, and styling
+  tools: read,write,edit,bash,grep,find,ls
+
+bowser:
+  name: bowser
+  description: Headless browser automation agent using Playwright CLI.
+  tools: read,write,ls
+
+ext-builder:
+  name: ext-builder
+  description: Pi extensions expert — knows how to build custom tools, event handlers, commands, shortcuts, state management, custom rendering, and tool overrides
+  tools: read,write,edit,bash,grep,find,ls
+
+# --- Domain Specialists ---
+
+netlify-troubleshooter:
+  name: netlify-troubleshooter
+  description: CI/CD diagnostics, build-pipeline optimization, and dependency resolution for Netlify environments.
+  tools: read,write,edit,bash,grep,find,ls
+
+pi-dev-expert:
+  name: pi-dev-expert
+  description: Specialized in the Pi Coding Agent ecosystem, including core primitives, extensions, skills, and terminal-first orchestration.
+  tools: read,write,edit,bash,grep,find,ls
+
+plan-reviewer:
+  name: plan-reviewer
+  description: Plan critic — reviews, challenges, and validates implementation plans
+  tools: read,grep,find,ls
+
+# --- Homepage Team ---
+
+dev-agent:
+  name: dev-agent
+  description: Homepage development specialist who turns designs into functional, high-performance webpages
+  tools: read,write,edit,bash,grep,find,ls
+
+content-agent:
+  name: content-agent
+  description: Homepage content specialist who creates compelling copy, optimizes for engagement and SEO
+  tools: read,write,edit,bash,grep,find,ls
+
+marketing-agent:
+  name: marketing-agent
+  description: Homepage marketing specialist who develops strategies, positioning, and conversion optimization approaches
+  tools: read,write,bash,grep
+
+research-agent:
+  name: research-agent
+  description: Homepage research assistant who gathers context, analyzes competitors, and validates content strategy
+  tools: read,grep,find,ls,bash,web-search
+
+design-agent:
+  name: design-agent
+  description: Homepage visual designer and UI/UX specialist for building beautiful, accessible homepages
+  tools: read,write,edit,bash,grep,find,ls
+
+seo-agent:
+  name: seo-agent
+  description: Homepage SEO specialist who optimizes pages for search engines while maintaining great UX
+  tools: read,write,edit,bash,grep
+
+accessibility-agent:
+  name: accessibility-agent
+  description: Homepage accessibility specialist who ensures WCAG compliance and inclusive design for all users
+  tools: read,write,edit,bash,grep
+
+image-agent:
+  name: image-agent
+  description: Homepage visual specialist who selects, optimizes, and creates compelling images for visual design
+  tools: read,write,edit,bash,grep
+
+# --- Meta Experts (Pi-Pi Team) ---
+
+pi-orchestrator:
+  name: pi-orchestrator
+  description: Primary meta-agent that coordinates experts and builds Pi components
+  tools: read,write,edit,bash,grep,find,ls,query_experts
+
+skill-expert:
+  name: skill-expert
+  description: Pi skills expert — knows SKILL.md format, frontmatter fields, directory structure, validation rules, and skill command registration
+  tools: read,grep,find,ls,bash
+
+agent-expert:
+  name: agent-expert
+  description: Pi agent definitions expert — knows the .md frontmatter format for agent personas, teams.yaml structure, agent-team orchestration, and session management
+  tools: read,grep,find,ls,bash
+
+ext-expert:
+  name: ext-expert
+  description: Pi extensions expert — knows how to build custom tools, event handlers, commands, shortcuts, state management, custom rendering, and tool overrides
+  tools: read,write,edit,bash,grep,find,ls
+
+tui-expert:
+  name: tui-expert
+  description: Pi TUI expert — knows all built-in components, custom components, overlays, keyboard input, widgets, footers, and custom editors
+  tools: read,grep,find,ls,bash
+
+cli-expert:
+  name: cli-expert
+  description: Pi CLI expert — knows all command line arguments, flags, environment variables, subcommands, output modes, and non-interactive usage
+  tools: read,grep,find,ls,bash
+
+config-expert:
+  name: config-expert
+  description: Pi configuration expert — knows settings.json, providers, models, packages, keybindings, and all configuration options
+  tools: read,grep,find,ls,bash
+
+prompt-expert:
+  name: prompt-expert
+  description: Pi prompt templates expert — knows the single-file .md format, frontmatter, positional arguments, and /template invocation
+  tools: read,grep,find,ls,bash
+
+theme-expert:
+  name: theme-expert
+  description: Pi themes expert — knows the JSON format, all 51 color tokens, vars system, hex/256-color values, hot reload, and theme distribution
+  tools: read,grep,find,ls,bash
+
+keybinding-expert:
+  name: keybinding-expert
+  description: Pi keyboard shortcut expert — knows registerShortcut(), Key IDs, modifier combos, reserved keys, and keybindings.json customization
+  tools: read,grep,find,ls,bash

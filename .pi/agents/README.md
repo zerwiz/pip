@@ -1,190 +1,246 @@
-# Pi Homepage Builder Agent Team
+# Pi Agents Directory
 
-A comprehensive multi-agent team for building professional, SEO-optimized, accessible, and conversion-focused homepages.
+This directory contains specialist agent definitions for the Pi Coding Agent ecosystem. Each agent is identified by its `specialist_id` for reliable discovery and dispatch by the sipatch agent.
 
-**Critical**
-Every agent needs to be by their `specialist_id:`
+## 🎯 How Agent Discovery Works
 
+The `agent-team.ts` orchestrator discovers agents through multiple sources:
 
-`agent-team.ts` file scans agents from these directories:
-- join(cwd, "agents")
-- join(cwd, ".claude", "agents")
-- join(cwd, ".pi", "agents")
+1. **`.md` Files**: Scans `*.md` files in agent directories
+2. **`agents.yaml`**: Reads the YAML registry listing all agents by `specialist_id`
+3. **`teams.yaml`**: Defines team configurations using agent names
 
-`scanAgentDirs` function that reads `.md` 
-`loadAgents` function 
-`agents.yaml` function 
+## 📋 Available Agents
 
-## Available Agents
+All agents below are registered in `agents.yaml` by their `specialist_id`:
 
-### 🎨 Core Building Agents
-- **design-agent** - UI/UX specialist for visual design
-- **content-agent** - Copywriting and engagement optimization
-- **dev-agent** - Developer for implementation
-- **research-agent** - Research and competitor analysis
-- **marketing-agent** - Marketing strategy and positioning
+| Agent Name | Specialist ID | Description |
+|------------|---------------|-------------|
+| `bowser` | `bowser` | Headless browser automation using Playwright CLI |
+| `developer` | `developer` | Implementation and code generation specialist |
+| `documenter` | `documenter` | Documentation and README generation specialist |
+| `ext-builder` | `ext-builder` | Pi extensions expert for custom tools and skills |
+| `frontend-coder` | `frontend-coder` | UI/UX implementation and component generation |
+| `netlify-troubleshooter` | `netlify-troubleshooter` | CI/CD diagnostics and build-pipeline optimization |
+| `pi-dev-expert` | `pi-dev-expert` | Pi Coding Agent ecosystem specialist |
+| `plan-reviewer` | `plan-reviewer` | Plan critic for reviewing implementation plans |
+| `planner` | `planner` | Architecture and implementation planning specialist |
+| `reviewer` | `reviewer` | Code review and quality checks agent |
+| `scout` | `scout` | Fast recon and codebase exploration agent |
+| `session-manager` | `session-manager` | Session management and lifecycle coordination |
 
-### 🖼️ Visual Assets
-- **image-agent** - Image selection and optimization
-- **vision-agent** - Visual design and creation
+## 🏗️ Team Configurations
 
-### 📈 Performance & SEO
-- **seo-agent** - SEO optimization
-- **analytics-agent** - Performance tracking
-- **web-agent** - Web development
+See `teams.yaml` for available team configurations. Teams are organized by use case:
 
-### ♿ Accessibility & UX
-- **accessibility-agent** - WCAG compliance
+- **full-dev-team**: Complete development workflow (scout → planner → developer → reviewer → documenter)
+- **planning-review-team**: Architecture and validation focus
+- **browser-automation-team**: Web scraping and testing workflows
+- **session-team**: Session lifecycle operations
+- **build-deploy-team**: CI/CD and deployment workflows
+- **extensions-team**: Pi extensions development
+- **security-research-team**: Security analysis and research
 
-### 📝 Content & Media
-- **blog-agent** - Blog content creation
-- **podcast-agent** - Audio/podcast creation
+## 🔗 Agent Chains
 
-### 📄 Documents
-- **docx-agent** - Document formatting
-- **pdf-agent** - PDF creation
-- **ppt-agent** - Presentation creation
+See `agent-chain.yaml` for predefined multi-agent workflows:
 
-### 🔍 Analytics & Data
-- **news-agent** - News aggregation
-- **charts-agent** - Visualization
-- **excel-agent** - Data analysis
+- **plan-build-review**: Standard development cycle
+- **plan-build**: Fast two-step implementation
+- **scout-flow**: Triple-scout deep recon
+- **browser-flow**: Browser automation workflow
+- **session-workflow**: Session management workflow
+- **deploy-workflow**: CI/CD deployment workflow
+- **extensions-workflow**: Extension development workflow
 
-### 🧪 Testing & Quality
-- **code-agent** - Code quality
-- **webdev-agent** - Web development
+## 📁 File Structure
 
-## Teams Configuration
+```
+.pi/agents/
+├── README.md                    # This file
+├── agents.yaml                  # Agent registry by specialist_id
+├── teams.yaml                   # Team configurations
+├── agent-chain.yaml            # Multi-agent workflow chains
+├── scout.md                     # Scout agent definition
+├── planner.md                   # Planner agent definition
+├── developer.md                 # Developer agent definition
+├── reviewer.md                  # Reviewer agent definition
+├── documenter.md                # Documenter agent definition
+├── ext-builder.md               # Extension builder definition
+├── frontend-coder.md            # Frontend coder definition
+├── netlify-agent.md             # Netlify troubleshooter definition
+├── pi-dev-expert.md             # Pi dev expert definition
+├── plan-reviewer.md             # Plan reviewer definition
+├── session-manager.md           # Session manager definition
+├── bowser.md                    # Bowser agent definition
+├── bowser                       # Alias for bowser.md
+├── teams.yaml                   # Team configurations
+└── agents.yaml                  # Agent registry
+```
+
+## 🔧 Usage
+
+### Dispatch Individual Agents
+
+```bash
+pi scout.md "Explore the codebase and identify: [request]"
+pi planner.md "Create a plan for: [request]"
+pi developer.md "Implement this plan: [plan]"
+pi reviewer.md "Review this implementation: [code]"
+```
+
+### Use a Team
+
+```bash
+pi --team full-dev-team "Build a feature"
+pi --team browser-automation-team "Scrape this website"
+pi --team extensions-team "Create a custom tool"
+```
+
+### Use a Chain
+
+```bash
+pi --chain plan-build-review "Plan, build, and review: [request]"
+pi --chain scout-flow "Triple-scout analysis: [request]"
+```
+
+### Manage Teams
+
+```bash
+pi --tool manage_team list
+pi --tool manage_team add full-dev-team documenter
+pi --tool manage_team remove full-dev-team reviewer
+```
+
+## 🎓 Best Practices
+
+1. **Use `specialist_id`**: Always reference agents by their `specialist_id` for reliable identification
+2. **Start with Scout**: Let the scout agent explore the codebase before planning
+3. **Review Everything**: Always use the reviewer agent for code quality
+4. **Document Changes**: Use the documenter agent to update documentation
+5. **Respect Agent Roles**: Don't use the developer agent for planning; use the planner instead
+
+## ⚙️ Configuration Files
+
+### agents.yaml
+
+Registry of all available agents. Each agent must have a `specialist_id` field for reliable identification:
 
 ```yaml
-homepage-builder:  # Primary team
-  - design-agent
-  - content-agent
-  - dev-agent
-  - research-agent
-  - marketing-agent
-  - image-agent
-  - seo-agent
-  - accessibility-agent
-
-seo-team:
-  - research-agent
-  - content-agent
-  - seo-agent
-  - analytics-agent
-
-creative-team:
-  - design-agent
-  - image-agent
-  - blog-agent
-  - vision-agent
-
-content-pipeline:
-  - research-agent
-  - content-agent
-  - design-agent
-  - dev-agent
+scout:
+  description: Fast recon and codebase exploration agent
+  specialist_id: scout
+  models:
+    - gpt-4-turbo-preview
+    - gpt-3.5-turbo
+  tools:
+    - write
+    - find
+    - grep
+    - read
 ```
-# Homepage Builder Agent Team Summary
 
-## ✅ Successfully Created Homepage Builder Team
+### teams.yaml
 
-### 🎯 Core Agents (9 Specialized Agents)
+Team configurations that group agents for specific workflows:
 
-1. **expert-agent** - Agent architecture and team orchestration expert
-2. **design-agent** - UI/UX specialist for visual homepage design
-3. **content-agent** - Copywriting and engagement optimization
-4. **dev-agent** - Code implementation for functionality
-5. **research-agent** - Market analysis and competitor research
-6. **marketing-agent** - Marketing strategy and CRO
-7. **seo-agent** - Search engine optimization
-8. **accessibility-agent** - WCAG compliance and inclusive design
-9. **image-agent** - Image selection and visual optimization
+```yaml
+full-dev-team:
+  - scout
+  - planner
+  - developer
+  - reviewer
+  - documenter
+```
 
-### 📋 Additional Agents from Skills
+### agent-chain.yaml
 
-- **blog-agent** - Blog content creation
-- **podcast-agent** - Audio/podcast creation
-- **charts-agent** - Data visualization
-- **excel-agent** - Data analysis
-- **news-agent** - News aggregation
-- **docx-agent** - Document handling
-- **pdf-agent** - PDF creation
-- **ppt-agent** - Presentations
-- And more from your skills directory
+Predefined multi-agent workflow chains:
 
-### 🏆 Teams Created (16 Configured Teams)
+```yaml
+plan-build-review:
+  description: "Plan, implement, and review — the standard development cycle"
+  steps:
+    - agent: planner
+      prompt: "Plan the implementation for: $INPUT"
+    - agent: developer
+      prompt: "Implement the following plan:\n\n$INPUT"
+    - agent: reviewer
+      prompt: "Review this implementation for bugs, style, and correctness:\n\n$INPUT"
+```
 
-The team can work in different modes:
+## 🚀 Quick Start
 
-1. **homepage-builder-team** - Complete workflow
-2. **quick-build-team** - Rapid creation
-3. **accessibility-first-team** - Inclusive design
-4. **seo-optimization-team** - Search focus
-5. **creative-design-team** - Visual focus
-6. **business-site-team** - Business homepages
-7. **content-pipeline** - Research → Content → Design → Dev
-8. And 10 more specialized team configurations
+1. **Discover Available Agents**:
+   ```bash
+   pi --tool dispatch list_agents
+   ```
 
-### 📂 File Structure
+2. **See Available Teams**:
+   ```bash
+   pi --tool dispatch list_teams
+   ```
 
-NEEDS TO BE FILLED!
+3. **Test the Scout Agent**:
+   ```bash
+   pi scout.md "Scan the codebase and report: [request]"
+   ```
 
-## 📈 Capabilities
+4. **Run a Full Chain**:
+   ```bash
+   pi --chain plan-build-review "Build a new feature"
+   ```
 
-### Full Homepage Build Pipeline
-1. **Research** → `research-agent` analyzes market
-2. **Design** → `design-agent` creates layouts
-3. **Content** → `content-agent` writes copy
-4. **Development** → `dev-agent` implements code
-5. **SEO** → `seo-agent` optimizes visibility
-6. **Accessibility** → `accessibility-agent` ensures compliance
+5. **Manage Teams**:
+   ```bash
+   pi --tool manage_team list
+   pi --tool manage_team activate full-dev-team
+   ```
 
-### Specialized Workflows
-- **Quick Build**: 5-minute homepage
-- **Design-Focused**: Beautiful layouts
-- **SEO-Optimized**: High search visibility
-- **Accessible**: WCAG compliant design
+## 📚 Related Documentation
 
-### Team Orchestration
-- Automatic pipeline execution
-- Collaborative agent work
-- Comprehensive quality assurance
-- Continuous optimization
+- [Pi Extensions Docs](https://raw.githubusercontent.com/badlogic/pi-mono/refs/heads/main/packages/coding-agent/docs/extensions.md)
+- [Agent Template](./agenttemplate.md)
+- [Agent Chain Reference](./agent-chain.md)
 
-## 🎨 Skills Integration
+## 🛠️ Adding New Agents
 
-All agents can call Pi skills from your skills directory:
-- Use `docx-agent` for documents
-- Use `charts-agent` for data viz
-- Use `image-agent` for visuals
-- And any other skills you load
+To add a new agent:
 
-## 🔧 Configuration Files Created
+1. Create a `.md` file in this directory
+2. Include YAML frontmatter with `specialist_id`, `name`, `description`, and `tools`
+3. Register the agent in `agents.yaml`
+4. Add to a team in `teams.yaml` if applicable
 
-1. **`README.md`** - Team documentation
-2. **`teams.yaml`** - Team configurations (16 teams)
-3. **`quickstart.md`** - Usage guide
-4. **`SUMMARY.md`** - Creation summary (this file)
-5. **`agenttemplate.md`** - Template for new agents
-6. **`agents.yaml`** - Agent list
-7. Individual agent definition files
+Example:
 
-## 📝 Next Steps
+```markdown
+---
+specialist_id: my-new-agent
+name: my-new-agent
+description: My custom agent for specific tasks
+models: null
+tools: [read, write, edit, bash]
+---
+Your agent prompt goes here...
+```
 
-1. **Test the Team**: `pi "Build a test homepage"`
-2. **Use Individual Agents**: Call specific agents for focus
-3. **Add Skills**: Load relevant skills as needed
-4. **Customize**: Modify agent prompts for your needs
-5. **Iterate**: Refine based on results
+Then add to `agents.yaml`:
 
-## 🌟 Benefits
+```yaml
+my-new-agent:
+  description: My custom agent for specific tasks
+  specialist_id: my-new-agent
+  models: null
+  tools:
+    - read
+    - write
+    - edit
+    - bash
+```
 
-- **Comprehensive**: Full homepage build capability
-- **Specialized**: Expert-focused agents
-- **Flexible**: Multiple team configurations
-- **Documented**: Clear usage instructions
-- **Extensible**: Easy to add new agents
-- **Professional**: Business-quality output
+---
 
-The homepage builder team is now ready to create professional, SEO-optimized, and accessible homepages with minimal effort!
+*Version: 1.0.0* | *Author: @zerwiz* | *License: MIT*
+
+**Critical**: Every agent must be registered by their `specialist_id:` field for reliable discovery by the sipatch agent!

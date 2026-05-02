@@ -21,7 +21,7 @@ import { Text, truncateToWidth, visibleWidth, Spacer, DynamicBorder, Container }
 import { spawn } from "child_process";
 import { readdirSync, readFileSync, existsSync, mkdirSync } from "fs";
 import { join, resolve } from "path";
-import { applyExtensionDefaults } from "./themeMap.ts";
+import { applyExtensionDefaults } from "../src/ui/themeMap.js";
 
 // ── Types ────────────────────────────────────────
 
