@@ -26,7 +26,8 @@ Main project workspace directory containing:
 | `agent-sessions/` | Runtime agent session storage |
 | `agents/` | Agent system definitions and docs |
 | `docs/` | Project documentation |
-| `extensions/` | Functional utility extensions (CRITICAL - DO NOT BOOT LIKE REGULAR PI) |
+| `.pi/extensions/` | Functional utility extensions (CRITICAL - DO NOT BOOT LIKE REGULAR PI) |
+| `extensions/` | Regular pi extensions |
 | `npm/` | npm packages directory |
 | `py/` | Python module files |
 | `src/` | TypeScript source code |
@@ -376,21 +377,29 @@ Project documentation directory where:
 
 ## EXTENSION BOOT RULES (MUST FOLLOW!!!)
 
-### Rule 1: Root Extensions Only
+### Rule 1: Primary Extensions Location
 **Location**: `/home/zerwiz/pip/.pi/extensions/`
-- Contains: `theme-cycler.ts`, `themeMap.ts`
-- **Boot Method**: Regular www.pi.dev way
-- **Reason**: These are legacy extensions that must work like before
+- Contains: Functional utility extensions (theme-cycler.ts, themeMap.ts, etc.)
+- **Boot Method**: Via `/home/zerwiz/pip/justfile` (DO NOT BOOT LIKE REGULAR PI)
+- **Reason**: This is the normal location for existing extensions
+- **CRITICAL**: These extensions are utility functions, not UI/agent extensions
 
-### Rule 2: All Other Extensions
+### Rule 2: New Extensions Location
+**Location**: `/home/zerwiz/pip/extensions/`
+- Contains: Future new extensions and theme extensions
+- **Boot Method**: Via `/home/zerwiz/pip/justfile`
+- **Reason**: This is the location for new development going forward
+- **Example**: New agent-team, agent-chain, custom extensions go here
+
+### Rule 3: Subdirectories Structure
 **Locations**:
-- `/home/zerwiz/pip/.pi/extensions/ui/` (TUI)
-- `/home/zerwiz/pip/.pi/extensions/util/` (Features)
-- `/home/zerwiz/pip/.pi/extensions/src/` (Extra Functions)
+- `/home/zerwiz/pip/.pi/extensions/ui/` (TUI only)
+- `/home/zerwiz/pip/.pi/extensions/util/` (Features only)
+- `/home/zerwiz/pip/.pi/extensions/src/` (Extra Functions only)
 
 - **Boot Method**: ONLY via `/home/zerwiz/pip/justfile`
 - **DO NOT**: Boot these like regular www.pi.dev extensions
-- **REASON**: These are new extensions that need reconfiguration
+- **REASON**: These are specialized for justfile control
 
 ### Rule 3: Justfile Control
 **File**: `/home/zerwiz/pip/justfile`

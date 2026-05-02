@@ -2,7 +2,19 @@
 
 **For:** Developer team adopting the agent team extension system
 **Goal:** Simplify, consolidate, and document the architecture
-**Status:** Initial draft
+**Status:** Updated for new extension location strategy
+
+## ⚠️ Extension Location Strategy (CRITICAL)
+
+Extensions are loaded from TWO locations:
+
+1. **`.pi/extensions/`** - **EXISTING** extensions loaded via justfile (DO NOT BOOT LIKE REGULAR PI)
+2. **`extensions/`** - **FUTURE** extensions for new development (theme extensions go here)
+
+All extensions in `.pi/extensions/` are loaded via `/home/zerwiz/pip/justfile`.
+
+---
+
 
 ---
 
@@ -20,16 +32,34 @@
 
 ### **File Structure**
 
+Extensions in **`.pi/extensions/`** (loaded via justfile):
+
+```
+.pi/extensions/
+├── theme-cycler.ts           # Theme cycling (FUNCTIONAL UTILITY)
+├── themeMap.ts               # Theme mappings (FUNCTIONAL UTILITY)
+├── util/
+│   ├── memory-export.ts      # Memory export tools
+│   ├── memory-tools.ts       # Pi command tools
+│   ├── damage-control.ts     # Safety layer
+│   └── pi-loader.ts          # Dynamic loader
+├── ui/
+│   ├── agent-team.ts         # Team dispatcher
+│   ├── agent-chain.ts        # Chain orchestrator
+│   ├── damage-control.ts     # Safety layer
+│   └── ...                   # Other UI extensions
+└── src/
+    └── ...                   # Extra functions
+```
+
+Extensions in **`extensions/`** (for future new development):
+
 ```
 extensions/
-├── agent-team.ts              # Core team functionality
-├── agent-chain.ts             # Chain pipeline orchestrator
-├── agent-team-chain.ts        # Hybrid (causes conflicts)
-├── damage-control.ts          # Safety layer
-├── memory.ts                  # Memory utilities
-└── util/
-    ├── memory-export.ts       # Memory export tools
-    └── memory-tools.ts        # Pi command tools
+├── agent-team.ts             # Future new team dispatcher
+├── agent-chain.ts            # Future new chain orchestrator
+├── custom-extension.ts       # Custom extensions go here
+└── theme-custom.ts           # Custom theme extensions go here
 ```
 
 ### **Current Issues**
@@ -46,97 +76,92 @@ extensions/
 
 ### **File Structure**
 
+Extensions in **`.pi/extensions/`** (existing, loaded via justfile):
+
 ```
-extensions/
-├── agent-team.ts              # Core team functionality (unchanged)
-├── agent-chain.ts             # Standalone chain system (unchanged)
-├── agent-team-chain.ts        # DEPRECATED (migration target)
-├── damage-control.ts          # Safety layer
-├── memory.ts                  # Memory utilities (unchanged)
-└── util/
-    ├── memory-export.ts       # Shared export utilities
-    └── memory-tools.ts        # Pi command tools
+.pi/extensions/
+├── theme-cycler.ts           # Utility extension
+├── themeMap.ts               # Utility extension
+├── damage-control.ts         # Utility extension
+├── util/                     # Feature utilities
+│   ├── memory-export.ts
+│   ├── memory-tools.ts
+│   ├── pi-loader.ts
+│   └── ...
+└── ui/                       # UI extensions
+    ├── agent-team.ts
+    ├── agent-chain.ts
+    ├── subagent-widget.ts
+    └── ...
 ```
 
+New extensions go in **`extensions/`** (for future development).
+
 ### **Recommended Extensions**
+
+Extensions are loaded via **justfile**, not directly with `pi -e`.
 
 #### **Basic (Most Users)**
 
 ```bash
-pi -e extensions/damage-control.ts \
-    -e extensions/theme-cycler.ts \
-    -e extensions/agent-team.ts
+just run-pi "damage-control,theme-cycler,agent-team"
+# This loads from .pi/extensions/ via justfile
 ```
 
 #### **Advanced Chains**
 
 ```bash
-pi -e extensions/damage-control.ts \
-    -e extensions/theme-cycler.ts \
-    -e extensions/agent-chain.ts
+just run-pi "damage-control,theme-cycler,agent-chain"
+# This loads from .pi/extensions/ via justfile
 ```
 
-#### **Hybrid (Via Composed Extension)**
+#### **Full Stack**
 
 ```bash
-# Create composed extension (see Migration Steps below)
-pi -e extensions/composed-agent-team.ts
+just run-pi "agent-team,damage-control,theme-cycler"
+# Loads all extensions from .pi/extensions/
+```
+
+#### **Using extensions/ for New Extensions**
+
+Future new extensions:
+
+```bash
+just run-pi "my-new-extension,theme-cycler"
+# Loads from extensions/
 ```
 
 ---
 
 ## Migration Steps
 
-### **Step 1: Create Composed Extension**
+### **Step 1: Extension Location Clarification**
 
-**File:** `extensions/composed-agent-team.ts`
+Extensions in **`.pi/extensions/`** are loaded via justfile.
 
-**Purpose:** Safe composition of team + chain features
+For new extensions, place them in **`extensions/`** directory.
 
-**Skeleton:**
+#### **Example: Creating New Extension**
 
-```typescript
-import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
-import { readMemoryIndex, buildMemoryBlock } from "./memory.ts";
-import { applyExtensionDefaults } from "./themeMap.ts";
+```bash
+# Create in extensions/ directory
+mkdir extensions/my-new-extension.ts
+vi extensions/my-new-extension.ts
 
-// Load both systems
-const { default: teamSystem } = await import("./agent-team.ts");
-const { default: chainSystem } = await import("./agent-chain.ts");
-
-// Load memory export utilities
-const { exportMemory } = await import("./util/memory-export.ts");
-
-// Merge tools safely
-function mergeTools(primaryTools: string[], secondaryTools: string[]) {
-  return [...new Set([...primaryTools, ...secondaryTools])];
-}
-
-// Export
+# Implement with default factory function
 export default function (pi: ExtensionAPI) {
-  // ... composed system logic
+  // Your extension logic
 }
 ```
 
 ### **Step 2: Update Justfile**
 
-**File:** `justfile`
-
-**Add target:**
+Extensions are loaded via justfile targets. Update your justfile with new targets:
 
 ```just
-# 13. Composed agent team: team + chains + safety
-ext-composed-team:
-    pi -e extensions/composed-agent-team.ts \
-        -e extensions/damage-control.ts \
-        -e extensions/theme-cycler.ts
-
-build:composed-team
-    @echo "✅ Building composed-agent-team extension..."
-    @echo "   ✓ Tool merge check"
-    @echo "   ✓ Hook order validation"
-    @echo "   ✓ Memory utilities loaded"
-    @echo "✅ Composed extension ready"
+# Example new target for new extension
+ext-my-new-extension:
+    @just run-pi "my-new-extension,theme-cycler"
 ```
 
 ### **Step 3: Deprecate agent-team-chain.ts**
@@ -148,43 +173,43 @@ build:composed-team
 ```typescript
 /**
  * WARNING: DEPRECATED
- * Use: pi -e extensions/composed-agent-team.ts instead
- * agent-team.ts + agent-chain.ts separately for basic usage
+ * Use justfile targets instead
+ * agent-team.ts + agent-chain.ts in .pi/extensions/
  */
 ```
 
 ### **Step 4: Create Documentation**
 
-**File:** `extensions/EXTENSION-README.md`
+**File:** `.pi/extensions/EXTENSION-README.md` (or `extensions/` for new)
 
 **Contents:**
 
 ```markdown
 # Agent Extension System
 
-## Extensions
+## Extensions Location Strategy
 
-- agent-team.ts - Team dispatcher
-- agent-chain.ts - Chain pipeline
-- agent-team-chain.ts - DEPRECATED, use composed-agent-team.ts
-- damage-control.ts - Safety
-- theme-cycler.ts - Theme switching
+### .pi/extensions/ (EXISTING)
+- Loaded via justfile
+- Contains: theme-cycler.ts, themeMap.ts, agent-team.ts, agent-chain.ts
+- DO NOT BOOT LIKE REGULAR PI
 
-## Combinations
+### extensions/ (FUTURE)
+- For new development
+- For theme extensions
+- Loaded via justfile
 
-### Basic (Team Only)
+## Recommended Usage
+
 ```bash
-pi -e agent-team.ts -e theme-cycler.ts -e damage-control.ts
-```
+# Basic usage
+just run-pi "agent-team,theme-cycler"
 
-### Advanced (Chains Only)
-```bash
-pi -e agent-chain.ts -e theme-cycler.ts -e damage-control.ts
-```
+# Advanced usage
+just run-pi "agent-team,agent-chain,theme-cycler,damage-control"
 
-### Hybrid (Via Composed)
-```bash
-pi -e composed-agent-team.ts -e theme-cycler.ts -e damage-control.ts
+# Custom extension
+just run-pi "my-custom-extension,theme-cycler"
 ```
 
 ## Memory Export
@@ -192,17 +217,17 @@ pi -e composed-agent-team.ts -e theme-cycler.ts -e damage-control.ts
 Available in all extensions:
 
 ```bash
-memory-export:json    # JSON format
-memory-export:text    # Plain text
-memory-export:md      # Markdown
-memory-export:preview # Preview only
+pi memory-export:json    # JSON format
+pi memory-export:text    # Plain text
+pi memory-export:md      # Markdown
+pi memory-export:preview # Preview only
 ```
 
-## Documentation
+## See Also
 
-- AGENT-EXTENSION-ARCHITECTURE.md - Full architecture analysis
-- EXTENSION-README.md - This file
-- README.md - Project documentation
+- STRUCTURE.md - Extension location strategy
+- MIGRATION-GUIDE.md - This guide
+- CHECKLIST.md - Daily maintenance checklist
 ```
 
 ---
@@ -212,7 +237,9 @@ memory-export:preview # Preview only
 ### **Developer Onboarding**
 
 ### [ ] Load correct extension
-- [ ] Read EXTENSION-README.md
+- [ ] Read `.pi/extensions/EXTENSION-README.md`
+- [ ] Extensions in `.pi/extensions/` are loaded via justfile
+- [ ] New extensions go in `extensions/` directory
 - [ ] Choose appropriate combination
 - [ ] Document why you chose your combination
 - [ ] Review AGENT-EXTENSION-ARCHITECTURE.md for full details
@@ -224,13 +251,14 @@ memory-export:preview # Preview only
 - [ ] Use util/memory-export.ts for export features
 
 ### [ ] Tool Registration
-- [ ] Review existing tools in agent-team.ts
-- [ ] Review existing tools in agent-chain.ts
-- [ ] Add new tools to composed extension only (when needed)
+- [ ] Review existing tools in agent-team.ts (in .pi/extensions/ui/)
+- [ ] Review existing tools in agent-chain.ts (in .pi/extensions/ui/)
+- [ ] Add new tools to extensions/ directory only (when needed)
 - [ ] Check for duplicates in every registration
 
 ### [ ] Extension Lifecycle
 ### [ ] On startup
+- [ ] Extensions in .pi/extensions/ are loaded via justfile
 - [ ] Register hooks in defined order
 - [ ] Register tools after damage-control
 - [ ] Check widget registration order
@@ -278,7 +306,7 @@ memory-export:preview # Preview only
 - [ ] Document new agent personas
 - [ ] Document new tools
 - [ ] Document new commands
-- [ ] Update EXTENSION-README.md
+- [ ] Update EXTENSION-README.md in .pi/extensions/
 - [ ] Add examples to README.md
 
 ### [ ] Code Quality
@@ -296,15 +324,32 @@ memory-export:preview # Preview only
 ### **Q: Why are there three extensions (team, chain, combined)?**
 
 **A:** They serve different use cases:
-- `agent-team.ts` - Multi-agent team dispatcher
-- `agent-chain.ts` - Sequential pipeline orchestrator
-- `agent-team-chain.ts` - Combines both (causes conflicts)
+- `agent-team.ts` - Multi-agent team dispatcher (in .pi/extensions/)
+- `agent-chain.ts` - Sequential pipeline orchestrator (in .pi/extensions/)
+- `agent-team-chain.ts` - Combines both (causes conflicts, DEPRECATED)
 
 **Recommendation:** Use team OR chain separately, or composed extension.
 
+### **Q: Where do extensions live?**
+
+**A:** Two locations:
+
+1. **`.pi/extensions/`** - Existing extensions loaded via justfile
+   - theme-cycler.ts, themeMap.ts
+   - agent-team.ts, agent-chain.ts
+   - damage-control.ts
+   - All utilities
+
+2. **`extensions/`** - Future new extensions
+   - New custom extensions
+   - Theme extensions
+   - Custom utilities
+
+**DO NOT** load `.pi/extensions/` extensions with `pi -e`. Use justfile.
+
 ### **Q: Can I add tools to the extended team?**
 
-**A:** Yes, but only via the composed extension:
+**A:** Yes, create new extension in `extensions/` directory:
 
 ```typescript
 export default function (pi: ExtensionAPI) {
@@ -320,18 +365,14 @@ export default function (pi: ExtensionAPI) {
 
 ### **Q: What's the loading order?**
 
-**A:** Loading order matters:
+**A:** Extensions in `.pi/extensions/` are loaded via justfile:
 
-1. `damage-control.ts` - Safety first
-2. `theme-cycler.ts` - Theming
-3. Extension of choice (team OR chain OR composed)
+1. Load via justfile target (e.g., `just run-pi "agent-team,theme-cycler"`)
+2. Extensions load in defined order from .pi/extensions/
+3. `theme-cycler.ts` applies theming
+4. Agent extensions (team OR chain) apply functionality
 
-Example:
-```bash
-pi -e damage-control.ts \
-    -e theme-cycler.ts \
-    -e agent-team.ts  # or agent-chain.ts or composed-agent-team.ts
-```
+**DO NOT use:** `pi -e` for extensions in `.pi/extensions/`
 
 ### **Q: Where do I define new agents?**
 
@@ -359,14 +400,23 @@ memory-export:md      # To .pi/memory-export.md
 memory-export:preview # Preview before writing
 ```
 
+### **Q: Where do new extensions go?**
+
+**A:** For new extensions:
+
+1. Create in `extensions/` directory
+2. Implement with default factory function
+3. Add justfile target to load it
+4. Load with `just run-pi "my-extension,theme-cycler"`
+
 ### **Q: Where else can I read more?**
 
 **A:** See these files:
-- `AGENT-EXTENSION-ARCHITECTURE.md` - Full architecture analysis
-- `EXTENSION-README.md` - Extension documentation
+- `STRUCTURE.md` - Extension location strategy
+- `MIGRATION-GUIDE.md` - This guide
+- `.pi/extensions/EXTENSION-README.md` - Extension documentation
+- `extensions/README.md` - New extensions guide
 - `README.md` - Project documentation
-- `memorty.ts` - Memory system documentation
-- `util/memory-export.ts` - Export utilities
 
 ---
 
@@ -374,9 +424,10 @@ memory-export:preview # Preview before writing
 
 ### **Week 1: Setup**
 
-- [ ] Create composed-agent-team.ts
+- [ ] Review `.pi/extensions/` structure
+- [ ] Create composed extension in `extensions/`
 - [ ] Update justfile with new targets
-- [ ] Write EXTENSION-README.md
+- [ ] Write `.pi/extensions/EXTENSION-README.md`
 - [ ] Update existing docs
 - [ ] Test basic usage
 - [ ] Document migration path
@@ -393,7 +444,7 @@ memory-export:preview # Preview before writing
 ### **Week 3: Deployment**
 
 - [ ] Deploy to production
-- [ ] Update README.md
+- [ ] Update `extensions/README.md`
 - [ ] Announce to team
 - [ ] Monitor error rates
 - [ ] Gather feedback
@@ -405,7 +456,7 @@ memory-export:preview # Preview before writing
 
 ### **Tool Manifest**
 
-**team.ts tools:**
+**team.ts tools** (in `.pi/extensions/ui/agent-team.ts`):
 - switch_team
 - list_teams
 - list_agents
@@ -414,13 +465,13 @@ memory-export:preview # Preview before writing
 - list_active_team
 - save_memory
 
-**chain.ts tools:**
+**chain.ts tools** (in `.pi/extensions/ui/agent-chain.ts`):
 - run_chain
 - switch_chain
 - chain-list
 
 **Composed (merged):**
-All above + deduplicated
+All above + deduplicated (in `extensions/` directory)
 
 ### **Memory Paths**
 
@@ -438,6 +489,19 @@ All above + deduplicated
 6. Agent responds
 
 **Each extension should register once per hook.**
+
+### **Extension Loading Summary**
+
+- **`.pi/extensions/`**: Loaded via justfile
+  - theme-cycler.ts, themeMap.ts
+  - agent-team.ts, agent-chain.ts
+  - damage-control.ts
+  - All utilities
+
+- **`extensions/`**: For new development
+  - Custom extensions
+  - Theme extensions
+  - New utilities
 
 ---
 

@@ -9,20 +9,19 @@
 ### [ ] Choose the Right Extension
 
 ```bash
-# Team dispatcher (most common)
-pi -e extensions/damage-control.ts \
-    -e extensions/theme-cycler.ts \
-    -e extensions/agent-team.ts
+# Team dispatcher (most common) - EXTENSIONS IN .pi/extensions/ LOADED VIA JUSTFILE
+just run-pi "damage-control,theme-cycler,agent-team"
+# Extensions in .pi/extensions/ are loaded via justfile, NOT with pi -e
+```
 
-# OR Chain system (pipelines)
-pi -e extensions/damage-control.ts \
-    -e extensions/theme-cycler.ts \
-    -e extensions/agent-chain.ts
+```bash
+# OR Chain system (pipelines) - EXTENSIONS IN .pi/extensions/ LOADED VIA JUSTFILE
+just run-pi "damage-control,theme-cycler,agent-chain"
+```
 
-# OR Composed (team + chains)
-pi -e extensions/damage-control.ts \
-    -e extensions/theme-cycler.ts \
-    -e extensions/composed-agent-team.ts
+```bash
+# OR Composed (team + chains) - EXTENSIONS IN .pi/extensions/ LOADED VIA JUSTFILE
+just run-pi "damage-control,theme-cycler,composed-agent-team"
 ```
 
 ### [ ] Check for Duplicates
@@ -30,6 +29,8 @@ pi -e extensions/damage-control.ts \
 - [ ] Verify only ONE of team/chain/composed loaded
 - [ ] No duplicate tool registrations
 - [ ] No conflicting event hooks
+- [ ] ALL extensions in .pi/extensions/ loaded via justfile
+- [ ] New extensions go in extensions/ directory
 
 ### [ ] Verify Damage Control
 
@@ -67,6 +68,9 @@ memory-export:preview
 
 # Export to JSON
 memory-export:json
+
+# ⚠️ MEMORY EXTENSIONS: Create in extensions/ directory, NOT .pi/extensions/
+# Example: just run-pi "damage-control,theme-cycler,agent-team,my-memory-extension"
 
 # Export to Markdown
 memory-export:md
@@ -253,9 +257,10 @@ pi memory-export:md --scope project --filter keyword
 
 ### [ ] For new features:
 - [ ] Update README.md
-- [ ] Update EXTENSION-README.md
+- [ ] Update `.pi/extensions/EXTENSION-README.md` (or create in extensions/)
 - [ ] Add to checklists
 - [ ] Document architecture impact
+- [ ] Ensure extension is in correct location (.pi/extensions/ or extensions/)
 
 ---
 
@@ -263,10 +268,11 @@ pi memory-export:md --scope project --filter keyword
 
 ### [ ] If tools not showing:
 
-- [ ] Check justfile target loading
-- [ ] Verify extension files exist
+- [ ] Check justfile target loading (NOT `pi -e`)
+- [ ] Verify extension files exist in `.pi/extensions/` or `extensions/`
 - [ ] Look for duplicate registrations
-- [ ] Check loading order in `pi` command
+- [ ] Check loading order in `just run-pi` command
+- [ ] Ensure extensions are in correct location
 
 ### [ ] If memory not persisting:
 
@@ -325,9 +331,11 @@ pi memory-export:md --scope project --filter keyword
 
 ## 📚 Further Reading
 
-- **AGENT-EXTENSION-ARCHITECTURE.md** - Full architecture analysis
-- **EXTENSION-README.md** - Extension documentation
-- **MIGRATION-GUIDE.md** - Detailed migration guide
+- **STRUCTURE.md** - Extension location strategy
+- **.pi/docs/MIGRATION-GUIDE.md** - Detailed migration guide
+- **.pi/docs/CHECKLIST.md** - Daily maintenance checklist
+- **.pi/extensions/EXTENSION-README.md** - Extension documentation
+- **extensions/README.md** - New extensions guide
 - **memory.ts** - Memory system docs
 - **util/memory-export.ts** - Export utilities
 
