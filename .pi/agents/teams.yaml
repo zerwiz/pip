@@ -99,6 +99,67 @@ pi-pi-meta-team:
   - theme-expert
   - keybinding-expert
 
+# --- Specialized Teams ---
+
+# Multimodal analysis and generation team
+multimodal-team:
+  - image-analyzer
+  - image-editor
+  - video-analyzer
+  - speech-to-text
+  - vision-language
+  - chart-creator
+  - shader-extractor
+
+# Web intelligence and automation team
+web-intelligence-team:
+  - web-search-engine
+  - web-content-fetcher
+  - browser-agent
+  - meta-search
+  - ai-news-collector
+
+# Content strategy and creation team
+content-creation-team:
+  - seo-writer
+  - blog-author
+  - podcast-creator
+  - presentation-creator
+  - writing-planner
+  - content-strategist
+
+# Business and financial analysis team
+business-analysis-team:
+  - market-analyzer
+  - stock-analyzer
+  - finance-advisor
+  - fortune-analyzer
+  - spreadsheet-processor
+
+# Academic and scholarly research team
+academic-research-team:
+  - academic-search
+  - daily-paper
+  - open-academic
+  - research-assistant
+  - document-processor
+  - content-analyzer
+
+# Advanced development and skill building team
+advanced-dev-team:
+  - llm-integrator
+  - fullstack-developer
+  - skill-builder
+  - skill-finder
+  - skill-reviewer
+
+# Personal assistant and coaching team
+personal-assistant-team:
+  - mindfulness-coach
+  - anti-manipulation
+  - dream-analyzer
+  - gift-advisor
+
 # --- Global Access ---
 
 # All specialists - Full roster access

@@ -938,6 +938,7 @@ export default function (pi: ExtensionAPI) {
 
         return {
           content: [{ type: "text", text: `### Planning Complete\nPlan: ${currentPlanPath || "check .pi/planning/"}\nStatus: Awaiting Approval\n\n**Review the logs above.** Use the **approve_plan** tool to proceed if it looks good, or tell me to revise the plan.` }],
+          details: { phase: "awaiting_approval", status: "info" },
         };
       } catch (err) {
         planStatus = "idle";

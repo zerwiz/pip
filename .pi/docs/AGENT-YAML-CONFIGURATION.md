@@ -12,13 +12,32 @@ session-manager.yaml → Session-specific workflows
 reviewer.yaml      → Standalone agent config with model + prompt
 ```
 
+### Directory Structure
+
+```
+.pi/agents/
+├── README.md                    # Overview and registry summary
+├── agents.yaml                  # Master agent registry (31 agents)
+├── teams.yaml                   # Team rosters (13 teams)
+├── agent-chain.yaml             # Pipeline chains (14 chains)
+├── session-manager.yaml         # Session-specific workflows
+├── reviewer.yaml                # Standalone agent config with model + prompt
+├── agenttemplate.md             # Template for creating new agents
+├── *.md                         # Individual agent definitions (.md files)
+├── agents/                      # Agent subdirectory
+├── homepageteam/                # Homepage team configurations
+├── pi-pi/                       # Pi-Pi meta agent configs
+├── specialagents/               # Special agent definitions
+└── util/                        # Agent utilities
+```
+
 ---
 
 ## 1. `agents.yaml` — Master Agent Registry
 
 ### Purpose
 
-Defines every agent in the system: name, description, and allowed tools. This is the source of truth for agent discovery.
+Defines every agent in the system: name, description, and allowed tools. This is the source of truth for agent discovery. The orchestrator (`agent-team.ts`) discovers agents by scanning `.md` files in `.pi/agents/`, `.claude/agents/`, and `agents/` directories, then matches them against this registry.
 
 ### Structure
 
@@ -29,7 +48,7 @@ agent-key:
   tools: read,write,edit,bash,grep,find,ls
 ```
 
-### Agent Categories
+### Agent Categories (31 Total)
 
 #### Core Agents (7)
 
@@ -66,13 +85,13 @@ agent-key:
 | `dev-agent` | Homepage development specialist | read, write, edit, bash, grep, find, ls |
 | `content-agent` | Homepage content and SEO copy | read, write, edit, bash, grep, find, ls |
 | `marketing-agent` | Marketing strategy and positioning | read, write, bash, grep |
-| `research-agent` | Competitor and context research | read, grep, find, ls, bash, web-search |
+| `research-agent` | Competitor and context research | read, grep, find, ls, bash, web_search |
 | `design-agent` | Visual design and UI/UX | read, write, edit, bash, grep, find, ls |
 | `seo-agent` | Search engine optimization | read, write, edit, bash, grep |
 | `accessibility-agent` | WCAG compliance and inclusive design | read, write, edit, bash, grep |
 | `image-agent` | Image selection and optimization | read, write, edit, bash, grep |
 
-#### Meta Experts / Pi-Pi Team (9)
+#### Meta Experts / Pi-Pi Team (10)
 
 | Agent | Description | Tools |
 |-------|-------------|-------|
@@ -87,10 +106,6 @@ agent-key:
 | `theme-expert` | Theme JSON, 51 color tokens, hot reload | read, grep, find, ls, bash |
 | `keybinding-expert` | Keyboard shortcuts, registerShortcut() | read, grep, find, ls, bash |
 
-### Total
-
-**30 agents** across 5 categories.
-
 ---
 
 ## 2. `teams.yaml` — Team Rosters
@@ -99,16 +114,7 @@ agent-key:
 
 Defines pre-built teams as lists of agent keys from `agents.yaml`. Teams are discovered and selected by the dispatch agent in `agent-team.ts`.
 
-### Structure
-
-```yaml
-team-name:
-  - agent-key-1
-  - agent-key-2
-  - agent-key-3
-```
-
-### Project Teams (9)
+### Project Teams (10)
 
 | Team | Members | Purpose |
 |------|---------|---------|
@@ -134,7 +140,7 @@ team-name:
 
 | Team | Members | Purpose |
 |------|---------|---------|
-| `all-specialists` | All 30 agents | Full roster access for dispatch |
+| `all-specialists` | All 31 agents | Full roster access for dispatch |
 
 ---
 
@@ -143,23 +149,6 @@ team-name:
 ### Purpose
 
 Defines sequential pipelines where each step uses an agent from `agents.yaml` with a specific prompt template. Pipelines are selected and run via the `run_chain` tool in `agent-chain.ts`.
-
-### Structure
-
-```yaml
-chain-name:
-  description: What the pipeline does
-  steps:
-    - agent: agent-key
-      prompt: Template using $INPUT and $ORIGINAL variables
-```
-
-### Prompt Variables
-
-| Variable | Meaning |
-|----------|---------|
-| `$INPUT` | Output from the previous step (or user input for first step) |
-| `$ORIGINAL` | The original user request (available in all steps) |
 
 ### Defined Chains (14)
 
@@ -179,162 +168,94 @@ chain-name:
 | `docs-workflow` | scout → documenter → developer | Documentation workflow |
 | `architecture-review` | planner → plan-reviewer → pi-dev-expert → reviewer | Architecture review |
 
-### Agent Usage Frequency in Chains
-
-| Agent | Chain Count |
-|-------|-------------|
-| `scout` | 7 |
-| `developer` | 10 |
-| `planner` | 6 |
-| `reviewer` | 5 |
-| `documenter` | 5 |
-| `plan-reviewer` | 2 |
-| `ext-builder` | 2 |
-| `pi-dev-expert` | 2 |
-| `bowser` | 1 |
-| `session-manager` | 1 |
-| `netlify-troubleshooter` | 1 |
-
 ---
 
-## 4. `session-manager.yaml` — Session Workflows
+## 4. Agent Creation & Standards
 
-### Purpose
+### Frontmatter Validation
 
-Defines session-specific workflows for the session-manager agent to query, list, and analyze chat sessions.
+Every agent `.md` file MUST follow these strict frontmatter rules:
 
-### Structure
+- **`name`**: Lowercase, hyphenated identifier (matches filename). No spaces.
+- **`description`**: Human-readable summary (max 80 chars).
+- **`tools`**: Comma-separated list of valid Pi tools. **No spaces after commas.**
 
+**Valid example:**
 ```yaml
-workflow-name:
-  description: What the workflow does
-  steps:
-    - agent: session-manager
-      prompt: Session-specific template
+---
+name: scout
+description: Fast recon and codebase exploration
+tools: read,grep,find,ls
+---
 ```
 
-### Defined Workflows (2)
+### Required Directories
 
-| Workflow | Steps | Purpose |
-|----------|-------|---------|
-| `session-management-flow` | session-manager | List all sessions with metadata |
-| `session-analysis-flow` | session-manager | Deep-dive analysis of a specific session (uses `$SESSION_ID`) |
+Agents depend on these project-relative paths. They must be created before dispatching agents:
 
-### Unique Variables
+| Directory | Purpose |
+|-----------|---------|
+| `.pi/build_logs/` | Build artifacts and review request queue (`review_requests.md`) |
+| `.pi/reference/` | Backup location for massive refactors |
+| `.pi/reviews/` | Audit reports and plan critiques |
+| `.pi/planning/` | Implementation and architecture plans |
+| `.pi/security_audits/` | Security audit findings |
+| `.pi/web_output/` | Browser scraping results and screenshots |
+| `.pi/agent-sessions/` | Persistent session state files |
 
-| Variable | Meaning |
-|----------|---------|
-| `$SESSION_ID` | Identifier for a specific session |
-| `$INPUT` | User request or prior output |
+### Operational Protocols
+
+- **Scout First**: Verify a recent `scout` report exists before planning or implementing.
+- **Atomic Execution**: Implement one feature or fix at a time.
+- **Edit Over Write**: Prefer the `edit` tool for modifications; use `write` only for new files.
+- **Validation**: Always `read` files after modification to verify syntax.
 
 ---
 
-## 5. `reviewer.yaml` — Standalone Agent Config
+## 5. Standalone Configuration (`reviewer.yaml`)
 
-### Purpose
-
-A self-contained agent definition with model selection and a system prompt. Unlike entries in `agents.yaml`, this file includes execution details.
-
-### Structure
+Standalone agents like `reviewer.yaml` override the `agents.yaml` definition to include specific model selection and a detailed system prompt for direct execution.
 
 ```yaml
 name: reviewer
 description: Code review and quality checks
-tools: read,bash,grep,find,ls
+tools: read,bash,grep,find,ls,write
 models:
   - nemotron-cascade-2:30b
 system_prompt: |
-  You are a code reviewer agent...
+  You are the Reviewer agent...
 ```
-
-### Key Fields
-
-| Field | Value | Purpose |
-|-------|-------|---------|
-| `name` | `reviewer` | Agent identifier |
-| `description` | Code review and quality checks | Human-readable summary |
-| `tools` | read, bash, grep, find, ls | Allowed tool set |
-| `models` | nemotron-cascade-2:30b | LLM model to use |
-| `system_prompt` | Full instructions | Agent behavior definition |
-
-### System Prompt Directives
-
-- Review code for bugs, security issues, style problems, and improvements
-- Run tests if available
-- Be concise and use bullet points
-- **Do NOT modify files**
 
 ---
 
-## Cross-File Relationships
+## Tool Reference
 
-### Dependency Flow
-
-```
-agents.yaml (defines all agents)
-    ↓
-teams.yaml (groups agents into teams)
-    ↓
-agent-chain.yaml (sequences agents into pipelines)
-    ↓
-session-manager.yaml (session-specific agent workflows)
-
-reviewer.yaml (standalone — overrides agents.yaml definition with model + prompt)
-```
-
-### Reference Integrity
-
-- Every agent key in `teams.yaml` must exist in `agents.yaml`
-- Every agent key in `agent-chain.yaml` steps must exist in `agents.yaml`
-- `session-manager.yaml` only uses the `session-manager` agent defined in `agents.yaml`
-- `reviewer.yaml` duplicates the `reviewer` entry from `agents.yaml` but adds model and system prompt
-
-### Consuming Code
-
-| YAML File | Consumer | Location |
-|-----------|----------|----------|
-| `agents.yaml` | `cross-agent.ts`, `agent-team.ts` | `.pi/extensions/ui/` |
-| `teams.yaml` | `agent-team.ts` | `.pi/extensions/ui/` |
-| `agent-chain.yaml` | `agent-chain.ts` | `.pi/extensions/ui/` |
-| `session-manager.yaml` | `session-manager` agent | — |
-| `reviewer.yaml` | Agent loader | — |
-
-> **Note:** Extensions are loaded via the justfile (`just ext-agent-team`, etc.), not through direct `pi -e` flags. Pi 0.70.5+ made stacking multiple `-e` flags unstable.
+| Category | Tools | Recommended For |
+|----------|-------|-----------------|
+| **Read-only** | `read,grep,find,ls` | Scout, Researcher, Analyst |
+| **Write-capable** | `read,write,edit,grep,find,ls` | Planner, Documenter |
+| **Execution-capable** | `read,bash,grep,find,ls` | Reviewer, Security Auditor |
+| **Full Access** | `read,write,edit,bash,grep,find,ls` | Developer, Architect |
 
 ---
 
-## Quick Reference
+## Universal Agent Template
 
-### Need a Team?
+```markdown
+---
+name: [agent-name]
+description: [Short description of role]
+tools: [read,grep,find,ls]
+---
+You are the [agent-name] agent. Your mission is to [goal].
+You are precise, minimal, and disciplined.
 
-```
-full-dev-team         → General development
-homepage-team         → Website work
-pi-pi-meta-team       → Pi configuration
-extensions-team       → Extension development
-browser-automation-team → Web scraping
-```
+## Scope
+- Handle: [tasks]
+- Do NOT handle: [delegations]
 
-### Need a Chain?
-
-```
-plan-build-review     → Standard dev cycle
-plan-build            → Quick implementation
-full-review           → Scout through review
-scout-flow            → Deep codebase exploration
-browser-flow          → Web automation
-security-research-flow → Security audit
-```
-
-### Need an Agent?
-
-```
-scout                 → Explore codebase
-planner               → Create plans
-developer             → Write code
-reviewer              → Review code
-documenter            → Write docs
-bowser                → Browser automation
-ext-builder           → Build extensions
-session-manager       → Manage sessions
+## Guidelines
+- Read before modifying
+- One change at a time
+- Output [SIGNAL_COMPLETE] on success
 ```
