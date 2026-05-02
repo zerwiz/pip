@@ -168,9 +168,14 @@ Shall I save this to today's goal diary?
 ## Daily Diary Format
 
 ```markdown
-# 2026-05-02 - Goal Progress
+## [TIMESTAMP] Check-in Record
+**Target Type**: [Icon] [Type]
+**Image**: ![Target Image](path/to/image.jpg)
 
-## Learning Progress (English Vocabulary)
+| Task/Content | Progress/Quantity | Status |
+| :--- | :--- | :--- |
+| [Task 1] | [Metric 1] | [Completed/In Progress] |
+| [Total] | | **Today's Achievement: X/Y** |
 
 **Completion**: 100%
 **Time Spent**: 45 minutes

@@ -64,35 +64,34 @@ INTENT_HUES = {
 # for these keywords and map to the closest intent.
 THEME_KEYWORDS = {
     # Technology / Data / Analytics
-    "tech": "cold", "数据": "cold", "data": "cold", "AI": "cold",
-    "科技": "cold", "digital": "cold", "analytics": "cold", "分析": "cold",
+    "tech": "cold", "data": "cold", "AI": "cold",
+    "digital": "cold", "analytics": "cold",
     # Nature / Environment / Sustainability
-    "green": "nature", "绿色": "nature", "环保": "nature", "eco": "nature",
-    "sustainability": "nature", "生态": "nature", "forest": "nature",
+    "green": "nature", "eco": "nature",
+    "sustainability": "nature", "forest": "nature",
     # Business / Finance / Corporate
-    "report": "neutral", "报告": "neutral", "finance": "neutral", "财务": "neutral",
-    "annual": "neutral", "年度": "neutral", "corporate": "neutral",
+    "report": "neutral", "finance": "neutral",
+    "annual": "neutral", "corporate": "neutral",
     # Creative / Marketing / Social
-    "marketing": "energy", "运营": "energy", "social": "energy", "品牌": "energy",
-    "campaign": "energy", "活动": "energy", "launch": "energy",
+    "marketing": "energy", "social": "energy",
+    "campaign": "energy", "launch": "energy",
     # Authority / Formal / Premium / Luxury
-    "luxury": "authority", "奢华": "authority", "fashion": "authority", "时尚": "authority",
-    "premium": "authority", "高端": "authority", "gala": "authority",
-    "formal": "authority", "正式": "authority", "professional": "authority", "专业": "authority",
-    "government": "authority", "政府": "authority", "bidding": "authority", "投标": "authority",
-    "政府报告": "authority", "政府文书": "authority", "公文": "authority",
-    "thesis": "authority", "毕业论文": "authority", "dissertation": "authority",
-    "开题": "authority", "开题报告": "authority", "proposal": "authority", "学位": "authority",
+    "luxury": "authority", "fashion": "authority",
+    "premium": "authority", "gala": "authority",
+    "formal": "authority", "professional": "authority",
+    "government": "authority", "bidding": "authority",
+    "thesis": "authority", "dissertation": "authority",
+    "proposal": "authority",
     # Calm / Meditation / Healthcare / Minimalist
-    "health": "calm", "健康": "calm", "meditation": "calm",
-    "wellness": "calm", "calm": "calm", "医疗": "calm",
-    "minimalist": "calm", "极简": "calm", "simple": "calm", "简约": "calm",
+    "health": "calm", "meditation": "calm",
+    "wellness": "calm", "calm": "calm",
+    "minimalist": "calm", "simple": "calm",
     # Urgent / Warning / Emergency
-    "urgent": "tension", "warning": "tension", "紧急": "tension",
+    "urgent": "tension", "warning": "tension",
     "alert": "tension", "crisis": "tension",
     # Warm / Food / Lifestyle
-    "food": "warmth", "美食": "warmth", "lifestyle": "warmth",
-    "生活": "warmth", "home": "warmth", "家居": "warmth",
+    "food": "warmth", "lifestyle": "warmth",
+    "home": "warmth",
 }
 
 

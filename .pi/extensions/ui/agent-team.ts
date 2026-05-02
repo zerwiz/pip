@@ -918,7 +918,7 @@ export default function (pi: ExtensionAPI) {
         const planResult = await dispatchAgent("planner", `Generate a detailed implementation plan for: ${task}. Save it to .pi/planning/`, ctx, signal);
 
         // 🔥 Show the proposed plan
-        ctx.ui.notify(`### 🧠 Proposed Plan\n${planResult.output}`, "success");
+        ctx.ui.notify(`### 🧠 Proposed Plan\n${planResult.output}`, "warning");
 
         // Extract plan path from output if possible (heuristic)
         const pathMatch = planResult.output.match(/\.pi\/planning\/[^\s]+\.md/);
@@ -928,10 +928,10 @@ export default function (pi: ExtensionAPI) {
         planStatus = "reviewing";
         updateWidget();
         if (upd) upd({ content: [{ type: "text", text: "🛡️ Starting Review Phase..." }] });
-        const reviewResult = await dispatchAgent("plan-reviewer", `Critically review the latest plan in .pi/planning/.`, ctx, signal);
+        const reviewResult = await dispatchAgent("plan-reviewer", `Critically review the latest plan in .pi/planning/`, ctx, signal);
 
         // 🔥 Show the reviewer's critique
-        ctx.ui.notify(`### 🛡️ Reviewer Critique\n${reviewResult.output}`, "warning");
+        ctx.ui.notify(`### 🛡️ Reviewer Critique\n${reviewResult.output}`, "info");
 
         planStatus = "awaiting_approval";
         updateWidget();
@@ -948,10 +948,11 @@ export default function (pi: ExtensionAPI) {
           content: [{ type: "text", text: `Planning failed: ${err}` }],
           details: { phase: "scout", status: "error" },
         };
-      },
-    });
+      }
+    },
+  });
 
-    pi.registerTool({
+  pi.registerTool({
       name: "approve_plan",
       label: "Approve Plan",
       description: "Approve the generated plan and unlock implementation agents.",
