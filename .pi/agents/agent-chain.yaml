@@ -1,21 +1,30 @@
+# Agent Chain Configurations
+# These chains use agents from agents.yaml
+# Each chain defines a sequence of agents with their prompts
+# Chains can be selected and run using run_chain tool
+# Available agents: scout, planner, developer, reviewer, documenter, bowser, session-manager
+
+# Full development pipeline
 plan-build-review:
   description: "Plan, implement, and review — the standard development cycle"
   steps:
     - agent: planner
       prompt: "Plan the implementation for: $INPUT"
-    - agent: builder
+    - agent: developer
       prompt: "Implement the following plan:\n\n$INPUT"
     - agent: reviewer
       prompt: "Review this implementation for bugs, style, and correctness:\n\n$INPUT"
 
+# Fast two-step implementation
 plan-build:
   description: "Plan then build — fast two-step implementation without review"
   steps:
     - agent: planner
       prompt: "Plan the implementation for: $INPUT"
-    - agent: builder
+    - agent: developer
       prompt: "Based on this plan, implement:\n\n$INPUT"
 
+# Deep research and validation
 scout-flow:
   description: "Triple-scout deep recon — explore, validate, verify"
   steps:
@@ -26,6 +35,7 @@ scout-flow:
     - agent: scout
       prompt: "Final review pass. Verify the analysis below is accurate and complete. Add any missing details or corrections:\n\n$INPUT\n\nOriginal request: $ORIGINAL"
 
+# Iterative planning
 plan-review-plan:
   description: "Iterative planning — plan, critique, then refine with feedback"
   steps:
@@ -36,6 +46,7 @@ plan-review-plan:
     - agent: planner
       prompt: "Revise and improve your implementation plan based on this critique. Address every issue raised and incorporate the recommendations:\n\nOriginal request: $ORIGINAL\n\nCritique:\n$INPUT"
 
+# End-to-end full pipeline
 full-review:
   description: "End-to-end pipeline — scout, plan, build, and review"
   steps:
@@ -43,7 +54,164 @@ full-review:
       prompt: "Explore the codebase and identify: $INPUT"
     - agent: planner
       prompt: "Based on this analysis, create a plan:\n\n$INPUT"
-    - agent: builder
+    - agent: developer
       prompt: "Implement this plan:\n\n$INPUT"
     - agent: reviewer
       prompt: "Review this implementation:\n\n$INPUT"
+
+# Browser automation workflow
+browser-flow:
+  description: "Browser automation and testing workflow"
+  steps:
+    - agent: scout
+      prompt: "Analyze the target website and identify automation opportunities: $INPUT"
+    - agent: developer
+      prompt: "Write Playwright scripts for the identified automation tasks:\n\n$INPUT"
+    - agent: bowser
+      prompt: "Execute the browser automation and capture results:\n\n$INPUT"
+    - agent: documenter
+      prompt: "Document the browser automation session and results:\n\n$INPUT"
+
+# Session management workflow
+session-workflow:
+  description: "Session management and retrieval workflow"
+  steps:
+    - agent: session-manager
+      prompt: "List available sessions and context: $INPUT"
+    - agent: developer
+      prompt: "Develop the solution based on session context:\n\n$INPUT"
+    - agent: documenter
+      prompt: "Document the session workflow and results:\n\n$INPUT"
+
+# Security research workflow
+security-research-flow:
+  description: "Security research and analysis workflow"
+  steps:
+    - agent: scout
+      prompt: "Scan the codebase for potential security issues: $INPUT"
+    - agent: ext-builder
+      prompt: "Create custom security scanning tools:\n\n$INPUT"
+    - agent: pi-dev-expert
+      prompt: "Provide security architecture guidance:\n\n$INPUT"
+    - agent: developer
+      prompt: "Implement security fixes and improvements:\n\n$INPUT"
+    - agent: reviewer
+      prompt: "Review the security implementation:\n\n$INPUT"
+
+# Netlify deployment workflow
+deploy-workflow:
+  description: "CI/CD deployment and troubleshooting workflow"
+  steps:
+    - agent: scout
+      prompt: "Analyze the build environment and dependencies: $INPUT"
+    - agent: netlify-troubleshooter
+      prompt: "Diagnose build issues and dependency problems:\n\n$INPUT"
+    - agent: developer
+      prompt: "Fix the identified issues and optimize deployment:\n\n$INPUT"
+    - agent: documenter
+      prompt: "Document the deployment process and lessons learned:\n\n$INPUT"
+
+# Extensions development workflow
+extensions-workflow:
+  description: "Pi extensions development workflow"
+  steps:
+    - agent: pi-dev-expert
+      prompt: "Plan the extension architecture:\n\n$INPUT"
+    - agent: ext-builder
+      prompt: "Build the extension with proper API integration:\n\n$INPUT"
+    - agent: developer
+      prompt: "Implement the extension code:\n\n$INPUT"
+    - agent: documenter
+      prompt: "Document the extension:\n\n$INPUT"
+    - agent: reviewer
+      prompt: "Review the extension for quality and compliance:\n\n$INPUT"
+
+# Fast execution team
+fast-exec-team:
+  description: "Quick plan and implement cycles"
+  steps:
+    - agent: planner
+      prompt: "Create a quick plan: $INPUT"
+    - agent: developer
+      prompt: "Implement the quick plan:\n\n$INPUT"
+
+# Documentation workflow
+docs-workflow:
+  description: "Documentation and knowledge base workflow"
+  steps:
+    - agent: scout
+      prompt: "Identify documentation needs: $INPUT"
+    - agent: documenter
+      prompt: "Create the documentation:\n\n$INPUT"
+    - agent: developer
+      prompt: "Review and validate the documentation:\n\n$INPUT"
+
+# Architecture review workflow
+architecture-review:
+  description: "Architecture review and design workflow"
+  steps:
+    - agent: planner
+      prompt: "Create architecture plan: $INPUT"
+    - agent: plan-reviewer
+      prompt: "Review and critique the architecture:\n\n$INPUT"
+    - agent: pi-dev-expert
+      prompt: "Provide architectural guidance:\n\n$INPUT"
+    - agent: reviewer
+      prompt: "Final architecture review:\n\n$INPUT"
+
+# --- Specialized Pipelines ---
+
+# Deep multimodal research and extraction
+deep-research-chain:
+  description: "Deep research — meta-search, extraction, and synthesis"
+  steps:
+    - agent: meta-search
+      prompt: "Perform a broad multi-engine search for: $INPUT"
+    - agent: research-assistant
+      prompt: "Extract key information and context from the search results:\n\n$INPUT"
+    - agent: content-analyzer
+      prompt: "Analyze and synthesize the gathered information into a comprehensive report:\n\n$INPUT"
+
+# Multimodal analysis and processing
+multimodal-analysis-chain:
+  description: "Multimodal analysis — vision, language, and document processing"
+  steps:
+    - agent: image-analyzer
+      prompt: "Analyze the provided image(s) or video frames: $INPUT"
+    - agent: vision-language
+      prompt: "Perform vision-language reasoning based on the visual analysis:\n\n$INPUT"
+    - agent: document-processor
+      prompt: "Process and format the analysis results into a structured document:\n\n$INPUT"
+
+# Content strategy and authoring
+content-creation-chain:
+  description: "Content creation — strategy, planning, and professional authoring"
+  steps:
+    - agent: content-strategist
+      prompt: "Develop a content strategy for: $INPUT"
+    - agent: writing-planner
+      prompt: "Create a detailed structure and plan for the content:\n\n$INPUT"
+    - agent: blog-author
+      prompt: "Write the professional content based on the plan and strategy:\n\n$INPUT"
+
+# Business and financial intelligence
+business-intelligence-chain:
+  description: "Business intelligence — market analysis and financial advisory"
+  steps:
+    - agent: market-analyzer
+      prompt: "Perform a market and competitive analysis for: $INPUT"
+    - agent: stock-analyzer
+      prompt: "Analyze relevant financial and stock market data:\n\n$INPUT"
+    - agent: finance-advisor
+      prompt: "Provide strategic financial advice based on the analysis:\n\n$INPUT"
+
+# Academic research and summarization
+academic-paper-chain:
+  description: "Academic pipeline — search, synthesis, and processing"
+  steps:
+    - agent: academic-search
+      prompt: "Search for academic papers and scholarly resources: $INPUT"
+    - agent: daily-paper
+      prompt: "Synthesize and summarize the identified academic literature:\n\n$INPUT"
+    - agent: document-processor
+      prompt: "Format the research summary into a professional academic brief:\n\n$INPUT"

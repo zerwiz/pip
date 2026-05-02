@@ -1,12 +1,4 @@
 import { 
-  inspectMemory, 
-  exportToJSON, 
-  exportToText, 
-  exportToMD, 
-  exportStats, 
-  exportFiltered, 
-  getReadFiles, 
-  getCreatedFiles, 
   exportMemory,
   listExportFormats,
   cleanupExports
@@ -29,8 +21,6 @@ interface MemoryToolDefinition {
 }
 
 function createMemoryTools(
-  agentSessions: Map<string, any>,
-  api: ExtensionAPI,
   agentName: string
 ): MemoryToolDefinition[] {
   return [
@@ -83,19 +73,12 @@ function createMemoryTools(
 }
 
 export function registerMemoryTools(api: ExtensionAPI, agentName: string): MemoryToolDefinition[] {
-  const tools = createMemoryTools(api.agentSessions, api, agentName);
+  // api.agentSessions might not exist, so we don't pass it anymore
+  const tools = createMemoryTools(agentName);
   return tools;
 }
 
 export { 
-  inspectMemory, 
-  exportToJSON, 
-  exportToText, 
-  exportToMD, 
-  exportStats, 
-  exportFiltered,
-  getReadFiles,
-  getCreatedFiles,
   listExportFormats,
   cleanupExports
 };
