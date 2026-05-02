@@ -7,18 +7,19 @@ This directory contains agent definitions, team configurations, and pipeline cha
 ```
 .pi/agents/
 ├── README.md                    # This file
+├── CHECKLIST.md                 # Agent creation checklist
 ├── agents.yaml                  # Master agent registry (30 agents)
 ├── teams.yaml                   # Team rosters (13 teams)
 ├── agent-chain.yaml             # Pipeline chains (14 chains)
-├── session-manager.yaml         # Session-specific workflows
-├── reviewer.yaml                # Standalone agent config with model + prompt
+├── session-manager.yaml         # Session workflows
+├── reviewer.yaml                # Standalone agent config (model + prompt)
 ├── agenttemplate.md             # Template for creating new agents
 ├── *.md                         # Individual agent definitions (.md files)
-├── agents/                      # Agent subdirectory
-├── homepageteam/                # Homepage team configurations
-├── pi-pi/                       # Pi-Pi meta agent configs
-├── special agents/              # Special agent definitions
-└── util/                        # Agent utilities
+├── agents/                      # Homepage team agent definitions
+├── pi-pi/                       # Pi-Pi meta expert definitions
+├── specialagents/               # Special agent definitions (40+ agents)
+├── homepageteam/                # Homepage team configs
+└── util/                        # Agent utilities (memory-export.ts, memory-tools.ts)
 ```
 
 ## YAML Configuration Files
