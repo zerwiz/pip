@@ -1,6 +1,27 @@
-# PIP - Pi Agent Platform
+# PIP - Advanced AI Development with Multi-Host Ollama Support
 
-A modular agent-based system for automating complex tasks with specialized AI agents, skills, and extensions built on the Pi Coding Agent ecosystem.
+⚡ **Local-First AI** | 🔒 **Privacy-First** | 🏠 **No Cloud Dependencies** | 💾 **Self-Contained**
+
+A modular agent-based system for automating complex tasks with specialized AI agents, skills, and extensions — powered by distributed local Ollama instances.
+
+---
+
+## Introduction
+
+**Multi-Host Ollama** enables distributed local AI deployments by supporting multiple Ollama instances across different machines or network hosts. Each host can run its own model pool with independent resources, allowing for parallel agent execution, model specialization, and seamless failover.
+
+> *"Distributed intelligence isn't about replacing local models—it's about orchestrating them across available resources."*
+
+## Key Capabilities
+
+| Capability | Description |
+|-----------|-------------|
+| **Multi-Host Architecture** | Deploy Ollama instances on local and remote hosts |
+| **Parallel Agent Execution** | Run multiple AI agents concurrently on different hosts |
+| **Model Specialization** | Assign different models to different hosts based on workload |
+| **Independent Model Pools** | Each host manages its own model lifecycle |
+| **Active Model Selection** | Switch between models deployed on different hosts at runtime |
+| **Graceful Failover** | Automatic reassignment of tasks when hosts become unavailable |
 
 ## Quick Start
 
@@ -158,6 +179,13 @@ pip/
 ├── justfile                         # Build automation & extension launcher
 ├── package.json                     # NPM dependencies
 ├── README.md                        # This file
+├── CHANGELOG.md                     # Project changelog
+├── .gitignore                       # Git ignore rules
+├── extensions/                      # Extension system (root level)
+│   └── README.md                    # Extension documentation
+├── .github/                         # GitHub templates & CI
+│   ├── ISSUE_TEMPLATE/
+│   └── workflows/ci.yml
 ├── .pi/
 │   ├── agents/                      # Agent system
 │   │   ├── agents.yaml              # Master agent registry (30 agents)
@@ -166,34 +194,28 @@ pip/
 │   │   ├── session-manager.yaml     # Session workflows
 │   │   ├── reviewer.yaml            # Standalone agent config
 │   │   ├── *.md                     # Individual agent definitions
-│   │   ├── agents/                  # Agent subdirectory
-│   │   ├── homepageteam/            # Homepage team configs
+│   │   ├── agents/                  # Homepage team agent definitions
 │   │   ├── pi-pi/                   # Pi-Pi meta agent configs
-│   │   ├── special agents/          # Special agent definitions
+│   │   ├── specialagents/           # Special agent definitions (40+ agents)
+│   │   ├── homepageteam/            # Homepage team configs
 │   │   └── util/                    # Agent utilities
 │   ├── build_logs/                  # Developer artifacts, review queue
 │   ├── planning/                    # Planner agent output
+│   ├── promts/                      # Prompt storage
+│   ├── py/                          # Python modules
 │   ├── reviews/                     # Reviewer audit reports
 │   ├── reference/                   # Backup for massive refactors
 │   ├── referencefiles/              # Alternative backup path
 │   ├── security_audits/             # Red-team findings
+│   ├── skills/                      # Skill definitions (40+ skills)
+│   ├── templates/                   # Templates (agents, extensions, skills, themes)
 │   ├── web_output/                  # Browser automation artifacts
-│   ├── extensions/                  # Extension system
-│   │   ├── src/ui/                  # UI components (11 files)
-│   │   ├── util/                    # Utilities (12 files)
-│   │   └── ui/                      # Entry points (6 files)
-│   ├── docs/                        # Project documentation
-│   │   ├── UI-EXTENSIONS-USAGE.md   # src/ui/ usage map
-│   │   ├── UTIL-EXTENSIONS-USAGE.md # util/ usage map
-│   │   ├── MAIN-UI-EXTENSIONS-USAGE.md # ui/ usage map
-│   │   ├── COMBINED-EXTENSIONS-USAGE.md # Combined overview
-│   │   ├── JUSTFILE-STARTUP-MECHANISM.md # Justfile startup docs
-│   │   └── AGENT-YAML-CONFIGURATION.md  # YAML config docs
-│   ├── themes/                      # Theme configurations
+│   ├── docs/                        # Project documentation (14 files)
+│   ├── themes/                      # Theme configurations (11 JSON files)
 │   ├── plans/                       # Migration and strategy docs
-│   ├── src/ui/                      # TypeScript UI components
+│   ├── npm/                         # NPM packages
 │   └── .context/                    # Runtime context metadata
-└── ref/                             # Reference codebases
+└── ref/                             # Reference codebases (gitignored)
 ```
 
 ## Documentation
@@ -270,5 +292,17 @@ MIT License
 
 ---
 
-**Repository**: https://github.com/zerwiz/pip
+## About the Developer
+
+**Zerwiz** — developer of pip.
+
+[WhyNot Productions](https://whynotproductions.netlify.app/) — WhyNot Games (browser arcade: Bomber, Asteroids, Tetris, Pac-Man, and more), courses, local AI, projects, contact.
+
+🌱 Made with ❤️ for **Local-First AI Development**  
+Multi-Host Ollama Support | Privacy-First | Open Source
+
+---
+
+**Repository**: https://github.com/zerwiz/pip  
+**License**: MIT  
 **Status**: Active Development
