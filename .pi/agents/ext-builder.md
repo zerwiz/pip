@@ -47,5 +47,5 @@ Then read /tmp/pi-ext-docs.md to have the freshest reference. Also search the lo
 
 **Directory Integrity:** 
    - Write extensions to: `extensions/`.
-   - All build logs/artifacts MUST be saved to: `/piwithstuff/.pi/build_logs/`.
-   - All full-file backups must be moved to: `/piwithstuff/.pi/reference/`.
+    - All build logs/artifacts MUST be saved to: `.pi/build_logs/`.
+    - All full-file backups must be moved to: `.pi/reference/`.

@@ -69,7 +69,7 @@ Sessions are stored at: ~/pi/agent/sessions/
 │   └── *.jsonl                   # Session files
 ├── --home-zerwiz-.pi--/          # Sessions from ~/.pi
 │   └── *.jsonl
-├── --home-zerwiz-piwithstuff--/  # Sessions from piwithstuff workspace
+ ├── --home-zerwiz-pip--/          # Sessions from pip workspace
 │   └── *.jsonl
 ├── --home-zerwiz-CodeP-wayofpi--/  # Sessions from wayofpi workspace
 │   └── *.jsonl

@@ -1,246 +1,191 @@
 # Pi Agents Directory
 
-This directory contains specialist agent definitions for the Pi Coding Agent ecosystem. Each agent is identified by its `specialist_id` for reliable discovery and dispatch by the sipatch agent.
+This directory contains agent definitions, team configurations, and pipeline chains for the Pi Coding Agent ecosystem.
 
-## 🎯 How Agent Discovery Works
-
-The `agent-team.ts` orchestrator discovers agents through multiple sources:
-
-1. **`.md` Files**: Scans `*.md` files in agent directories
-2. **`agents.yaml`**: Reads the YAML registry listing all agents by `specialist_id`
-3. **`teams.yaml`**: Defines team configurations using agent names
-
-## 📋 Available Agents
-
-All agents below are registered in `agents.yaml` by their `specialist_id`:
-
-| Agent Name | Specialist ID | Description |
-|------------|---------------|-------------|
-| `bowser` | `bowser` | Headless browser automation using Playwright CLI |
-| `developer` | `developer` | Implementation and code generation specialist |
-| `documenter` | `documenter` | Documentation and README generation specialist |
-| `ext-builder` | `ext-builder` | Pi extensions expert for custom tools and skills |
-| `frontend-coder` | `frontend-coder` | UI/UX implementation and component generation |
-| `netlify-troubleshooter` | `netlify-troubleshooter` | CI/CD diagnostics and build-pipeline optimization |
-| `pi-dev-expert` | `pi-dev-expert` | Pi Coding Agent ecosystem specialist |
-| `plan-reviewer` | `plan-reviewer` | Plan critic for reviewing implementation plans |
-| `planner` | `planner` | Architecture and implementation planning specialist |
-| `reviewer` | `reviewer` | Code review and quality checks agent |
-| `scout` | `scout` | Fast recon and codebase exploration agent |
-| `session-manager` | `session-manager` | Session management and lifecycle coordination |
-
-## 🏗️ Team Configurations
-
-See `teams.yaml` for available team configurations. Teams are organized by use case:
-
-- **full-dev-team**: Complete development workflow (scout → planner → developer → reviewer → documenter)
-- **planning-review-team**: Architecture and validation focus
-- **browser-automation-team**: Web scraping and testing workflows
-- **session-team**: Session lifecycle operations
-- **build-deploy-team**: CI/CD and deployment workflows
-- **extensions-team**: Pi extensions development
-- **security-research-team**: Security analysis and research
-
-## 🔗 Agent Chains
-
-See `agent-chain.yaml` for predefined multi-agent workflows:
-
-- **plan-build-review**: Standard development cycle
-- **plan-build**: Fast two-step implementation
-- **scout-flow**: Triple-scout deep recon
-- **browser-flow**: Browser automation workflow
-- **session-workflow**: Session management workflow
-- **deploy-workflow**: CI/CD deployment workflow
-- **extensions-workflow**: Extension development workflow
-
-## 📁 File Structure
+## File Structure
 
 ```
 .pi/agents/
 ├── README.md                    # This file
-├── agents.yaml                  # Agent registry by specialist_id
-├── teams.yaml                   # Team configurations
-├── agent-chain.yaml            # Multi-agent workflow chains
-├── scout.md                     # Scout agent definition
-├── planner.md                   # Planner agent definition
-├── developer.md                 # Developer agent definition
-├── reviewer.md                  # Reviewer agent definition
-├── documenter.md                # Documenter agent definition
-├── ext-builder.md               # Extension builder definition
-├── frontend-coder.md            # Frontend coder definition
-├── netlify-agent.md             # Netlify troubleshooter definition
-├── pi-dev-expert.md             # Pi dev expert definition
-├── plan-reviewer.md             # Plan reviewer definition
-├── session-manager.md           # Session manager definition
-├── bowser.md                    # Bowser agent definition
-├── bowser                       # Alias for bowser.md
-├── teams.yaml                   # Team configurations
-└── agents.yaml                  # Agent registry
+├── agents.yaml                  # Master agent registry (30 agents)
+├── teams.yaml                   # Team rosters (13 teams)
+├── agent-chain.yaml             # Pipeline chains (14 chains)
+├── session-manager.yaml         # Session-specific workflows
+├── reviewer.yaml                # Standalone agent config with model + prompt
+├── agenttemplate.md             # Template for creating new agents
+├── *.md                         # Individual agent definitions (.md files)
+├── agents/                      # Agent subdirectory
+├── homepageteam/                # Homepage team configurations
+├── pi-pi/                       # Pi-Pi meta agent configs
+├── special agents/              # Special agent definitions
+└── util/                        # Agent utilities
 ```
 
-## 🔧 Usage
+## YAML Configuration Files
 
-### Dispatch Individual Agents
+| File | Purpose | Entries |
+|------|---------|---------|
+| [`agents.yaml`](agents.yaml) | Master agent registry — defines all agents (name, description, tools) | 30 agents |
+| [`teams.yaml`](teams.yaml) | Pre-built team rosters — groups agents by use case | 13 teams |
+| [`agent-chain.yaml`](agent-chain.yaml) | Sequential pipeline configs — multi-step workflows | 14 chains |
+| [`session-manager.yaml`](session-manager.yaml) | Session-specific workflows | 2 workflows |
+| [`reviewer.yaml`](reviewer.yaml) | Standalone agent with model and system prompt | 1 agent |
 
-```bash
-pi scout.md "Explore the codebase and identify: [request]"
-pi planner.md "Create a plan for: [request]"
-pi developer.md "Implement this plan: [plan]"
-pi reviewer.md "Review this implementation: [code]"
-```
+See [`.pi/docs/AGENT-YAML-CONFIGURATION.md`](../docs/AGENT-YAML-CONFIGURATION.md) for detailed YAML documentation.
 
-### Use a Team
+## Agent Registry (`agents.yaml`)
 
-```bash
-pi --team full-dev-team "Build a feature"
-pi --team browser-automation-team "Scrape this website"
-pi --team extensions-team "Create a custom tool"
-```
+### Core Agents (7)
 
-### Use a Chain
+| Agent | Description | Tools |
+|-------|-------------|-------|
+| `scout` | Fast recon and codebase exploration | read, grep, find, ls |
+| `planner` | Architecture and implementation planning | read, grep, find, ls, write |
+| `developer` | Implementation and code generation | read, write, edit, bash, grep, find, ls |
+| `reviewer` | Code review and quality checks | read, bash, grep, find, ls, write |
+| `documenter` | Documentation and README generation | read, write, edit, grep, find, ls |
+| `red-team` | Security and adversarial testing | read, bash, grep, find, ls |
+| `session-manager` | Session management and coordination | read, write, grep, find, ls |
 
-```bash
-pi --chain plan-build-review "Plan, build, and review: [request]"
-pi --chain scout-flow "Triple-scout analysis: [request]"
-```
+### Specialist Agents (4)
 
-### Manage Teams
+| Agent | Description | Tools |
+|-------|-------------|-------|
+| `frontendcoder` | UI/UX implementation and styling | read, write, edit, bash, grep, find, ls |
+| `bowser` | Headless browser automation (Playwright) | read, write, ls |
+| `ext-builder` | Pi extensions expert | read, write, edit, bash, grep, find, ls |
+| `plan-reviewer` | Plan critic — challenges and validates plans | read, grep, find, ls |
 
-```bash
-pi --tool manage_team list
-pi --tool manage_team add full-dev-team documenter
-pi --tool manage_team remove full-dev-team reviewer
-```
+### Domain Specialists (2)
 
-## 🎓 Best Practices
+| Agent | Description | Tools |
+|-------|-------------|-------|
+| `netlify-troubleshooter` | CI/CD and Netlify build diagnostics | read, write, edit, bash, grep, find, ls |
+| `pi-dev-expert` | Pi Coding Agent ecosystem expert | read, write, edit, bash, grep, find, ls |
 
-1. **Use `specialist_id`**: Always reference agents by their `specialist_id` for reliable identification
-2. **Start with Scout**: Let the scout agent explore the codebase before planning
-3. **Review Everything**: Always use the reviewer agent for code quality
-4. **Document Changes**: Use the documenter agent to update documentation
-5. **Respect Agent Roles**: Don't use the developer agent for planning; use the planner instead
+### Homepage Team (8)
 
-## ⚙️ Configuration Files
+| Agent | Description |
+|-------|-------------|
+| `dev-agent` | Homepage development specialist |
+| `content-agent` | Homepage content and SEO copy |
+| `marketing-agent` | Marketing strategy and positioning |
+| `research-agent` | Competitor and context research |
+| `design-agent` | Visual design and UI/UX |
+| `seo-agent` | Search engine optimization |
+| `accessibility-agent` | WCAG compliance and inclusive design |
+| `image-agent` | Image selection and optimization |
 
-### agents.yaml
+### Meta Experts / Pi-Pi Team (9)
 
-Registry of all available agents. Each agent must have a `specialist_id` field for reliable identification:
+| Agent | Description |
+|-------|-------------|
+| `pi-orchestrator` | Coordinates experts, builds Pi components |
+| `skill-expert` | Pi skills (SKILL.md format, validation) |
+| `agent-expert` | Agent definitions and team orchestration |
+| `ext-expert` | Extensions (tools, events, rendering) |
+| `tui-expert` | TUI components, overlays, widgets |
+| `cli-expert` | CLI arguments, flags, subcommands |
+| `config-expert` | settings.json, providers, keybindings |
+| `prompt-expert` | Prompt templates, frontmatter, args |
+| `theme-expert` | Theme JSON, 51 color tokens, hot reload |
+| `keybinding-expert` | Keyboard shortcuts, registerShortcut() |
 
-```yaml
-scout:
-  description: Fast recon and codebase exploration agent
-  specialist_id: scout
-  models:
-    - gpt-4-turbo-preview
-    - gpt-3.5-turbo
-  tools:
-    - write
-    - find
-    - grep
-    - read
-```
+## Teams (`teams.yaml`)
 
-### teams.yaml
+### Project Teams (10)
 
-Team configurations that group agents for specific workflows:
+| Team | Members | Purpose |
+|------|---------|---------|
+| `full-dev-team` | scout, planner, developer, reviewer, documenter | Complete implementation pipeline |
+| `planning-review-team` | scout, planner, plan-reviewer, reviewer | Architecture and validation |
+| `security-research-team` | scout, developer, netlify-troubleshooter, ext-builder, pi-dev-expert | Exploration and analysis |
+| `browser-automation-team` | bowser, developer, documenter | Web scraping and testing |
+| `session-team` | session-manager, developer, documenter | Session lifecycle operations |
+| `build-deploy-team` | developer, netlify-troubleshooter, planner, reviewer | CI/CD and deployment |
+| `architecture-team` | planner, plan-reviewer, reviewer, ext-builder, pi-dev-expert | Design and code quality |
+| `extensions-team` | ext-builder, developer, documenter, pi-dev-expert | Pi extensions development |
+| `fast-exec-team` | planner, developer, scout | Quick plan and implement cycles |
+| `maintenance-team` | documenter, session-manager, developer, reviewer | Cleanup and documentation |
 
-```yaml
-full-dev-team:
-  - scout
-  - planner
-  - developer
-  - reviewer
-  - documenter
-```
+### Domain Teams (2)
 
-### agent-chain.yaml
+| Team | Members | Purpose |
+|------|---------|---------|
+| `homepage-team` | dev-agent, content-agent, design-agent, marketing-agent, research-agent, seo-agent, accessibility-agent, image-agent | Homepage development and optimization |
+| `pi-pi-meta-team` | pi-orchestrator, skill-expert, agent-expert, ext-expert, tui-expert, cli-expert, config-expert, prompt-expert, theme-expert, keybinding-expert | Building and configuring Pi itself |
 
-Predefined multi-agent workflow chains:
+### Global Access (1)
 
-```yaml
-plan-build-review:
-  description: "Plan, implement, and review — the standard development cycle"
-  steps:
-    - agent: planner
-      prompt: "Plan the implementation for: $INPUT"
-    - agent: developer
-      prompt: "Implement the following plan:\n\n$INPUT"
-    - agent: reviewer
-      prompt: "Review this implementation for bugs, style, and correctness:\n\n$INPUT"
-```
+| Team | Members |
+|------|---------|
+| `all-specialists` | All 30 agents |
 
-## 🚀 Quick Start
+## Pipeline Chains (`agent-chain.yaml`)
 
-1. **Discover Available Agents**:
-   ```bash
-   pi --tool dispatch list_agents
-   ```
+Chains define sequential workflows where each step uses an agent with a specific prompt. Variables `$INPUT` (previous step output) and `$ORIGINAL` (user's original request) are available.
 
-2. **See Available Teams**:
-   ```bash
-   pi --tool dispatch list_teams
-   ```
+| Chain | Steps | Purpose |
+|-------|-------|---------|
+| `plan-build-review` | planner → developer → reviewer | Standard development cycle |
+| `plan-build` | planner → developer | Fast two-step without review |
+| `scout-flow` | scout → scout → scout | Triple-scout deep recon |
+| `plan-review-plan` | planner → plan-reviewer → planner | Iterative planning with critique |
+| `full-review` | scout → planner → developer → reviewer | End-to-end pipeline |
+| `browser-flow` | scout → developer → bowser → documenter | Browser automation workflow |
+| `session-workflow` | session-manager → developer → documenter | Session management workflow |
+| `security-research-flow` | scout → ext-builder → pi-dev-expert → developer → reviewer | Security research |
+| `deploy-workflow` | scout → netlify-troubleshooter → developer → documenter | CI/CD deployment |
+| `extensions-workflow` | pi-dev-expert → ext-builder → developer → documenter → reviewer | Extension development |
+| `fast-exec-team` | planner → developer | Quick cycles |
+| `docs-workflow` | scout → documenter → developer | Documentation workflow |
+| `architecture-review` | planner → plan-reviewer → pi-dev-expert → reviewer | Architecture review |
 
-3. **Test the Scout Agent**:
-   ```bash
-   pi scout.md "Scan the codebase and report: [request]"
-   ```
+## How Agent Discovery Works
 
-4. **Run a Full Chain**:
-   ```bash
-   pi --chain plan-build-review "Build a new feature"
-   ```
+The `agent-team.ts` orchestrator discovers agents through multiple sources:
 
-5. **Manage Teams**:
-   ```bash
-   pi --tool manage_team list
-   pi --tool manage_team activate full-dev-team
-   ```
+1. **`.md` Files**: Scans `*.md` files in agent directories
+2. **`agents.yaml`**: Reads the YAML registry listing all agents
+3. **`teams.yaml`**: Defines team configurations using agent names
 
-## 📚 Related Documentation
-
-- [Pi Extensions Docs](https://raw.githubusercontent.com/badlogic/pi-mono/refs/heads/main/packages/coding-agent/docs/extensions.md)
-- [Agent Template](./agenttemplate.md)
-- [Agent Chain Reference](./agent-chain.md)
-
-## 🛠️ Adding New Agents
-
-To add a new agent:
+## Adding New Agents
 
 1. Create a `.md` file in this directory
-2. Include YAML frontmatter with `specialist_id`, `name`, `description`, and `tools`
-3. Register the agent in `agents.yaml`
-4. Add to a team in `teams.yaml` if applicable
+2. Include YAML frontmatter with `name`, `description`, and `tools`
+3. Register the agent in `agents.yaml`:
+   ```yaml
+   my-new-agent:
+     name: my-new-agent
+     description: My custom agent for specific tasks
+     tools: read,write,edit,bash
+   ```
+4. Add to a team in `teams.yaml` if applicable:
+   ```yaml
+   my-team:
+     - my-new-agent
+     - developer
+   ```
 
-Example:
+## Agent Template
 
-```markdown
+Use [`agenttemplate.md`](agenttemplate.md) as a starting point for new agent definitions.
+
+## Best Practices
+
+1. **Use consistent names** — agent keys in YAML must match `.md` filenames
+2. **Start with Scout** — let the scout agent explore before planning
+3. **Review everything** — always include the reviewer agent for code quality
+4. **Document changes** — use the documenter agent to update docs
+5. **Respect agent roles** — don't use developer for planning; use planner instead
+6. **Minimize tools** — only grant tools an agent actually needs
+
+## Related Documentation
+
+- [Agent YAML Configuration](../docs/AGENT-YAML-CONFIGURATION.md) — Detailed YAML file documentation
+- [Pi Extensions Docs](../extensions/README.md) — Extension system documentation
+- [Combined Extensions Usage](../docs/COMBINED-EXTENSIONS-USAGE.md) — Full system overview
+
 ---
-specialist_id: my-new-agent
-name: my-new-agent
-description: My custom agent for specific tasks
-models: null
-tools: [read, write, edit, bash]
----
-Your agent prompt goes here...
-```
 
-Then add to `agents.yaml`:
-
-```yaml
-my-new-agent:
-  description: My custom agent for specific tasks
-  specialist_id: my-new-agent
-  models: null
-  tools:
-    - read
-    - write
-    - edit
-    - bash
-```
-
----
-
-*Version: 1.0.0* | *Author: @zerwiz* | *License: MIT*
-
-**Critical**: Every agent must be registered by their `specialist_id:` field for reliable discovery by the sipatch agent!
+**Version**: 1.0.0 | **Author**: @zerwiz | **License**: MIT

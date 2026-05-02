@@ -446,40 +446,24 @@ export default function (pi: ExtensionAPI) {
    * Initializes and loads all agent/team metadata from the project.
    */
   function loadAgents(cwd: string) {
-    sessionDir = path.join(cwd, ".pi", "agent-sessions");
+    sessionDir = join(cwd, ".pi", "agent-sessions");
     if (!existsSync(sessionDir)) mkdirSync(sessionDir, { recursive: true });
 
-    // Scan .md files from agent directories
     allAgentDefs = scanAgentDirs(cwd);
-
-    // Also read agents.yaml for YAML-registered agents
-    const agentsYamlPath = path.join(cwd, ".pi", "agents", "agents.yaml");
-    if (existsSync(agentsYamlPath)) {
+    const teamsPath = join(cwd, ".pi", "agents", "teams.yaml");
+    if (existsSync(teamsPath)) {
       try {
-        const agentsYamlContent = readFileSync(agentsYamlPath, "utf-8");
-        const yamlAgents = parseAgentsYaml(agentsYamlContent);
+        teams = parseTeamsYaml(readFileSync(teamsPath, "utf-8"));
+      } catch {
+        teams = {};
+      }
+    }
 
-        // Merge YAML agents with scanned agents, preferring YAML definitions
-        for (const [name, yamlAgent] of Object.entries(yamlAgents)) {
-          const existingIndex = allAgentDefs.findIndex(
-            (a) => a.name.toLowerCase() === name.toLowerCase(),
-          );
-
-          if (existingIndex >= 0) {
-            // Update existing agent with YAML data
-            const existing = allAgentDefs[existingIndex];
-            existing.description = yamlAgent.description || existing.description;
-            existing.tools = yamlAgent.tools || existing.tools;
-          } else {
-            // Add new agent from YAML
-            allAgentDefs.push({
-              name: name,
-              description: yamlAgent.description || "",
-              tools: yamlAgent.tools || "",
-              systemPrompt: "",
-              file: agentsYamlPath,
-            });
-          }
+    // Default fallback roster
+    if (Object.keys(teams).length === 0) {
+      teams = { all: allAgentDefs.map((d) => d.name) };
+    }
+  }
         }
       } catch (e) {
         // If YAML parsing fails, continue with scanned agents only
@@ -1489,7 +1473,7 @@ ${teamsList}
     widgetCtx = ctx;
     contextWindow = ctx.model?.contextWindow || 0;
 
-    await initialize(ctx.cwd);
+    loadAgents(ctx.cwd);
     if (Object.keys(teams).length > 0) {
       activateTeam(activeTeamName || Object.keys(teams)[0]);
     }
@@ -1529,30 +1513,4 @@ ${teamsList}
       invalidate: () => {},
     }));
   });
-}
-
-/**
- * External initialization entry point for the agent team system.
- */
-export async function initialize(cwd: string = process.cwd()): Promise<void> {
-  loadAgentsInternal(cwd);
-  activeMemoryKey = activeTeamName;
-}
-
-/**
- * Sets the active toolset for the dispatcher.
- */
-export function setActiveTools(tools: string[]): void {
-  // This is a bridge to the private 'pi' instance
-  // Since 'pi' is only available inside the default export, 
-  // we'll need to handle this carefully if called externally.
-  // For now, we'll keep the internal reference logic.
-}
-
-/**
- * Internal load logic shared between session start and external init.
- */
-function loadAgentsInternal(cwd: string) {
-  // This is a refactored version of the original loadAgents
-  // to ensure it can be called without the 'pi' context if needed.
 }

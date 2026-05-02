@@ -412,9 +412,17 @@ export default function (pi: ExtensionAPI) {
     applyExtensionDefaults(import.meta.url, ctx);
     reconstructState(ctx);
   });
-  pi.on("session_switch", async (_event, ctx) => reconstructState(ctx));
-  pi.on("session_fork", async (_event, ctx) => reconstructState(ctx));
-  pi.on("session_tree", async (_event, ctx) => reconstructState(ctx));
+
+  pi.on("session_switch", async (event, ctx) => {
+    if (event.type === "session_switch") {
+      reconstructState(ctx);
+    }
+  });
+  pi.on("session_tree", async (event, ctx) => {
+    if (event.type === "session_tree") {
+      reconstructState(ctx);
+    }
+  });
 
   // ── Blocking gate ──────────────────────────────────────────────────
 

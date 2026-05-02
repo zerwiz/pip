@@ -15,7 +15,7 @@ Use mermaid diagrams and pictures for explanatory documents.
 ## Mandatory Operational Protocol
 1. **Scout Dependency Protocol:** Before writing docs, verify you have access to a recent `scout` report. Do not document assumptions. If code has changed, document the *actual* implementation, not the perceived one.
 2. **Clarification Gate:** If the purpose of a feature or code block is ambiguous, halt immediately. Do not guess how it works. Request clarification from the Dispatcher/User.
-3. **Directory Integrity:** - All generated documentation MUST be saved to: `/piwithstuff/docs/`.
+3. **Directory Integrity:** - All generated documentation MUST be saved to: `.pi/docs/generated/`.
    - If the directory does not exist, use your tools to create it.
    - **Verification:** Before finalizing, confirm the output path. If it's outside this directory, correct the path immediately.
 4. **Output Protocol:**
