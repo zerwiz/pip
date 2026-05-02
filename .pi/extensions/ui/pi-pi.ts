@@ -16,12 +16,13 @@
  */
 
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import { DynamicBorder } from "@mariozechner/pi-coding-agent";
 import { Type } from "@sinclair/typebox";
-import { Text, truncateToWidth, visibleWidth, Spacer, DynamicBorder, Container } from "@mariozechner/pi-tui";
+import { Text, truncateToWidth, visibleWidth, Spacer, Container } from "@mariozechner/pi-tui";
 import { spawn } from "child_process";
 import { readdirSync, readFileSync, existsSync, mkdirSync } from "fs";
 import { join, resolve } from "path";
-import { applyExtensionDefaults } from "./themeMap.ts";
+import { applyExtensionDefaults } from "../src/ui/themeMap.js";
 
 // ── Types ────────────────────────────────────────
 
@@ -52,7 +53,7 @@ function displayName(name: string): string {
 function parseAgentFile(filePath: string): ExpertDef | null {
 	try {
 		const raw = readFileSync(filePath, "utf-8");
-		const match = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+		const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
 		if (!match) return null;
 
 		const frontmatter: Record<string, string> = {};
@@ -138,7 +139,7 @@ export default function (pi: ExtensionAPI) {
 	// Use visibleWidth() and truncateToWidth() for proper UTF-8 width handling
 	const truncate = (s: string, max: number) => {
 		const visWidth = visibleWidth(s);
-		return visWidth <= max ? s : truncateToWidth(s, max - 3) + "...
+		return visWidth <= max ? s : truncateToWidth(s, max - 3) + "...";
 	};
 
 		const statusColor = state.status === "idle" ? "dim"
@@ -184,7 +185,7 @@ export default function (pi: ExtensionAPI) {
 		// bg fills the inner content area; re-applied before padding to ensure
 		// the full row is colored even if theme.fg uses a full ANSI reset inside.
 		const border = (content: string, visLen: number) => {
-            const borderVisLen = visibleWidth(content);
+			const pad = " ".repeat(Math.max(0, w - visLen));
 			return bord("│") + bg + content + bg + pad + bgr + bord("│");
 		};
 
@@ -468,7 +469,7 @@ Ask specific questions about what you need to BUILD. Each expert will return doc
 			});
 
 			return {
-				content: [{ type: "text", text: sections.join("\n\n---\n\n") }],
+				content: [{ type: "text", text: sections.join("\n\r?\n---\r?\n\n") }],
 				details: {
 					results,
 					status: results.every(r => r.status === "done") ? "done" : "partial",
@@ -569,7 +570,7 @@ Ask specific questions about what you need to BUILD. Each expert will return doc
 		let systemPrompt = "";
 		try {
 			const raw = readFileSync(orchestratorPath, "utf-8");
-			const match = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+			const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
 			const template = match ? match[2].trim() : raw;
 			
 			systemPrompt = template

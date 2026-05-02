@@ -1,142 +1,241 @@
-# Homepage Builder Agent Team Configuration
-# This file defines how agents are organized into teams for different use cases
-# The first team listed is the default that runs on session start
+# Teams Configuration for pip/.pi/agents
+# Each team uses only agents that exist in agents.yaml for discovery by dispatch agent
 
-# Primary team - Complete homepage building workflow
-homepage-builder-team:
-  - design-agent
-  - frontend-coder
-  - content-agent
+# --- Project Teams ---
+
+# Full development team - Complete implementation pipeline
+full-dev-team:
+  - scout
+  - planner
+  - developer
+  - reviewer
+  - documenter
+
+# Planning and review team - Architecture and validation
+planning-review-team:
+  - scout
+  - planner
+  - plan-reviewer
+  - reviewer
+
+# Security and research team - Exploration and analysis
+security-research-team:
+  - scout
+  - developer
+  - netlify-troubleshooter
+  - ext-builder
+  - pi-dev-expert
+
+# Browser automation team - Web scraping and testing
+browser-automation-team:
+  - bowser
+  - developer
+  - documenter
+
+# Session management team - Session lifecycle operations
+session-team:
+  - session-manager
+  - developer
+  - documenter
+
+# Build and deploy team - CI/CD and deployment workflows
+build-deploy-team:
+  - developer
+  - netlify-troubleshooter
+  - planner
+  - reviewer
+
+# Architecture and review team - Design and code quality
+architecture-team:
+  - planner
+  - plan-reviewer
+  - reviewer
+  - ext-builder
+  - pi-dev-expert
+
+# Extensions and customization team - Pi extensions development
+extensions-team:
+  - ext-builder
+  - developer
+  - documenter
+  - pi-dev-expert
+
+# Fast execution team - Quick plan and implement cycles
+fast-exec-team:
+  - planner
+  - developer
+  - scout
+
+# Cleanup and maintenance team - Session cleanup and documentation
+maintenance-team:
+  - documenter
+  - session-manager
+  - developer
+  - reviewer
+
+# --- Domain Teams ---
+
+# Homepage development and optimization team
+homepage-team:
   - dev-agent
-  - research-agent
+  - content-agent
+  - design-agent
   - marketing-agent
-  - image-agent
+  - research-agent
   - seo-agent
   - accessibility-agent
-
-# SEO-focused homepage team
-seo-optimization-team:
-  - research-agent
-  - content-agent
-  - seo-agent
-  - analytics-agent
-  - marketing-agent
-
-# Creative design team - Focus on visuals and aesthetics
-creative-design-team:
-  - design-agent
-  - image-agent
-  - vision-agent
-  - blog-agent
-
-# Content creation pipeline - Research → Content → Design → Dev
-content-pipeline:
-  - research-agent
-  - content-agent
-  - design-agent
-  - dev-agent
-
-# Accessibility-focused team - Ensures inclusive web experiences
-accessibility-first-team:
-  - accessibility-agent
-  - design-agent
-  - dev-agent
-
-# Quick build team - For rapid homepage creation
-quick-build-team:
-  - design-agent
-  - frontend-coder
-  - dev-agent
-  - content-agent
-  - seo-agent
-
-# Documentation team - For building document-heavy sites
-documentation-team:
-  - docx-agent
-  - pdf-agent
-  - blog-agent
-  - write-agent
-
-# Marketing-focused team
-marketing-team:
-  - marketing-agent
-  - content-agent
-  - research-agent
-  - analytics-agent
-
-# Analysis team - For research and competitive analysis
-analysis-team:
-  - research-agent
-  - news-agent
-  - analytics-agent
-  - charts-agent
-
-# Portfolio team - For building portfolio sites
-portfolio-team:
-  - design-agent
-  - content-agent
-  - dev-agent
-  - seo-agent
-
-# Business team - For business/homepage sites
-business-site-team:
-  - research-agent
-  - content-agent
-  - design-agent
-  - dev-agent
-  - marketing-agent
-  - seo-agent
-  - accessibility-agent
-
-# Personal site team - For personal webpages (simple)
-personal-site-team:
-  - design-agent
-  - content-agent
-  - dev-agent
   - image-agent
 
-# E-commerce team - For e-commerce homepages
-ecommerce-team:
-  - research-agent
-  - design-agent
-  - content-agent
-  - dev-agent
-  - marketing-agent
-  - analytics-agent
+# Pi-Pi meta team - Building and configuring Pi itself
+pi-pi-meta-team:
+  - pi-orchestrator
+  - skill-expert
+  - agent-expert
+  - ext-expert
+  - tui-expert
+  - cli-expert
+  - config-expert
+  - prompt-expert
+  - theme-expert
+  - keybinding-expert
 
-# Landing page team - For product/service landing pages
-landing-page-team:
-  - research-agent
+# --- Specialized Teams ---
+
+# Multimodal analysis and generation team
+multimodal-team:
+  - image-analyzer
+  - image-editor
+  - video-analyzer
+  - speech-to-text
+  - vision-language
+  - chart-creator
+  - shader-extractor
+
+# Web intelligence and automation team
+web-intelligence-team:
+  - web-search-engine
+  - web-content-fetcher
+  - browser-agent
+  - meta-search
+  - ai-news-collector
+
+# Content strategy and creation team
+content-creation-team:
+  - seo-writer
+  - blog-author
+  - podcast-creator
+  - presentation-creator
+  - writing-planner
+  - content-strategist
+
+# Business and financial analysis team
+business-analysis-team:
+  - market-analyzer
+  - stock-analyzer
+  - finance-advisor
+  - fortune-analyzer
+  - spreadsheet-processor
+
+# Academic and scholarly research team
+academic-research-team:
+  - academic-search
+  - daily-paper
+  - open-academic
+  - research-assistant
+  - document-processor
+  - content-analyzer
+
+# Advanced development and skill building team
+advanced-dev-team:
+  - llm-integrator
+  - fullstack-developer
+  - skill-builder
+  - skill-finder
+  - skill-reviewer
+
+# Personal assistant and coaching team
+personal-assistant-team:
+  - mindfulness-coach
+  - anti-manipulation
+  - dream-analyzer
+  - gift-advisor
+
+# --- Global Access ---
+
+# All specialists - Full roster access
+all-specialists:
+  - scout
+  - planner
+  - developer
+  - reviewer
+  - documenter
+  - red-team
+  - session-manager
   - frontend-coder
-  - content-agent
-  - design-agent
+  - bowser
+  - ext-builder
+  - netlify-troubleshooter
+  - pi-dev-expert
+  - plan-reviewer
   - dev-agent
-  - conversion-agent
-
-# Expert team - For building expert/authority sites
-expert-team:
+  - content-agent
+  - marketing-agent
   - research-agent
-  - content-agent
-  - dev-agent
+  - design-agent
   - seo-agent
   - accessibility-agent
-
-# Visual design team - Focus entirely on visual aspects
-visual-team:
-  - frontend-coder
-  - design-agent
   - image-agent
-  - vision-agent
-  
-# Full stack team - Complete development capability
-fullstack-team:
-  - research-agent
-  - frontend-coder
-  - content-agent
-  - design-agent
-  - image-agent
-  - dev-agent
-  - seo-agent
-  - accessibility-agent
-  - marketing-agent
-  - analytics-agent
+  - pi-orchestrator
+  - skill-expert
+  - agent-expert
+  - ext-expert
+  - tui-expert
+  - cli-expert
+  - config-expert
+  - prompt-expert
+  - theme-expert
+  - keybinding-expert
+  - web-content-fetcher
+  - web-search-engine
+  - image-analyzer
+  - image-editor
+  - video-analyzer
+  - llm-integrator
+  - speech-to-text
+  - vision-language
+  - podcast-creator
+  - seo-writer
+  - market-analyzer
+  - ui-ux-designer
+  - visual-designer
+  - storyboard-creator
+  - skill-builder
+  - skill-finder
+  - skill-reviewer
+  - stock-analyzer
+  - finance-advisor
+  - gift-advisor
+  - fortune-analyzer
+  - content-strategist
+  - content-analyzer
+  - blog-author
+  - fullstack-developer
+  - mindfulness-coach
+  - auto-target
+  - anti-manipulation
+  - browser-agent
+  - dream-analyzer
+  - chart-creator
+  - document-processor
+  - presentation-creator
+  - spreadsheet-processor
+  - writing-planner
+  - ai-news-collector
+  - academic-search
+  - daily-paper
+  - open-academic
+  - research-assistant
+  - meta-search
+  - shader-extractor
+  - coding-agent
+  - interview-specialist

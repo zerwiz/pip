@@ -24,8 +24,8 @@ import {
   exportMemory,
   cleanupExports,
   listExportFormats,
-} from "./util/memory-export";
-import { handleMemoryExport } from "./util/memory-tools";
+} from "../util/memory-export";
+import { handleMemoryExport } from "../util/memory-tools";
 import { Text, truncateToWidth, visibleWidth } from "@mariozechner/pi-tui";
 import { spawn } from "child_process";
 import {
@@ -37,25 +37,22 @@ import {
   unlinkSync,
   lstatSync,
 } from "fs";
-import { join, resolve } from "path";
+import * as path from "path";
+const { join, resolve } = path;
 import { homedir } from "os";
-import { applyExtensionDefaults } from "./themeMap.ts";
+import { applyExtensionDefaults } from "../src/ui/themeMap";
 
 // ── Types & Interfaces ───────────────────────────
 
 /**
  * Memory scopes define the persistence lifecycle of specialist knowledge.
- * 'user': Global across all codebases for the current system user (~/.pi/agent-memory).
- * 'project': Committed knowledge specific to this repository (.pi/agent-memory).
- * 'local': Developer-specific local overrides (not committed to git).
  */
-type MemoryScope = "user" | "project" | "local";
+export type MemoryScope = "user" | "project" | "local";
 
 /**
  * Static definition of an agent loaded from specialized markdown files.
- * The frontmatter defines tools and description; the body defines the persona.
  */
-interface AgentDef {
+export interface AgentDef {
   name: string;
   description: string;
   tools: string;
@@ -67,7 +64,7 @@ interface AgentDef {
 /**
  * Runtime state of an agent in the current active TUI dashboard.
  */
-interface AgentState {
+export interface AgentState {
   def: AgentDef;
   status: "idle" | "running" | "done" | "error";
   task: string;
@@ -85,6 +82,19 @@ interface AgentState {
 // UI Rendering Constants
 const SPINNER = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"];
 const MAX_MEMORY_LINES = 200;
+
+// ── Shared State ────────────────────────────────
+
+export const agentStates: Map<string, AgentState> = new Map();
+export let allAgentDefs: AgentDef[] = [];
+export let teams: Record<string, string[]> = {};
+export let activeTeamName = "";
+export let activeMemoryKey = "";
+
+// ── Plan Mode State ─────────────────────────────
+export let isPlanModeActive = false;
+export let planStatus: 'idle' | 'scouting' | 'planning' | 'reviewing' | 'awaiting_approval' | 'approved' = 'idle';
+export let currentPlanPath: string | null = null;
 
 // ── Memory & Safety Helpers ──────────────────────
 
@@ -135,11 +145,11 @@ export function resolveMemoryDir(
   const key = agentName.toLowerCase().replace(/\s+/g, "-");
   switch (scope) {
     case "user":
-      return join(homedir(), ".pi", "agent-memory", key);
+      return path.join(homedir(), ".pi", "agent-memory", key);
     case "project":
-      return join(cwd, ".pi", "agent-memory", key);
+      return path.join(cwd, ".pi", "agent-memory", key);
     case "local":
-      return join(cwd, ".pi", "agent-memory-local", key);
+      return path.join(cwd, ".pi", "agent-memory-local", key);
   }
 }
 
@@ -163,7 +173,7 @@ export function ensureMemoryDir(memoryDir: string): void {
  */
 export function readMemoryIndex(memoryDir: string): string | undefined {
   if (isSymlink(memoryDir)) return undefined;
-  const memoryFile = join(memoryDir, "MEMORY.md");
+  const memoryFile = path.join(memoryDir, "MEMORY.md");
   const content = safeReadFile(memoryFile);
   if (content === undefined) return undefined;
 
@@ -333,7 +343,7 @@ function stringifyTeamsYaml(teams: Record<string, string[]>): string {
 function parseAgentFile(filePath: string): AgentDef | null {
   try {
     const raw = readFileSync(filePath, "utf-8");
-    const match = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+    const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
     if (!match) return null;
 
     const frontmatter: Record<string, string> = {};
@@ -362,25 +372,35 @@ function parseAgentFile(filePath: string): AgentDef | null {
  */
 function scanAgentDirs(cwd: string): AgentDef[] {
   const dirs = [
-    join(cwd, "agents"),
-    join(cwd, ".claude", "agents"),
-    join(cwd, ".pi", "agents"),
+    path.join(cwd, "agents"),
+    path.join(cwd, ".claude", "agents"),
+    path.join(cwd, ".pi", "agents"),
   ];
   const agents: AgentDef[] = [];
   const seen = new Set<string>();
-  for (const dir of dirs) {
-    if (!existsSync(dir)) continue;
+
+  function walk(dir: string) {
+    if (!existsSync(dir)) return;
+    if (isSymlink(dir)) return;
     try {
-      for (const file of readdirSync(dir)) {
-        if (!file.endsWith(".md")) continue;
-        const fullPath = resolve(dir, file);
-        const def = parseAgentFile(fullPath);
-        if (def && !seen.has(def.name.toLowerCase())) {
-          seen.add(def.name.toLowerCase());
-          agents.push(def);
+      const entries = readdirSync(dir, { withFileTypes: true });
+      for (const entry of entries) {
+        const fullPath = path.join(dir, entry.name);
+        if (entry.isDirectory()) {
+          walk(fullPath);
+        } else if (entry.isFile() && entry.name.endsWith(".md")) {
+          const def = parseAgentFile(fullPath);
+          if (def && !seen.has(def.name.toLowerCase())) {
+            seen.add(def.name.toLowerCase());
+            agents.push(def);
+          }
         }
       }
     } catch {}
+  }
+
+  for (const dir of dirs) {
+    walk(dir);
   }
   return agents;
 }
@@ -433,9 +453,9 @@ export default function (pi: ExtensionAPI) {
     allAgentDefs = scanAgentDirs(cwd);
     const teamsPath = join(cwd, ".pi", "agents", "teams.yaml");
     if (existsSync(teamsPath)) {
-      try {
-        teams = parseTeamsYaml(readFileSync(teamsPath, "utf-8"));
-      } catch {
+    try {
+      teams = parseTeamsYaml(readFileSync(teamsPath, "utf-8"));
+    } catch {
         teams = {};
       }
     }
@@ -450,11 +470,11 @@ export default function (pi: ExtensionAPI) {
    * Saves team modifications back to the project configuration.
    */
   function saveTeams(cwd: string) {
-    const dirPath = join(cwd, ".pi", "agents");
+    const dirPath = path.join(cwd, ".pi", "agents");
     if (!existsSync(dirPath)) mkdirSync(dirPath, { recursive: true });
     try {
       writeFileSync(
-        join(dirPath, "teams.yaml"),
+        path.join(dirPath, "teams.yaml"),
         stringifyTeamsYaml(teams),
         "utf-8",
       );
@@ -476,7 +496,7 @@ export default function (pi: ExtensionAPI) {
       const def = defsByName.get(member.toLowerCase());
       if (!def) continue;
       const key = def.name.toLowerCase().replace(/\s+/g, "-");
-      const sessFile = join(sessionDir, `${key}.json`);
+      const sessFile = path.join(sessionDir, `${key}.json`);
       agentStates.set(def.name.toLowerCase(), {
         def,
         status: "idle",
@@ -565,7 +585,6 @@ export default function (pi: ExtensionAPI) {
         );
     }
     if (state.contextPct > 0) {
-      // FIX: Clamp filled value to prevent RangeError: Invalid count value: -1
       const filled = Math.max(0, Math.min(5, Math.ceil(state.contextPct / 20)));
       parts.push(
         `[${"#".repeat(filled)}${"-".repeat(5 - filled)}] ${Math.ceil(state.contextPct)}%`,
@@ -607,7 +626,6 @@ export default function (pi: ExtensionAPI) {
         color = "dim";
       }
 
-      // Process and wrap logs
       const rawLines = raw
         .split("\n")
         .map((l) => l.trim())
@@ -622,7 +640,6 @@ export default function (pi: ExtensionAPI) {
 
       if (wrapped.length === 0) wrapped.push("initializing child process...");
 
-      // DYNAMIC HEIGHT: Show last 8 lines without fixed padding
       const visible = wrapped.slice(-8);
 
       for (let j = 0; j < visible.length; j++) {
@@ -630,14 +647,11 @@ export default function (pi: ExtensionAPI) {
       }
     }
 
-    // MANDATORY SEQUENCE: Header first, logs indented beneath
     return [truncateToWidth(headerLine, safeWidth), ...logRows];
   }
 
   /**
    * Final Widget Assembly.
-   * STICK-TO-BOTTOM: Team status line is the last item in the array.
-   * DYNAMIC TOP: The list grows upwards into the scrollback as needed.
    */
   function updateWidget() {
     if (!widgetCtx) return;
@@ -656,19 +670,26 @@ export default function (pi: ExtensionAPI) {
 
           const lines: string[] = [];
 
-          // Team Dashboard Header (standalone - no branch)
+          // Plan Mode Banner
+          if (isPlanModeActive) {
+            const planIcon = planStatus === "approved" ? "✅" : "🧠";
+            const banner = theme.fg("accent", theme.bold(`[ PLAN MODE : ${planStatus.toUpperCase()} ]`));
+            const planFile = currentPlanPath ? theme.fg("dim", ` (${path.basename(currentPlanPath)})`) : "";
+            lines.push(truncateToWidth(`${planIcon} ${banner}${planFile}`, safeWidth));
+            lines.push(theme.fg("dim", "─".repeat(safeWidth)));
+          }
+
           const headingLine = truncateToWidth(
             theme.fg(running ? "accent" : "dim", "○") +
               " " +
               theme.fg(
                 running ? "accent" : "dim",
-                `Team Orchestrator: ${activeTeamName}`,
+                isPlanModeActive ? "Architecture & Planning" : `Team Orchestrator: ${activeTeamName}`,
               ),
             safeWidth,
           );
           lines.push(headingLine);
 
-          // Assemble specialist blocks beneath the orchestrator
           const agents = Array.from(agentStates.values());
           for (let i = 0; i < agents.length; i++) {
             const isLast = i === agents.length - 1;
@@ -730,7 +751,7 @@ export default function (pi: ExtensionAPI) {
       ? `${ctx.model.provider}/${ctx.model.id}`
       : "openrouter/google/gemini-3-flash-preview";
     const agentKey = state.def.name.toLowerCase().replace(/\s+/g, "-");
-    const sessFile = join(sessionDir, `${agentKey}.json`);
+    const sessFile = path.join(sessionDir, `${agentKey}.json`);
 
     const hasWriteTools =
       state.def.tools.includes("write") || state.def.tools.includes("edit");
@@ -853,7 +874,110 @@ export default function (pi: ExtensionAPI) {
     });
   }
 
+  // ── Safety Gates ─────────────────────────────
+
+  const IMPLEMENTATION_TOOLS = ["write", "edit", "replace", "bash"];
+
+  pi.on("tool_call", async (event, _ctx) => {
+    if (isPlanModeActive && planStatus !== "approved" && IMPLEMENTATION_TOOLS.includes(event.toolName)) {
+      return {
+        block: true,
+        reason: `🚨 PLAN MODE GATED: Implementation tools are locked until the plan is approved. Current status: ${planStatus.toUpperCase()}. Please use 'approve_plan' or finish the planning workflow.`,
+      };
+    }
+    return { block: false };
+  });
+
   // ── Tools & Commands Registration ────────────
+
+  pi.registerTool({
+    name: "enter_plan_mode",
+    label: "Enter Plan Mode",
+    description: "Initialize a high-integrity planning workflow for a specific task.",
+    parameters: Type.Object({
+      task: Type.String({ description: "The architecture/feature task to plan." }),
+    }),
+    async execute(_id, params, signal, upd, ctx) {
+      const { task } = params as { task: string };
+      isPlanModeActive = true;
+      planStatus = "scouting";
+      updateWidget();
+
+      try {
+        // Phase 1: Scout
+        if (upd) upd({ content: [{ type: "text", text: "🔍 Starting Scout Phase..." }] });
+        const scoutResult = await dispatchAgent("scout", `Perform a deep reconnaissance of the codebase related to: ${task}`, ctx, signal);
+
+        // 🔥 Show what the scout found
+        ctx.ui.notify(`### 🔍 Scout Findings\n${scoutResult.output}`, "info");
+
+        // Phase 2: Planner
+        planStatus = "planning";
+        updateWidget();
+        if (upd) upd({ content: [{ type: "text", text: "🧠 Starting Planning Phase..." }] });
+        const planResult = await dispatchAgent("planner", `Generate a detailed implementation plan for: ${task}. Save it to .pi/planning/`, ctx, signal);
+
+        // 🔥 Show the proposed plan
+        ctx.ui.notify(`### 🧠 Proposed Plan\n${planResult.output}`, "warning");
+
+        // Extract plan path from output if possible (heuristic)
+        const pathMatch = planResult.output.match(/\.pi\/planning\/[^\s]+\.md/);
+        if (pathMatch) currentPlanPath = pathMatch[0];
+
+        // Phase 3: Reviewer
+        planStatus = "reviewing";
+        updateWidget();
+        if (upd) upd({ content: [{ type: "text", text: "🛡️ Starting Review Phase..." }] });
+        const reviewResult = await dispatchAgent("plan-reviewer", `Critically review the latest plan in .pi/planning/`, ctx, signal);
+
+        // 🔥 Show the reviewer's critique
+        ctx.ui.notify(`### 🛡️ Reviewer Critique\n${reviewResult.output}`, "info");
+
+        planStatus = "awaiting_approval";
+        updateWidget();
+
+        return {
+          content: [{ type: "text", text: `### Planning Complete\nPlan: ${currentPlanPath || "check .pi/planning/"}\nStatus: Awaiting Approval\n\n**Review the logs above.** Use the **approve_plan** tool to proceed if it looks good, or tell me to revise the plan.` }],
+          details: { phase: "awaiting_approval", status: "info" },
+        };
+      } catch (err) {
+        planStatus = "idle";
+        isPlanModeActive = false;
+        updateWidget();
+        return {
+          content: [{ type: "text", text: `Planning failed: ${err}` }],
+          details: { phase: "scout", status: "error" },
+        };
+      }
+    },
+  });
+
+  pi.registerTool({
+      name: "approve_plan",
+      label: "Approve Plan",
+      description: "Approve the generated plan and unlock implementation agents.",
+      parameters: Type.Object({}),
+      async execute(_id, _params, _sig, _upd, _ctx) {
+        if (!isPlanModeActive) return { content: [{ type: "text", text: "Not in plan mode." }], details: { status: "error" } };
+        planStatus = "approved";
+        updateWidget();
+        return { content: [{ type: "text", text: "✅ Plan approved. Implementation agents unlocked." }], details: { status: "approved" } };
+      },
+    });
+
+    pi.registerTool({
+      name: "exit_plan_mode",
+      label: "Exit Plan Mode",
+      description: "Restore regular operation.",
+      parameters: Type.Object({}),
+      async execute(_id, _params, _sig, _upd, _ctx) {
+        isPlanModeActive = false;
+        planStatus = "idle";
+        currentPlanPath = null;
+        updateWidget();
+        return { content: [{ type: "text", text: "Exited plan mode." }], details: { status: "idle" } };
+      },
+    });
 
   pi.registerTool({
     name: "switch_team",
@@ -894,13 +1018,9 @@ export default function (pi: ExtensionAPI) {
     description: "List all teams from teams.yaml that can be switched to.",
     parameters: Type.Object({}),
     async execute(_id, _params, _sig, _upd, ctx) {
-      const teamsPath = join(ctx.cwd, ".pi", "agents", "teams.yaml");
-      const teamsContent = safeReadFile(teamsPath);
-      const teamsList = teamsContent ? parseTeamsYaml(teamsContent) : {};
-
       let output = "### Teams\n";
-      if (Object.keys(teamsList).length > 0) {
-        for (const [team, members] of Object.entries(teamsList)) {
+      if (Object.keys(teams).length > 0) {
+        for (const [team, members] of Object.entries(teams)) {
           const marker = team === activeTeamName ? " **(active)**" : "";
           output += `\n#### ${team}${marker}\nMembers: ${members.join(", ")}`;
         }
@@ -915,8 +1035,7 @@ export default function (pi: ExtensionAPI) {
     },
     renderCall: (_args, theme) =>
       new Text(
-        theme.fg("toolTitle", theme.bold("list_teams")) +
-          theme.fg("dim", " (from teams.yaml)"),
+        theme.fg("toolTitle", theme.bold("list_teams")),
         0,
         0,
       ),
@@ -925,22 +1044,39 @@ export default function (pi: ExtensionAPI) {
   pi.registerTool({
     name: "list_agents",
     label: "List Agents",
-    description: "List all agents from agents.yaml that can be loaded.",
+    description: "List all discovered agents, grouped by directory.",
     parameters: Type.Object({}),
     async execute(_id, _params, _sig, _upd, ctx) {
-      const agentsPath = join(ctx.cwd, ".pi", "agents", "agents.yaml");
-      const agentsContent = safeReadFile(agentsPath);
       const activeMembers = teams[activeTeamName] || [];
 
-      let output = "### Agents\n";
-      if (agentsContent) {
-        const parsedAgents = parseAgentsYaml(agentsContent);
-        for (const [name, agent] of Object.entries(parsedAgents)) {
-          const inActive = activeMembers.includes(name) ? " ✓" : "";
-          output += `\n- **${name}**${inActive}\n  ${agent.description}\n  Tools: ${agent.tools}`;
+      if (allAgentDefs.length === 0) {
+        return {
+          content: [{ type: "text", text: "No agents discovered." }],
+          details: {},
+        };
+      }
+
+      // Group agents by directory
+      const groups: Record<string, AgentDef[]> = {};
+      for (const agent of allAgentDefs) {
+        const dir = agent.file ? path.dirname(path.relative(ctx.cwd, agent.file)) : "Unknown";
+        if (!groups[dir]) groups[dir] = [];
+        groups[dir].push(agent);
+      }
+
+      let output = "### Agent Tree\n";
+      const sortedDirs = Object.keys(groups).sort();
+
+      for (const dir of sortedDirs) {
+        output += `\n**${dir}/**\n`;
+        const agents = groups[dir].sort((a, b) => a.name.localeCompare(b.name));
+        for (let i = 0; i < agents.length; i++) {
+          const agent = agents[i];
+          const isLast = i === agents.length - 1;
+          const prefix = isLast ? "└──" : "├──";
+          const inActive = activeMembers.includes(agent.name) ? " ✓" : "";
+          output += `${prefix} **${agent.name}**${inActive} — ${agent.description}\n`;
         }
-      } else {
-        output += "No agents defined.\n";
       }
 
       return {
@@ -950,8 +1086,7 @@ export default function (pi: ExtensionAPI) {
     },
     renderCall: (_args, theme) =>
       new Text(
-        theme.fg("toolTitle", theme.bold("list_agents")) +
-          theme.fg("dim", " (from agents.yaml)"),
+        theme.fg("toolTitle", theme.bold("list_agents")),
         0,
         0,
       ),
@@ -982,8 +1117,7 @@ export default function (pi: ExtensionAPI) {
     },
     renderCall: (_args, theme) =>
       new Text(
-        theme.fg("toolTitle", theme.bold("list_active_team")) +
-          theme.fg("dim", " (loaded agents)"),
+        theme.fg("toolTitle", theme.bold("list_active_team")),
         0,
         0,
       ),
@@ -1008,14 +1142,16 @@ export default function (pi: ExtensionAPI) {
         if (agentStates.has(key))
           return {
             content: [{ type: "text", text: `Specialist already active.` }],
+            details: { action, agent, status: "error" },
           };
         const def = allAgentDefs.find((d) => d.name.toLowerCase() === key);
         if (!def)
           return {
             content: [{ type: "text", text: `Specialist ID unknown.` }],
+            details: { action, agent, status: "error" },
           };
 
-        const sess = join(
+        const sess = path.join(
           sessionDir,
           `${def.name.toLowerCase().replace(/\s+/g, "-")}.json`,
         );
@@ -1044,10 +1180,11 @@ export default function (pi: ExtensionAPI) {
           content: [
             { type: "text", text: `Enlisted ${displayName(def.name)}.` },
           ],
+          details: { action, agent, status: "done" },
         };
       } else {
         if (!agentStates.has(key))
-          return { content: [{ type: "text", text: `ID not active.` }] };
+          return { content: [{ type: "text", text: `ID not active.` }], details: { action, agent, status: "error" } };
         agentStates.delete(key);
         if (teams[activeTeamName])
           teams[activeTeamName] = teams[activeTeamName].filter(
@@ -1057,6 +1194,7 @@ export default function (pi: ExtensionAPI) {
         updateWidget();
         return {
           content: [{ type: "text", text: `Specialist decommissioned.` }],
+          details: { action, agent, status: "done" },
         };
       }
     },
@@ -1084,8 +1222,15 @@ export default function (pi: ExtensionAPI) {
           content: [{ type: "text", text: `Piping context to: ${agent}...` }],
         });
 
+      // 🔥 Show exactly what the Dispatcher is asking
+      ctx.ui.notify(`### 📤 Dispatcher -> [${agent}]\n${task}`, "muted");
+
       const res = await dispatchAgent(agent, task, ctx, signal);
       const status = res.exitCode === 0 ? "SUCCESS" : "FAILURE";
+
+      // 🔥 Show exactly what the sub-agent returned
+      const logType = res.exitCode === 0 ? "info" : "error";
+      ctx.ui.notify(`### 📥 [${agent}] -> Dispatcher\n${res.output}`, logType);
 
       return {
         content: [
@@ -1095,8 +1240,7 @@ export default function (pi: ExtensionAPI) {
           },
         ],
       };
-    },
-    renderCall: (args, theme) => {
+    },    renderCall: (args, theme) => {
       const task = (args as any).task || "";
       const preview = task.length > 50 ? task.slice(0, 47) + "..." : task;
       return new Text(
@@ -1108,146 +1252,6 @@ export default function (pi: ExtensionAPI) {
         0,
       );
     },
-  });
-
-  pi.registerTool({
-    name: "list_active_team",
-    label: "List Active Team",
-    description: "List agents currently loaded in the active team.",
-    parameters: Type.Object({}),
-    async execute(_id, _params, _sig, _upd, _ctx) {
-      const members = Array.from(agentStates.values())
-        .map((s) => {
-          const model = s.def.model ? ` (${s.def.model})` : "";
-          return `- **${s.def.name}**${model} — ${s.def.description} [${s.status}]`;
-        })
-        .join("\n");
-
-      return {
-        content: [
-          {
-            type: "text",
-            text: `### Active Team: ${activeTeamName}\n\n${members || "No agents loaded."}`,
-          },
-        ],
-        details: {},
-      };
-    },
-    renderCall: (_args, theme) =>
-      new Text(
-        theme.fg("toolTitle", theme.bold("list_active_team")) +
-          theme.fg("dim", " (loaded agents)"),
-        0,
-        0,
-      ),
-  });
-
-  pi.registerTool({
-    name: "list_teams",
-    label: "List Teams",
-    description: "List all teams from teams.yaml that can be switched to.",
-    parameters: Type.Object({}),
-    async execute(_id, _params, _sig, _upd, ctx) {
-      const teamsPath = join(ctx.cwd, ".pi", "agents", "teams.yaml");
-      const teamsContent = safeReadFile(teamsPath);
-      const teamsList = teamsContent ? parseTeamsYaml(teamsContent) : {};
-
-      let output = "### Teams\n";
-      if (Object.keys(teamsList).length > 0) {
-        for (const [team, members] of Object.entries(teamsList)) {
-          const marker = team === activeTeamName ? " **(active)**" : "";
-          output += `\n#### ${team}${marker}\nMembers: ${members.join(", ")}`;
-        }
-      } else {
-        output += "No teams defined.\n";
-      }
-
-      return { content: [{ type: "text", text: output }] };
-    },
-    renderCall: (_args, theme) =>
-      new Text(
-        theme.fg("toolTitle", theme.bold("list_teams")) +
-          theme.fg("dim", " (from teams.yaml)"),
-        0,
-        0,
-      ),
-  });
-
-  pi.registerTool({
-    name: "list_agents",
-    label: "List Agents",
-    description: "List all agents from agents.yaml that can be loaded.",
-    parameters: Type.Object({}),
-    async execute(_id, _params, _sig, _upd, ctx) {
-      const agentsPath = join(ctx.cwd, ".pi", "agents", "agents.yaml");
-      const agentsContent = safeReadFile(agentsPath);
-      const activeMembers = teams[activeTeamName] || [];
-
-      let output = "### Agents\n";
-      if (agentsContent) {
-        const parsedAgents = parseAgentsYaml(agentsContent);
-        for (const [name, agent] of Object.entries(parsedAgents)) {
-          const inActive = activeMembers.includes(name) ? " ✓" : "";
-          output += `\n- **${name}**${inActive}\n  ${agent.description}\n  Tools: ${agent.tools}`;
-        }
-      } else {
-        output += "No agents defined.\n";
-      }
-
-      return { content: [{ type: "text", text: output }] };
-    },
-    renderCall: (_args, theme) =>
-      new Text(
-        theme.fg("toolTitle", theme.bold("list_agents")) +
-          theme.fg("dim", " (from agents.yaml)"),
-        0,
-        0,
-      ),
-  });
-
-  pi.registerTool({
-    name: "list_team_agents",
-    label: "List Team Agents",
-    description: "List all agents in the active team with their tools.",
-    parameters: Type.Object({}),
-    async execute(_id, _params, _sig, _upd, _ctx) {
-      const members = Array.from(agentStates.values())
-        .map((s) => {
-          const model = s.def.model ? ` (${s.def.model})` : "";
-          return `### ${s.def.name}${model}\n- **Tools:** ${s.def.tools}\n- **Status:** ${s.status}`;
-        })
-        .join("\n\n");
-
-      let yamlInfo = "";
-      const teamsPath = join(ctx.cwd, ".pi", "agents", "teams.yaml");
-      const agentsPath = join(ctx.cwd, ".pi", "agents", "agents.yaml");
-      const teamsContent = safeReadFile(teamsPath);
-      const agentsContent = safeReadFile(agentsPath);
-
-      if (teamsContent || agentsContent) {
-        yamlInfo = "\n\n---\n### Teams & Agents YAML\n";
-        if (teamsContent)
-          yamlInfo += `\n**teams.yaml:**\n\`\`\`yaml\n${teamsContent}\n\`\`\``;
-        if (agentsContent)
-          yamlInfo += `\n**agents.yaml:**\n\`\`\`yaml\n${agentsContent}\n\`\`\``;
-      }
-
-      return {
-        content: [
-          {
-            type: "text",
-            text: `### Active Team: ${activeTeamName}\n\n${members || "No agents loaded."}${yamlInfo}`,
-          },
-        ],
-      };
-    },
-    renderCall: (_args, theme) =>
-      new Text(
-        theme.fg("toolTitle", theme.bold("list_team_agents")) +
-          theme.fg("dim", " (show active team)"),
-        0,
-        0,
-      ),
   });
 
   pi.registerTool({
@@ -1275,7 +1279,7 @@ export default function (pi: ExtensionAPI) {
       const { note } = params as { note: string };
       const memoryDir = resolveMemoryDir(state.def.name, "project", ctx.cwd);
       ensureMemoryDir(memoryDir);
-      const memoryFile = join(memoryDir, "MEMORY.md");
+      const memoryFile = path.join(memoryDir, "MEMORY.md");
 
       const existing = safeReadFile(memoryFile) || "";
       const timestamp = new Date().toISOString().slice(0, 10);
@@ -1307,8 +1311,18 @@ export default function (pi: ExtensionAPI) {
 
   // ── Commands ─────────────────────────────────
 
-  pi.registerCommand("agents-team", {
-    description: "Switch active context.",
+  pi.registerCommand("thinking", {
+    description: "Change the agent's thinking level (off, low, medium, high)",
+    handler: async (_args, ctx) => {
+      const levels = ["off", "low", "medium", "high"];
+      const choice = await ctx.ui.select("Select Thinking Level", levels);
+      if (choice) {
+        pi.setThinkingLevel(choice as any);        ctx.ui.notify(`Thinking level set to: ${choice.toUpperCase()}`, "success");
+      }
+    },
+  });
+
+  pi.registerCommand("agents-team", {    description: "Switch active context.",
     handler: async (_args, ctx) => {
       const names = Object.keys(teams);
       if (names.length === 0) return;
@@ -1364,33 +1378,6 @@ export default function (pi: ExtensionAPI) {
     },
   });
 
-  pi.registerCommand("list-teams", {
-    description: "List all available teams",
-    handler: async (_args, ctx) => {
-      // Invoke the list_teams tool internally
-      const result = await pi.dispatchTool("list_teams", {});
-      ctx.ui.notify(result.content[0].text, "info");
-    },
-  });
-
-  pi.registerCommand("list-agents", {
-    description: "List all available agents",
-    handler: async (_args, ctx) => {
-      // Invoke the list_agents tool internally
-      const result = await pi.dispatchTool("list_agents", {});
-      ctx.ui.notify(result.content[0].text, "info");
-    },
-  });
-
-  pi.registerCommand("list-active-team", {
-    description: "List currently loaded agents",
-    handler: async (_args, ctx) => {
-      // Invoke the list_active_team tool internally
-      const result = await pi.dispatchTool("list_active_team", {});
-      ctx.ui.notify(result.content[0].text, "info");
-    },
-  });
-
   // ── System Hook: High-Context Orchestration ──────────
 
   pi.registerCommand("memory-export:json", {
@@ -1398,15 +1385,8 @@ export default function (pi: ExtensionAPI) {
     handler: async (_args, ctx) => {
       try {
         const result = await exportMemory("json", ctx.cwd);
-        ctx.ui.log(`✅ Memory export initiated:
-  Format: JSON
-  Path: .pi/memory-export.json
-  Progress: ${result}
-
-View with: cat .pi/memory-export.json`);
-        // Cleanup old exports to prevent disk usage
+        ctx.ui.log(`✅ Memory export complete: .pi/memory-export.json`);
         await cleanupExports(7 * 24 * 60 * 60 * 1000);
-        ctx.ui.log(`✅ Memory export complete`);
       } catch (error) {
         ctx.ui.log(`❌ Export failed: ${error}`);
       }
@@ -1418,14 +1398,8 @@ View with: cat .pi/memory-export.json`);
     handler: async (_args, ctx) => {
       try {
         const result = await exportMemory("text", ctx.cwd);
-        ctx.ui.log(`✅ Memory export to plaintext:
-  Format: Text
-  Path: .pi/memory-export.txt
-  Progress: ${result}
-
-View with: cat .pi/memory-export.txt`);
+        ctx.ui.log(`✅ Memory export complete: .pi/memory-export.txt`);
         await cleanupExports(7 * 24 * 60 * 60 * 1000);
-        ctx.ui.log(`✅ Memory export complete`);
       } catch (error) {
         ctx.ui.log(`❌ Export failed: ${error}`);
       }
@@ -1437,14 +1411,8 @@ View with: cat .pi/memory-export.txt`);
     handler: async (_args, ctx) => {
       try {
         const result = await exportMemory("md", ctx.cwd);
-        ctx.ui.log(`✅ Memory export to markdown:
-  Format: Markdown
-  Path: .pi/memory-export.md
-  Progress: ${result}
-
-View with: cat .pi/memory-export.md`);
+        ctx.ui.log(`✅ Memory export complete: .pi/memory-export.md`);
         await cleanupExports(7 * 24 * 60 * 60 * 1000);
-        ctx.ui.log(`✅ Memory export complete`);
       } catch (error) {
         ctx.ui.log(`❌ Export failed: ${error}`);
       }
@@ -1452,20 +1420,17 @@ View with: cat .pi/memory-export.md`);
   });
 
   pi.registerCommand("memory-export:preview", {
-    description: "Preview memory export without writing to file",
+    description: "Preview memory export",
     handler: async (_args, ctx) => {
       try {
         const result = await exportMemory("preview", ctx.cwd);
-        ctx.ui.log(`👀 Memory Preview:
-${result}`);
-        ctx.ui.log(`✅ Export preview shown`);
+        ctx.ui.log(`👀 Memory Preview:\n${result}`);
       } catch (error) {
         ctx.ui.log(`❌ Preview failed: ${error}`);
       }
     },
   });
 
-  // ── System Hook: High-Context Orchestration ───────
   pi.on("before_agent_start", async (_event, _ctx) => {
     const activeCatalog = Array.from(agentStates.values())
       .map(
@@ -1490,15 +1455,12 @@ You can ONLY dispatch to agents listed below. Do not attempt to dispatch to agen
 - Choose the right agent(s) for each sub-task
 - Dispatch tasks using the dispatch_agent tool
 - Review results and dispatch follow-up agents if needed
-- If a task fails, try a different agent or adjust the task description
 - Summarize the outcome for the user
 
 ## Rules
 - NEVER try to read, write, or execute code directly — you have no such tools
 - ALWAYS use dispatch_agent to get work done
-- You can chain agents: use scout to explore, then builder to implement
-- You can dispatch the same agent multiple times with different tasks
-- Keep tasks focused — one clear objective per dispatch
+- Ensure specialists have enough context to succeed.
 
 ## Active Agent Catalog
 ${activeCatalog}
@@ -1506,13 +1468,13 @@ ${activeCatalog}
 ## Global Agent Catalog
 ${fullCatalog}
 
+## Teams List
+${teamsList}
+
 ## Operational Directives
-1. Delegate specialist agent requests via \`dispatch_agent\` (for code analysis, implementation, review, etc.).
+1. Delegate specialist agent requests via \`dispatch_agent\`.
 2. Use orchestrator tools like \`list_teams\`, \`list_agents\`, and \`list_active_team\` for team management.
 3. Use \`save_memory\` to persist orchestrator's own knowledge and session notes.
-4. Use \`web_access\` for browsing the web and accessing current information when needed.
-5. Ensure specialists have enough context to succeed.
-6. Manage rosters via \`manage_team\` as needed.
 `,
     };
   });
@@ -1524,23 +1486,22 @@ ${fullCatalog}
     widgetCtx = ctx;
     contextWindow = ctx.model?.contextWindow || 0;
 
-    loadAgents(ctx.cwd);
-    if (Object.keys(teams).length > 0) {
+    // Set standard thinking level to high
+    pi.setThinkingLevel("high");
+
+    loadAgents(ctx.cwd);    if (Object.keys(teams).length > 0) {
       activateTeam(activeTeamName || Object.keys(teams)[0]);
     }
 
-    // Register memory export tools
     const exportFormats = listExportFormats();
 
-    pi.setActiveTools([
-      "dispatch_agent",
+    pi.setActiveTools([      "dispatch_agent",
       "manage_team",
       "switch_team",
       "list_active_team",
       "list_teams",
       "list_agents",
       "save_memory",
-      "web_access",
       ...exportFormats,
     ]);
     updateWidget();
@@ -1550,8 +1511,8 @@ ${fullCatalog}
         const usage = ctx.getContextUsage();
         const pct = usage ? usage.percent : 0 || 0;
         const bar =
-          "#".repeat(Math.round(pct / 10)) +
-          "-".repeat(10 - Math.round(pct / 10));
+          "#".repeat(Math.max(0, Math.round(pct / 10))) +
+          "-".repeat(Math.max(0, 10 - Math.round(pct / 10)));
         const left =
           theme.fg("dim", ` ${ctx.model?.id || "no-model"}`) +
           theme.fg("muted", " | ") +

@@ -15,8 +15,8 @@ You are a file-generator. You MUST generate actual code in physical files (React
 2. **Atomic Execution:** Implement one component or style change at a time. Do not attempt massive UI refactors in a single pass.
 3. **Clarification Gate:** If a task is ambiguous, missing component specs, or lacks style requirements, halt immediately. Do not guess. Request clarification.
 4. **Directory Integrity:** - Write code in accordance with the project structure.
-   - All build logs/artifacts MUST be saved to: `/piwithstuff/.pi/build_logs/`.
-   - All full-file backups must be moved to: `/piwithstuff/.pi/reference/`.
+    - All build logs/artifacts MUST be saved to: `.pi/build_logs/`.
+    - All full-file backups must be moved to: `.pi/reference/`.
 5. **Changelog Compliance:** Every task MUST be logged in `CHANGELOG.md` via `edit` (prepend). Do not overwrite.
 6. **Safety First:** Read relevant styling/component files before changing styles to avoid regression. 
 7. **Validation:** After editing, verify syntax via `grep` or `read`. Check for A11y violations or breaking changes.
@@ -27,7 +27,7 @@ You are a file-generator. You MUST generate actual code in physical files (React
 - **Forbidden Overwrites:** Do not rewrite entire UI files unless the file is new or changes exceed 80% of the content.
 - **The Backup & Git Rule:** If a full file rewrite is necessary:
     1. **Branch & Push:** Run `git checkout -b frontend-rewrite/[TIMESTAMP]/[FILENAME]` and `git push -u origin [BRANCH]`.
-    2. **Move:** Use `bash` to move the existing file to `/piwithstuff/.pi/reference/[FILENAME]_[TIMESTAMP]`.
+     2. **Move:** Use `bash` to move the existing file to `.pi/reference/[FILENAME]_[TIMESTAMP]`.
     3. **Write:** Write the new version in the original location.
     4. **Confirm:** Report the branch push and the successful backup.
 - **Preservation:** Treat existing component interfaces and shared utility classes as sacred.

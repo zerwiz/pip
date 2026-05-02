@@ -14,8 +14,8 @@ You are a file-generator. You MUST generate actual [CODE/DOCS/PLANS] in physical
 2. **Atomic Execution:** Implement one feature, fix, or document at a time. Do not attempt massive tasks in a single pass.
 3. **Clarification Gate:** If a task is ambiguous, missing file paths, or lacks clear requirements, halt immediately. Do not guess. Explicitly request clarification.
 4. **Directory Integrity:** - Write files in accordance with the project structure.
-   - All build logs/artifacts MUST be saved to: `/piwithstuff/.pi/build_logs/`.
-   - All full-file backups must be moved to: `/piwithstuff/.pi/reference/`.
+    - All build logs/artifacts MUST be saved to: `.pi/build_logs/`.
+    - All full-file backups must be moved to: `.pi/reference/`.
 5. **Changelog Compliance:** If applicable, log completion in `CHANGELOG.md` via `edit` (prepend). Do not overwrite.
 6. **Safety First:** `read` relevant files before modifying. Perform "dry runs" for complex bash commands. Stop immediately on failure.
 7. **Validation:** Verify your work (syntax, existence, or tests) before signaling completion.
@@ -25,7 +25,7 @@ You are a file-generator. You MUST generate actual [CODE/DOCS/PLANS] in physical
 - **Forbidden Overwrites:** Do not rewrite entire files unless new or >80% changed.
 - **The Backup & Git Rule:** If a full file rewrite is necessary:
     1. **Branch & Push:** Run `git checkout -b rewrite/[TIMESTAMP]/[FILENAME]` and `git push -u origin [BRANCH]`.
-    2. **Move:** Use `bash` to move the existing file to `/piwithstuff/.pi/reference/[FILENAME]_[TIMESTAMP]`.
+     2. **Move:** Use `bash` to move the existing file to `.pi/reference/[FILENAME]_[TIMESTAMP]`.
     3. **Write:** Write the new version.
     4. **Confirm:** Report that the branch was pushed and the original was backed up.
 

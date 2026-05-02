@@ -24,33 +24,35 @@ export default async function (pi: ExtensionAPI) {
 
   // 1. Categorize extensions for prioritized loading
   const categories = {
-    'function': [] as string[],
-    'ui-core': [] as string[],
-    'ui-widget': [] as string[],
-    'utility': [] as string[],
-    'unknown': [] as string[],
+    function: [] as string[],
+    "ui-core": [] as string[],
+    "ui-widget": [] as string[],
+    utility: [] as string[],
+    unknown: [] as string[],
   };
 
   for (const name of extensionNames) {
     const meta = EXTENSION_MANIFEST[name];
-    const cat = meta ? meta.category : 'unknown';
+    const cat = meta ? meta.category : "unknown";
     categories[cat].push(name);
   }
 
   // 2. Resolve UI Core Conflicts (Keep only the LAST one specified)
-  if (categories['ui-core'].length > 1) {
-    const winner = categories['ui-core'].pop()!;
-    console.warn(`[PI Loader] ⚠️  UI Conflict: Multiple UI Cores detected. Keeping only "${winner}". (Discarded: ${categories['ui-core'].join(", ")})`);
-    categories['ui-core'] = [winner];
+  if (categories["ui-core"].length > 1) {
+    const winner = categories["ui-core"].pop()!;
+    console.warn(
+      `[PI Loader] ⚠️  UI Conflict: Multiple UI Cores detected. Keeping only "${winner}". (Discarded: ${categories["ui-core"].join(", ")})`,
+    );
+    categories["ui-core"] = [winner];
   }
 
   // 3. Define flattened load order: Utility -> Function -> UI Core -> Widgets -> Unknown
   const orderedStack = [
-    ...categories['utility'],
-    ...categories['function'],
-    ...categories['ui-core'],
-    ...categories['ui-widget'],
-    ...categories['unknown'],
+    ...categories["utility"],
+    ...categories["function"],
+    ...categories["ui-core"],
+    ...categories["ui-widget"],
+    ...categories["unknown"],
   ];
 
   console.log(`[PI Loader] 🚀 Loading Stack: ${orderedStack.join(" -> ")}`);
@@ -60,6 +62,9 @@ export default async function (pi: ExtensionAPI) {
       path.join(projectRoot, "extensions", `${extName}.ts`),
       path.join(projectRoot, "extensions", `${extName}.js`),
       path.join(projectRoot, ".pi", "extensions", `${extName}.ts`),
+      path.join(projectRoot, ".pi", "extensions", "ui", `${extName}.ts`),
+      path.join(projectRoot, ".pi", "extensions", "util", `${extName}.ts`),
+      path.join(projectRoot, ".pi", "extensions", "src", "ui", `${extName}.ts`),
     ];
 
     let foundPath = "";
@@ -84,7 +89,9 @@ export default async function (pi: ExtensionAPI) {
         await factory(pi);
         console.log(`[PI Loader] ✅ Loaded: ${extName}`);
       } else {
-        console.warn(`[PI Loader] ⚠️  ${extName} does not export a default factory function.`);
+        console.warn(
+          `[PI Loader] ⚠️  ${extName} does not export a default factory function.`,
+        );
       }
     } catch (err) {
       console.error(`[PI Loader] 💥 Error loading ${extName}:`, err);

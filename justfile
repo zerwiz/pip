@@ -4,7 +4,7 @@ set dotenv-load := true
 
 # This ensures we only use ONE -e flag, which is more stable in 0.70.5
 run-pi stack:
-    @export PI_STACK="{{ stack }}" && pi -e extensions/.pi/pi-loader.ts
+    @export PI_STACK="{{ stack }}" && pi -e .pi/extensions/util/pi-loader.ts
 
 default:
     @just --list
