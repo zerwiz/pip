@@ -195,3 +195,47 @@ all-specialists:
   - prompt-expert
   - theme-expert
   - keybinding-expert
+  - web-content-fetcher
+  - web-search-engine
+  - image-analyzer
+  - image-editor
+  - video-analyzer
+  - llm-integrator
+  - speech-to-text
+  - vision-language
+  - podcast-creator
+  - seo-writer
+  - market-analyzer
+  - ui-ux-designer
+  - visual-designer
+  - storyboard-creator
+  - skill-builder
+  - skill-finder
+  - skill-reviewer
+  - stock-analyzer
+  - finance-advisor
+  - gift-advisor
+  - fortune-analyzer
+  - content-strategist
+  - content-analyzer
+  - blog-author
+  - fullstack-developer
+  - mindfulness-coach
+  - auto-target
+  - anti-manipulation
+  - browser-agent
+  - dream-analyzer
+  - chart-creator
+  - document-processor
+  - presentation-creator
+  - spreadsheet-processor
+  - writing-planner
+  - ai-news-collector
+  - academic-search
+  - daily-paper
+  - open-academic
+  - research-assistant
+  - meta-search
+  - shader-extractor
+  - coding-agent
+  - interview-specialist

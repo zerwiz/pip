@@ -159,6 +159,7 @@ Format as structured Markdown.`;
 3. ...
 
 ---
+## Closing Sections...
 
 ## Notable Quotes
 

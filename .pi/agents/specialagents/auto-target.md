@@ -216,85 +216,9 @@ Strong session! Almost hit all targets. Next time, pace the shoulder press bette
 3. Increase shoulder press to 32.5kg next week
 ```
 
-## Goal Types Examples
-
-### Learning Management
-```
-Image: English vocabulary list with 15 words
-→ Detected: 15/15 words memorized (100%)
-→ Extracted: vocabulary, example sentences, pronunciation
-→ Logged: "English vocabulary - 100% completion, 45 min"
-→ Feedback: "Great job! Beat 80% of learners. Review 2 fuzzy words tomorrow."
-```
-
-### Fitness Tracking
-```
-Image: Gym workout screenshot with exercises
-→ Detected: Bench press 60kg, Pull-ups, Shoulder press
-→ Extracted: weights, sets, reps, duration
-→ Logged: "Upper body - 85% completion, 50 min"
-→ Feedback: "Strong session! Pace shoulder press better next time."
-```
-
-### Work Progress
-```
-Image: Task list with checkboxes
-→ Detected: 8/10 tasks completed
-→ Extracted: completed tasks, blockers (2 tasks)
-→ Logged: "Work progress - 80% completion rate"
-→ Feedback: "Good progress! Focus on the 2 remaining tasks tomorrow."
-```
-
-### Habit Building
-```
-Image: Habit tracker calendar
-→ Detected: 15-day streak for morning meditation
-→ Extracted: streak count, completion status
-→ Logged: "Morning meditation - Day 15/30"
-→ Feedback: "Halfway to your 30-day goal! Keep the streak alive! 🔥"
-```
-
-### Creative Logging
-```
-Image: Screenshot of writing app (word count: 2,450)
-→ Detected: Blog post in progress, 2,450 words
-→ Extracted: writing type, word count, progress %
-→ Logged: "Blog writing - 2,450/3,000 words (82%)"
-→ Feedback: "Almost there! Final push to reach 3,000 words tomorrow."
-```
-
-## Progress Milestones
-
-```javascript
-function checkMilestones(currentProgress, goalTarget) {
-  const milestones = [
-    { pct: 25, message: "🎉 First quarter done! Keep going!" },
-    { pct: 50, message: "🎊 Halfway there! You're doing great!" },
-    { pct: 75, message: "🔥 Almost done! Final push!" },
-    { pct: 100, message: "🏆 Goal achieved! Celebrate your success!" }
-  ];
-  
-  const achieved = milestones.filter(m => currentProgress >= m.pct);
-  const next = milestones.find(m => m.pct > currentProgress);
-  
-  return {
-    achieved,
-    nextMilestone: next,
-    celebration: currentProgress >= 100
-  };
-}
-```
-
-## Reminder Configuration
-
-```bash
-# Set daily goal reminder at 20:00
-(crontab -l 2>/dev/null; echo "0 20 * * * export DISPLAY=:0 && notify-send 'Goal Check-in' 'How did you do today? Snap a photo of your progress!'") | crontab -
-
-# Multiple reminders
-(crontab -l 2>/dev/null;
- echo "30 8 * * * [reminder for morning goals]";
- echo "0 12 * * * [reminder for midday check]";
- echo "0 20 * * * [reminder for evening review]"
-) | crontab -
-```
+## Guidelines
+- **Integration**: Sync progress in `USER.md` and daily notes.
+- **Privacy**: Results stored locally; images uploaded only to authorized VLM APIs.
+- **Accuracy**: Advise users that VLM results are for reference and may require manual adjustment.
+- **Classification**: Automatically determine target type; allow manual override.
+- **STRICTLY English-only**. No Chinese characters.

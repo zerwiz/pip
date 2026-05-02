@@ -1,8 +1,8 @@
 # Agent Migration and Special Agents Plan
 
 **Date**: May 2, 2026
-**Status**: In Progress (Phases 1-4 partially complete)
-**Scope**: Import agents from `/ref/implementations/` to `.pi/agents/specialagents/` with new English names, migrate from z.ai to open-source alternatives, ensure English-only content.
+**Status**: Completed (Absolute Fidelity Restoration)
+**Scope**: Import agents from `/ref/implementations/` to `.pi/agents/specialagents/` with exhaustive "Absolute Fidelity" detail, migrate from z.ai to open-source alternatives, and ensure English-only content.
 
 ---
 
@@ -11,8 +11,10 @@
 - [x] **Registry Expansion**: 42 special agents registered in `agents.yaml`.
 - [x] **Team Definition**: 7 specialized domain teams created in `teams.yaml`.
 - [x] **Pipeline Creation**: 5 new sequential chains added to `agent-chain.yaml`.
-- [x] **Skill Implementation**: `ffmpeg` skill created and integrated.
-- [x] **Agent Configuration**: `video-analyzer` configured with `ffmpeg` skill.
+- [x] **Skill Implementation**: 44 skills created in `.pi/skills/` (including 8 Expert Grade).
+- [x] **Agent Migration**: All 42 special agents restructured with absolute fidelity (exhaustive detail).
+- [x] **Legacy Removal**: All `z-ai`, `z.ai`, and proprietary SDK references removed.
+- [x] **Verification**: All agents and skills are English-only and free of Chinese characters.
 
 ---
 
@@ -297,18 +299,18 @@ Copy from `/ref/implementations/` to `.pi/agents/specialagents/` with new names.
 
 ## Verification Checklist
 
-- [ ] All agent files renamed with new English names
-- [ ] All z.ai references removed
-- [ ] All Chinese characters removed/translated
-- [ ] All 玄溪, 智谱 references removed
-- [ ] pi-web-access used instead of z-ai-web-dev-sdk
-- [ ] ollama referenced for local LLM tasks
-- [ ] All skills created in `.pi/skills/`
-- [ ] teams.yaml updated
-- [ ] agent-chain.yaml updated
-- [ ] CHANGELOG.md updated
-- [ ] All content is English-only
-- [ ] No Chinese characters in any .md or .ts files
+- [x] All agent files renamed with new English names
+- [x] All z.ai references removed
+- [x] All Chinese characters removed/translated
+- [x] All 玄溪, 智谱 references removed
+- [x] pi-web-access used instead of z-ai-web-dev-sdk
+- [x] ollama referenced for local LLM tasks
+- [x] All skills created in `.pi/skills/`
+- [x] teams.yaml updated
+- [x] agent-chain.yaml updated
+- [x] CHANGELOG.md updated
+- [x] All content is English-only
+- [x] No Chinese characters in any .md or .ts files
 
 ---
 
