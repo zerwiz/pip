@@ -1,58 +1,194 @@
-# Homepage Building Agent Team
-# Each agent specializes in a different aspect of homepage creation
+# Agents Registry for sipatch agent discovery
+# Each agent is defined by their specialist_id for reliable identification
+# This file enables the sipatch agent to discover and dispatch all available agents
 
-homepage-builder:  # Primary team for building homepages
-  - design-agent
-  - content-agent  
-  - dev-agent
-  - research-agent
-  - marketing-agent
+# Headless browser automation agent
+bowser:
+  description: Headless browser automation agent using Playwright CLI. Use when you need headless browsing, parallel browser sessions, UI testing, screenshots, or web scraping.
+  specialist_id: bowser
+  models: nemotron-cascade-2:30b
+  color: orange
+  tools:
+    - read
+    - write
+    - ls
 
-seo-team:
-  - content-agent
-  - marketing-agent
-  - search-agent
-  - analytics-agent
+# Implementation and code generation agent
+developer:
+  description: Implementation and code generation specialist. English speaking, precise, and disciplined.
+  specialist_id: developer
+  models: null
+  tools:
+    - read
+    - write
+    - edit
+    - bash
+    - grep
+    - find
+    - ls
 
-creative-team:
-  - design-agent
-  - image-agent
-  - blog-agent
-  - podcast-agent
-  - vision-agent
+# Documentation and README generation agent
+documenter:
+  description: Documentation and README generation specialist. The Archivist of the team.
+  specialist_id: documenter
+  models: null
+  tools:
+    - read
+    - write
+    - edit
+    - grep
+    - find
+    - ls
 
-content-team:
-  - content-agent
-  - research-agent
-  - docx-agent
-  - pdf-agent
-  - blog-agent
+# Pi extensions expert agent
+ext-builder:
+  description: Pi extensions expert — knows how to build custom tools, event handlers, commands, shortcuts, state management, custom rendering, and tool overrides.
+  specialist_id: ext-builder
+  models: null
+  tools:
+    - read
+    - write
+    - edit
+    - bash
+    - grep
+    - find
+    - ls
 
-media-team:
-  - podcast-agent
-  - video-agent
-  - vision-agent
-  - media-agent
+# UI/UX implementation and component generation agent
+frontend-coder:
+  description: UI/UX implementation, component generation, and styling specialist.
+  specialist_id: frontend-coder
+  models: null
+  tools:
+    - read
+    - write
+    - edit
+    - bash
+    - grep
+    - find
+    - ls
 
-development-team:
-  - dev-agent
-  - web-agent
-  - webdev-agent
-  - code-agent
-  - fullstack-agent
+# Netlify troubleshooting agent
+netlify-troubleshooter:
+  description: CI/CD diagnostics, build-pipeline optimization, and dependency resolution for Netlify environments.
+  specialist_id: netlify-troubleshooter
+  models: gemini-2.5-flash-preview-09-2025
+  tools:
+    - read
+    - write
+    - edit
+    - bash
+    - grep
+    - find
+    - ls
 
-content-pipeline:
-  - research-agent
-  - content-agent
-  - design-agent
-  - dev-agent
+# Pi Coding Agent ecosystem specialist
+pi-dev-expert:
+  description: Specialized in the Pi Coding Agent ecosystem, including core primitives, extensions, skills, and terminal-first orchestration.
+  specialist_id: pi-dev-expert
+  models: null
+  tools:
+    - read
+    - write
+    - edit
+    - bash
+    - grep
+    - find
+    - ls
 
-psychology-team:
-  - anti-pua-agent
-  - psychology-agent
+# Plan critic agent
+plan-reviewer:
+  description: Plan critic — reviews, challenges, and validates implementation plans before they reach the builder.
+  specialist_id: plan-reviewer
+  models: null
+  tools:
+    - read
+    - grep
+    - find
+    - ls
 
-research-team:
-  - research-agent
-  - academic-agent
-  - news-agent
-  - fortune-agent
+# Architecture and implementation planning agent
+planner:
+  description: Architecture and implementation planning specialist. Designs risk-aware, actionable implementation strategies.
+  specialist_id: planner
+  models: null
+  tools:
+    - read
+    - grep
+    - find
+    - ls
+    - write
+
+# Code review and quality checks agent
+reviewer:
+  description: Code review and quality checks agent. The final line of defense. Objective, high-stakes, critical, and unforgiving.
+  specialist_id: reviewer
+  models: null
+  tools:
+    - read
+    - bash
+    - grep
+    - find
+    - ls
+    - write
+
+# Fast recon and codebase exploration agent
+scout:
+  description: Fast recon and codebase exploration agent. Specialized in discovering file paths, configurations, and documentation storage locations across the agent system.
+  specialist_id: scout
+  models:
+    - gpt-4-turbo-preview
+    - gpt-3.5-turbo
+    - o1-preview
+    - claude-3-5-sonnet-20240620
+    - gemini-1.5-pro
+    - mistral-large
+    - phi-3-medium-vision
+    - llama-3
+    - command-r-plus
+    - deepseek-v2-0725
+    - grok
+    - palm2
+    - qwen2.5-coder
+    - xai-grover
+    - deep-hybrid-v1.1
+    - llama3.1-instruct-405b
+    - llama3.2-vision
+    - llama3.3
+    - mistral-large2411
+    - mixtral-8x25b
+    - mixtral-8x7b
+    - phi-3.5-mini
+    - phi-3-medium
+    - gemma2-9b-it
+    - llava
+    - llama-vision
+    - qwen2-vl
+    - qwq32b
+    - gemma
+    - gpt-2
+  tools:
+    - write
+    - find
+    - grep
+    - read
+    - edit
+    - shell
+
+# Session management agent
+session-manager:
+  description: Session management agent for handling chat sessions, retrieving session metadata, managing session history, and coordinating multi-session operations. Use when you need to access session data, list sessions, or manage session lifecycle.
+  specialist_id: session-manager
+  models: opus
+  color: blue
+  skills:
+    - session-query
+    - session-list
+    - session-manage
+  tools:
+    - bash
+    - grep
+    - find
+    - file-manager
+    - jq
+    - csvkit

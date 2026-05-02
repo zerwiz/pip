@@ -1,5 +1,12 @@
 # 🚀 Migration Guide: Agent Extension Architecture
 
+**CRITICAL!!! ALL FILES SHOULD BE EXACTLY WHERE THEY ARE!!! NOTHING SHOULD BE DELETED OR RECREATED: ONLY EDITED!!!** 
+
+**USE EDIT TOOL**
+
+**Mission**
+Find the files and make they work from their filepath the y have now. DONT MOVE ANY FILES!! ONLY EDIT FILES!!! DONT MAKE NEW FILES!!!! 
+
 **For:** Developer team adopting the agent team extension system
 **Goal:** Simplify, consolidate, and document the architecture
 **Status:** Updated for new extension location strategy

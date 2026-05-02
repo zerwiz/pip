@@ -2,6 +2,19 @@
 
 A comprehensive multi-agent team for building professional, SEO-optimized, accessible, and conversion-focused homepages.
 
+**Critical**
+Every agent needs to be by their `specialist_id:`
+
+
+`agent-team.ts` file scans agents from these directories:
+- join(cwd, "agents")
+- join(cwd, ".claude", "agents")
+- join(cwd, ".pi", "agents")
+
+`scanAgentDirs` function that reads `.md` 
+`loadAgents` function 
+`agents.yaml` function 
+
 ## Available Agents
 
 ### 🎨 Core Building Agents
@@ -72,104 +85,106 @@ content-pipeline:
   - design-agent
   - dev-agent
 ```
+# Homepage Builder Agent Team Summary
 
-## Usage Examples
+## ✅ Successfully Created Homepage Builder Team
 
-### Build a Complete Homepage
-```bash
-pi "Build a homepage for my personal portfolio"
-```
+### 🎯 Core Agents (9 Specialized Agents)
 
-This will:
-1. Use research-agent to analyze market
-2. Use design-agent for layout
-3. Use content-agent for copy
-4. Use dev-agent to implement
-5. Use accessibility-agent to verify
-6. Use seo-agent to optimize
+1. **expert-agent** - Agent architecture and team orchestration expert
+2. **design-agent** - UI/UX specialist for visual homepage design
+3. **content-agent** - Copywriting and engagement optimization
+4. **dev-agent** - Code implementation for functionality
+5. **research-agent** - Market analysis and competitor research
+6. **marketing-agent** - Marketing strategy and CRO
+7. **seo-agent** - Search engine optimization
+8. **accessibility-agent** - WCAG compliance and inclusive design
+9. **image-agent** - Image selection and visual optimization
 
-### Focus on SEO
-```bash
-pi "Create a homepage for a local business, optimized for SEO"
-```
+### 📋 Additional Agents from Skills
 
-### Focus on Design
-```bash
-pi "Design a creative homepage for an art portfolio"
-```
+- **blog-agent** - Blog content creation
+- **podcast-agent** - Audio/podcast creation
+- **charts-agent** - Data visualization
+- **excel-agent** - Data analysis
+- **news-agent** - News aggregation
+- **docx-agent** - Document handling
+- **pdf-agent** - PDF creation
+- **ppt-agent** - Presentations
+- And more from your skills directory
 
-### Focus on Content
-```bash
-pi "Build a content hub with blog section"
-```
+### 🏆 Teams Created (16 Configured Teams)
 
-### Full Build Pipeline
-```bash
-pi --team homepage-builder "Create homepage"
-```
+The team can work in different modes:
 
-### Quick Visual Design
-```bash
-/pi/agents/design-agent.md "Create a homepage layout"
-```
+1. **homepage-builder-team** - Complete workflow
+2. **quick-build-team** - Rapid creation
+3. **accessibility-first-team** - Inclusive design
+4. **seo-optimization-team** - Search focus
+5. **creative-design-team** - Visual focus
+6. **business-site-team** - Business homepages
+7. **content-pipeline** - Research → Content → Design → Dev
+8. And 10 more specialized team configurations
 
-## Agent Communication
+### 📂 File Structure
 
-Agents work in coordinated pipeline:
+NEEDS TO BE FILLED!
 
-1. **Research phase**: research-agent analyzes market
-2. **Design phase**: design-agent + image-agent create visuals
-3. **Content phase**: content-agent + marketing-agent craft copy
-4. **Development phase**: dev-agent implements
-5. **SEO phase**: seo-agent optimizes
-6. **Accessibility phase**: accessibility-agent verifies
-7. **Review phase**: All agents review and refine
+## 📈 Capabilities
 
-## Best Practices
+### Full Homepage Build Pipeline
+1. **Research** → `research-agent` analyzes market
+2. **Design** → `design-agent` creates layouts
+3. **Content** → `content-agent` writes copy
+4. **Development** → `dev-agent` implements code
+5. **SEO** → `seo-agent` optimizes visibility
+6. **Accessibility** → `accessibility-agent` ensures compliance
 
-1. **Start with research**: Let research-agent analyze first
-2. **Use appropriate team**: Choose team matching your goal
-3. **Let agents collaborate**: Trust their expertise
-4. **Review outputs**: Check all agent recommendations
-5. **Iterate**: Refine based on feedback
+### Specialized Workflows
+- **Quick Build**: 5-minute homepage
+- **Design-Focused**: Beautiful layouts
+- **SEO-Optimized**: High search visibility
+- **Accessible**: WCAG compliant design
 
-## Skills Integration
+### Team Orchestration
+- Automatic pipeline execution
+- Collaborative agent work
+- Comprehensive quality assurance
+- Continuous optimization
 
-Each agent can call relevant skills from `/home/zerwiz/pihomepage/skills`:
-- Use docx-agent for documents
-- Use charts-agent for data viz
-- Use image-agent for visual assets
-- Use content-agent for copy
-- And more...
+## 🎨 Skills Integration
 
-## Team Orchestration
+All agents can call Pi skills from your skills directory:
+- Use `docx-agent` for documents
+- Use `charts-agent` for data viz
+- Use `image-agent` for visuals
+- And any other skills you load
 
-The team orchestrates automatically:
-- Primary team runs on session start
-- Agents can be called individually for specific tasks
-- Skills are loaded on-demand
-- Results are collected and refined
+## 🔧 Configuration Files Created
 
-## Session Management
+1. **`README.md`** - Team documentation
+2. **`teams.yaml`** - Team configurations (16 teams)
+3. **`quickstart.md`** - Usage guide
+4. **`SUMMARY.md`** - Creation summary (this file)
+5. **`agenttemplate.md`** - Template for new agents
+6. **`agents.yaml`** - Agent list
+7. Individual agent definition files
 
-Use for building homepages:
-```bash
-pi --session homepages.json "Build homepage"
-```
+## 📝 Next Steps
 
-Or run individual agents:
-```bash
-pi/design-agent.md "Create layout for"
-```
+1. **Test the Team**: `pi "Build a test homepage"`
+2. **Use Individual Agents**: Call specific agents for focus
+3. **Add Skills**: Load relevant skills as needed
+4. **Customize**: Modify agent prompts for your needs
+5. **Iterate**: Refine based on results
 
-## Contributing
+## 🌟 Benefits
 
-To add new agents:
-1. Copy `expert-agent.md` as template
-2. Define specific role and tools
-3. Add to `agents.yaml`
-4. Document in this README
+- **Comprehensive**: Full homepage build capability
+- **Specialized**: Expert-focused agents
+- **Flexible**: Multiple team configurations
+- **Documented**: Clear usage instructions
+- **Extensible**: Easy to add new agents
+- **Professional**: Business-quality output
 
-## License
-
-MIT License - See individual skill files for specific terms.
+The homepage builder team is now ready to create professional, SEO-optimized, and accessible homepages with minimal effort!

@@ -24,8 +24,8 @@ import {
   exportMemory,
   cleanupExports,
   listExportFormats,
-} from "./util/memory-export";
-import { handleMemoryExport } from "./util/memory-tools";
+} from "../../util/memory-export";
+import { handleMemoryExport } from "../../util/memory-tools";
 import { Text, truncateToWidth, visibleWidth } from "@mariozechner/pi-tui";
 import { spawn } from "child_process";
 import {
@@ -39,7 +39,7 @@ import {
 } from "fs";
 import { join, resolve } from "path";
 import { homedir } from "os";
-import { applyExtensionDefaults } from "./themeMap.ts";
+import { applyExtensionDefaults } from "../src/ui/themeMap";
 
 // ── Types & Interfaces ───────────────────────────
 
@@ -398,16 +398,6 @@ function getAllAgentsCatalog(allAgentDefs: AgentDef[]): string {
         `### ${displayName(d.name)} (ID: \`${d.name}\`)\n- **Role:** ${d.description}\n- **Tools:** ${d.tools}`,
     )
     .join("\n\n");
-}
-
-/**
- * Generates a grouped list of specialists by their defined team context.
- */
-function getTeamsCatalog(teams: Record<string, string[]>): string {
-  if (Object.keys(teams).length === 0) return "No teams defined.";
-  return Object.entries(teams)
-    .map(([name, members]) => `- **${name}**: ${members.join(", ")}`)
-    .join("\n");
 }
 
 // ── The Extension ────────────────────────────────

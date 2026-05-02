@@ -41,64 +41,99 @@ Main project workspace directory containing:
 ```
 /home/zerwiz/pip/
 ├── justfile
-
-pip/.pi/
-├── damage-control-rules.yaml
-├── justfilechain
-├── package.json
-├── settings.json
-├── teams.yaml
-├── tsconfig.json
-├── .context/
-│   └── [context data]
-├── agent-sessions/
-│   └── [session data]
-├── agents/
-│   ├── agents/
-│   │   ├── accessibility-agent.md
-│   │   ├── content-agent.md
-│   │   ├── design-agent.md
-│   │   ├── dev-agent.md
-│   │   ├── documenter.md
-│   │   ├── expert-agent.md
-│   │   ├── ext-builder.md
-│   │   ├── frontendcoder.md
-│   │   ├── image-agent.md
-│   │   ├── marketing-agent.md
-│   │   ├── netlify-agent.md
-│   │   ├── pi-dev-expert.md
-│   │   ├── planner.md
-│   │   ├── plan-reviewer.md
-│   │   ├── quickstart.md
-│   │   ├── red-team.md
-│   │   ├── reviewer.md
-│   │   ├── scout.md
-│   │   ├── session-manager.md
-│   │   └── seo-agent.md
-│   ├── util/
-│   │   ├── memory-export.ts
-│   │   └── memory-tools.ts
-│   ├── homepageteam/
-│   │   └── ref/
-│   ├── README.md
-│   ├── SUMMARY.md
-│   ├── agent-chain.yaml
-│   ├── agents.yaml
-│   ├── agenttemplate.md
+│   └── [Just command runner for build/CI]
+│
+├── .pi/
+│   ├── damage-control-rules.yaml
+│   ├── justfilechain
+│   ├── package.json
+│   ├── settings.json
 │   ├── teams.yaml
-│   └── developer.md
-├── docs/
-│   ├── STRUCTURE.md
-│   ├── api/
-│   ├── config/
+│   ├── tsconfig.json
+│   ├── .context/
+│   │   └── [context data]
+│   ├── agent-sessions/
+│   │   └── [session data]
+│   ├── agents/
+│   │   ├── agents/
+│   │   │   ├── accessibility-agent.md
+│   │   │   ├── content-agent.md
+│   │   │   ├── design-agent.md
+│   │   │   ├── dev-agent.md
+│   │   │   ├── documenter.md
+│   │   │   ├── expert-agent.md
+│   │   │   ├── ext-builder.md
+│   │   │   ├── frontendcoder.md
+│   │   │   ├── image-agent.md
+│   │   │   ├── marketing-agent.md
+│   │   │   ├── netlify-agent.md
+│   │   │   ├── pi-dev-expert.md
+│   │   │   ├── planner.md
+│   │   │   ├── plan-reviewer.md
+│   │   │   ├── quickstart.md
+│   │   │   ├── red-team.md
+│   │   │   ├── reviewer.md
+│   │   │   ├── scout.md
+│   │   │   ├── session-manager.md
+│   │   │   └── seo-agent.md
+│   │   ├── util/
+│   │   │   ├── memory-export.ts
+│   │   │   └── memory-tools.ts
+│   │   ├── homepageteam/
+│   │   │   └── ref/
+│   │   ├── README.md
+│   │   ├── SUMMARY.md
+│   │   ├── agent-chain.yaml
+│   │   ├── agents.yaml
+│   │   ├── agenttemplate.md
+│   │   ├── teams.yaml
+│   │   └── developer.md
+│   ├── docs/
+│   │   ├── STRUCTURE.md
+│   │   ├── api/
+│   │   ├── config/
+│   │   ├── extensions/
+│   │   ├── py/
+│   │   ├── src/
+│   │   └── index/
 │   ├── extensions/
+│   │   └── [Root extensions - boot regular www.pi.dev way]
+│   ├── npm/
+│   │   └── [npm packages]
 │   ├── py/
+│   │   ├── model_resolver.py
+│   │   ├── model_selector.py
+│   │   ├── models.py
+│   │   ├── prompt_templates.py
+│   │   ├── test_memory_export.py
+│   │   └── test_openai_model_filtering.py
+│   ├── plans/
+│   │   └── [Agent planning documents]
+│   │       ├── [Internal PI files]
+│   │       └── [Organized documentation]
+│   └── themes/
+│       ├── catppuccin-mocha.json
+│       ├── cyberpunk.json
+│       ├── dracula.json
+│       ├── everforest.json
+│       ├── gruvbox.json
+│       ├── midnight-ocean.json
+│       ├── nord.json
+│       ├── ocean-breeze.json
+│       ├── rose-pine.json
+│       ├── synthwave.json
+│       └── tokyo-night.json
+│
+├── .pi/extensions/
 │   ├── src/
-│   └── index/
-├── extensions/
-│   ├── theme-cycler.ts         # Boots regular www.pi.dev way
-│   └── themeMap.ts             # Boots regular www.pi.dev way
-│   ├── ui/                     # TUI EXTENSIONS (DO NOT BOOT REGULAR WAY)
+│   │   └── ui/
+│   │       ├── agent-widget.ts
+│   │       ├── conversation-viewer.test.ts
+│   │       ├── conversation-viewer.ts
+│   │       ├── manager.ts
+│   │       ├── theme-cycler.ts
+│   │       └── themeMap.ts
+│   ├── ui/
 │   │   ├── agent-chain.ts
 │   │   ├── agent-team-chain.ts
 │   │   ├── agent-team.ts
@@ -106,25 +141,26 @@ pip/.pi/
 │   │   ├── pi-pi.ts
 │   │   ├── subagent-widget.ts
 │   │   └── tilldone.ts
-│   ├── util/                   # Feature extensions (DO NOT BOOT REGULAR WAY)
-│   │   ├── agent-switch.ts
-│   │   ├── damage-control.ts
-│   │   ├── justfilechain
-│   │   ├── manifest.ts
-│   │   ├── memory-export.ts
-│   │   ├── memory-tools.ts
-│   │   ├── memory.ts
-│   │   ├── minimal.ts
-│   │   ├── pi-loader.ts
-│   │   ├── pure-focus.ts
-│   │   ├── purpose-gate.ts
-│   │   ├── session-replay.ts
-│   │   ├── system-select.ts
-│   │   ├── tool-counter-widget.ts
-│   │   ├── tool-counter.ts
-│   │   └── types.ts
-│   └── src/                    # Extra functions (DO NOT BOOT REGULAR WAY)
-│       └── ui/
+│   └── util/
+│       ├── agent-switch.ts
+│       ├── damage-control.ts
+│       ├── manifest.ts
+│       ├── memory-export.ts
+│       ├── memory-tools.ts
+│       ├── memory.ts
+│       ├── minimal.ts
+│       ├── pi-loader.ts
+│       ├── pure-focus.ts
+│       ├── purpose-gate.ts
+│       ├── session-replay.ts
+│       ├── system-select.ts
+│       ├── tool-counter-widget.ts
+│       ├── tool-counter.ts
+│       └── types.ts
+│
+├── extensions/
+│   └── [Future new extensions - for new development]
+│
 ├── npm/
 │   └── [npm packages]
 ├── py/
@@ -134,12 +170,6 @@ pip/.pi/
 │   ├── prompt_templates.py
 │   ├── test_memory_export.py
 │   └── test_openai_model_filtering.py
-├── src/
-│   └── ui/
-│       ├── agent-widget.ts
-│       ├── conversation-viewer.test.ts
-│       ├── conversation-viewer.ts
-│       └── manager.ts
 ├── plans/
 │   └── [Agent planning documents]
 │       ├── [Internal PI files]
@@ -164,15 +194,15 @@ pip/.pi/
 
 ### Root Extensions (Boot Regular www.pi.dev Way)
 **Location**: `/home/zerwiz/pip/.pi/extensions/`
-- `theme-cycler.ts`
-- `themeMap.ts`
+- **Empty** - All extensions now in subdirectories
+- theme-cycler.ts and themeMap.ts moved to `.pi/extensions/src/ui/`
 
 These extensions boot the REGULAR www.pi.dev way as they always have.
 
 ---
 
 ### TUI Extensions (DO NOT BOOT REGULAR WAY)
-**Location**: `/home/zerwiz/pip/.pi/extensions/ui/`
+**Location**: `/home/zerwiz/pip/.pi/extensions/ui/` (TUI Extensions)
 - `agent-chain.ts`
 - `agent-team-chain.ts`
 - `agent-team.ts`
@@ -186,10 +216,9 @@ These extensions boot the REGULAR www.pi.dev way as they always have.
 ---
 
 ### Feature Extensions (DO NOT BOOT REGULAR WAY)
-**Location**: `/home/zerwiz/pip/.pi/extensions/util/`
+**Location**: `/home/zerwiz/pip/.pi/extensions/util/` (Feature Utilities)
 - `agent-switch.ts`
 - `damage-control.ts`
-- `justfilechain`
 - `manifest.ts`
 - `memory-export.ts`
 - `memory-tools.ts`
@@ -209,10 +238,16 @@ These extensions boot the REGULAR www.pi.dev way as they always have.
 ---
 
 ### Extra Functions (DO NOT BOOT REGULAR WAY)
-**Location**: `/home/zerwiz/pip/.pi/extensions/src/`
-- Contains `ui/` subdirectory
-- These are extra function extensions
-- Must boot as the `justfile` at `/home/zerwiz/pip/justfile` specifies. DO NOT BOOT LIKE REGULAR PI EXTENSIONS!!!
+**Location**: `/home/zerwiz/pip/.pi/extensions/src/` (Extra Functions)
+- `ui/` subdirectory with:
+  - `agent-widget.ts`
+  - `conversation-viewer.test.ts`
+  - `conversation-viewer.ts`
+  - `manager.ts`
+  - `theme-cycler.ts`
+  - `themeMap.ts`
+
+**These are extra function extensions** and must boot as the `justfile` at `/home/zerwiz/pip/justfile` specifies. DO NOT BOOT LIKE REGULAR PI EXTENSIONS!!!
 
 ---
 
@@ -277,8 +312,8 @@ These agents assist with development:
 **IMPORTANT**: Only root extensions boot regular www.pi.dev way!!!
 
 #### Root Extensions (www.pi.dev way)
-- `theme-cycler.ts` - Theme cycling (boots regular way)
-- `themeMap.ts` - Theme mappings (boots regular way)
+- `theme-cycler.ts` - Theme cycling (boots regular way) - now in `.pi/extensions/src/ui/`
+- `themeMap.ts` - Theme mappings (boots regular way) - now in `.pi/extensions/src/ui/`
 
 #### TUI Extensions (justfile way)
 Located in `/home/zerwiz/pip/.pi/extensions/ui/`
@@ -293,9 +328,10 @@ Located in `/home/zerwiz/pip/.pi/extensions/util/`
 - DO NOT BOOT REGULAR PI DEV WAY!!!
 
 #### Extra Functions (justfile way)
-Located in `/home/zerwiz/pip/.pi/extensions/src/`
+Located in `/home/zerwiz/pip/.pi/extensions/src/` and `.pi/extensions/src/ui/`
 - Boot only as specified in `/home/zerwiz/pip/justfile`
 - These are extra function extensions
+- Now includes theme-cycler.ts and themeMap.ts in `.pi/extensions/src/ui/`
 - DO NOT BOOT REGULAR PI DEV WAY!!!
 
 ### 6. Python Modules (`py/`)
