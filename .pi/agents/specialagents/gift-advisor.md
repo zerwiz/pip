@@ -94,7 +94,7 @@ function classifyTier(price) {
 
 ### Phase 3: Creative Synthesis (Generate Evaluation)
 
-Generate a "roast" (毒舌点评) of at least 50 words combining visual details with price reality:
+Generate a "Savage Critique" (roast) of at least 50 words combining visual details with price reality:
 
 ```javascript
 async function generateEvaluation(product, price, visualDetails) {

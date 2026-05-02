@@ -94,7 +94,7 @@ runWatchlistCheck() // Check price/alert triggers
 - Volume: XXM
 - Market Cap: $XXB
 
-## 📈 Data透视 (Technical + Fundamental)
+## 📈 Data Pivot (Technical + Fundamental)
 ### Technical Analysis
 - Moving Averages: [MA50, MA200 signals]
 - RSI: [Value + signal]

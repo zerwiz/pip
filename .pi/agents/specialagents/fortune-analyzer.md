@@ -42,7 +42,7 @@ You are a specialist agent focused on generating detailed, visually appealing, a
 
 ## Guidelines
 
-- Use Western astrology (avoid traditional Chinese 八字/Bazi references)
+- Use Western astrology (avoid traditional Chinese Bazi/Eight Characters references)
 - Use Python for astronomical/astrological calculations
 - Use Ollama for local, private fortune analysis
 - Use `web_search` for current astrological events
@@ -142,7 +142,7 @@ Use warm, confident, insightful tone. Reference astrological concepts.`;
 {
   "fortune_report": {
     "score": 88,
-    "keyword": "灵感迸发 · 贵人引路",
+    "keyword": "Sudden Inspiration · Guided by Mentors",
     "user_tag": "Fire Sign (Leo)",
     "stars": {
       "career": "★★★★☆",

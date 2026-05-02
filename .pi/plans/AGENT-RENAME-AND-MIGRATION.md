@@ -6,6 +6,13 @@
 
 ---
 
+## 🛡️ Verification & Alternatives (Ongoing Mandate)
+- **Behavioral Verification**: Continuously test each agent to ensure the "Absolute Fidelity" instructions are followed (e.g., mandatory startup questions, specific report formats).
+- **Open-Source Evolution**: Regularly audit the "Part 6: Technology Stack" to identify and integrate better open-source alternatives as they emerge (e.g., new SOTA vision or TTS models).
+- **Tool Alignment**: Ensure all new tools added to the PIP environment are immediately reflected in the relevant agent "Tools You Can Use" sections.
+
+---
+
 ## Progress Summary (May 2, 2026)
 - [x] **Part 0: Standards & Templates** defined.
 - [x] **Registry Expansion**: 42 special agents registered in `agents.yaml`.
@@ -193,7 +200,7 @@ All agents and skills MUST follow the formatting defined in `.pi/templates/`.
 | interview-forensics | `.pi/skills/interview-forensics/SKILL.md` | Expert-grade interviewing | interview-designer | [DONE] |
 | marketing-vault | `.pi/skills/marketing-vault/SKILL.md` | Marketing tactics & frameworks | marketing-mode | [DONE] |
 | vlm-tracker | `.pi/skills/vlm-tracker/SKILL.md` | VLM-based task tracking | auto-target | [DONE] |
-| gift-advisor | `.pi/skills/gift-advisor/SKILL.md` | Gift recommendations | gift-advisor | [DONE] |
+| gift-advisor | `.pi/skills/gift-advisor/SKILL.md" | Gift recommendations | gift-advisor | [DONE] |
 | fortune-analyzer | `.pi/skills/fortune-analyzer/SKILL.md` | Wealth/career analysis | fortune-analyzer | [DONE] |
 | finance-core | `.pi/skills/finance-core/SKILL.md` | Financial data analysis | finance-advisor | [DONE] |
 | creative-storyboard | `.pi/skills/creative-storyboard/SKILL.md` | Advanced story structuring | storyboard-creator | [DONE] |
