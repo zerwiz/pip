@@ -1,5 +1,5 @@
 {
-  "model": ,
+  "model": "openrouter/google/gemini-3-flash-preview",
   "enableSkillCommands": true,
   "skills": [],
   "agents": [".pi/agents"]

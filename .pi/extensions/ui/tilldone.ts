@@ -20,7 +20,6 @@
  * Usage: pi -e extensions/tilldone.ts
  */
 
-import { StringEnum } from "@mariozechner/pi-ai";
 import type {
   ExtensionAPI,
   ExtensionContext,
@@ -57,15 +56,15 @@ interface TillDoneDetails {
 }
 
 const TillDoneParams = Type.Object({
-  action: StringEnum([
-    "new-list",
-    "add",
-    "toggle",
-    "remove",
-    "update",
-    "list",
-    "clear",
-  ] as const),
+  action: Type.Union([
+    Type.Literal("new-list"),
+    Type.Literal("add"),
+    Type.Literal("toggle"),
+    Type.Literal("remove"),
+    Type.Literal("update"),
+    Type.Literal("list"),
+    Type.Literal("clear"),
+  ]),
   text: Type.Optional(
     Type.String({
       description: "Task text (for add/update), or list title (for new-list)",

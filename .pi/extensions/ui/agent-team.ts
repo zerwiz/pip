@@ -38,6 +38,7 @@ import {
   lstatSync,
 } from "fs";
 import * as path from "path";
+const { join, resolve } = path;
 import { homedir } from "os";
 import { applyExtensionDefaults } from "../src/ui/themeMap";
 
@@ -342,7 +343,7 @@ function stringifyTeamsYaml(teams: Record<string, string[]>): string {
 function parseAgentFile(filePath: string): AgentDef | null {
   try {
     const raw = readFileSync(filePath, "utf-8");
-    const match = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+    const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
     if (!match) return null;
 
     const frontmatter: Record<string, string> = {};
@@ -452,35 +453,14 @@ export default function (pi: ExtensionAPI) {
     allAgentDefs = scanAgentDirs(cwd);
     const teamsPath = join(cwd, ".pi", "agents", "teams.yaml");
     if (existsSync(teamsPath)) {
-      try {
-        teams = parseTeamsYaml(readFileSync(teamsPath, "utf-8"));
-      } catch {
+    try {
+      teams = parseTeamsYaml(readFileSync(teamsPath, "utf-8"));
+    } catch {
         teams = {};
       }
     }
 
     // Default fallback roster
-    if (Object.keys(teams).length === 0) {
-      teams = { all: allAgentDefs.map((d) => d.name) };
-    }
-  }
-        }
-      } catch (e) {
-        // If YAML parsing fails, continue with scanned agents only
-      }
-    }
-
-    // Load teams configuration
-    const teamsPath = path.join(cwd, ".pi", "agents", "teams.yaml");
-    if (existsSync(teamsPath)) {
-      try {
-        teams = parseTeamsYaml(readFileSync(teamsPath, "utf-8"));
-      } catch {
-        teams = {};
-      }
-    }
-
-    // Default fallback roster - use allAgentDefs if no teams defined
     if (Object.keys(teams).length === 0) {
       teams = { all: allAgentDefs.map((d) => d.name) };
     }
@@ -926,14 +906,20 @@ export default function (pi: ExtensionAPI) {
       try {
         // Phase 1: Scout
         if (upd) upd({ content: [{ type: "text", text: "🔍 Starting Scout Phase..." }] });
-        await dispatchAgent("scout", `Perform a deep reconnaissance of the codebase related to: ${task}`, ctx, signal);
-        
+        const scoutResult = await dispatchAgent("scout", `Perform a deep reconnaissance of the codebase related to: ${task}`, ctx, signal);
+
+        // 🔥 Show what the scout found
+        ctx.ui.notify(`### 🔍 Scout Findings\n${scoutResult.output}`, "info");
+
         // Phase 2: Planner
         planStatus = "planning";
         updateWidget();
         if (upd) upd({ content: [{ type: "text", text: "🧠 Starting Planning Phase..." }] });
         const planResult = await dispatchAgent("planner", `Generate a detailed implementation plan for: ${task}. Save it to .pi/planning/`, ctx, signal);
-        
+
+        // 🔥 Show the proposed plan
+        ctx.ui.notify(`### 🧠 Proposed Plan\n${planResult.output}`, "success");
+
         // Extract plan path from output if possible (heuristic)
         const pathMatch = planResult.output.match(/\.pi\/planning\/[^\s]+\.md/);
         if (pathMatch) currentPlanPath = pathMatch[0];
@@ -942,49 +928,54 @@ export default function (pi: ExtensionAPI) {
         planStatus = "reviewing";
         updateWidget();
         if (upd) upd({ content: [{ type: "text", text: "🛡️ Starting Review Phase..." }] });
-        await dispatchAgent("plan-reviewer", `Critically review the latest plan in .pi/planning/.`, ctx, signal);
+        const reviewResult = await dispatchAgent("plan-reviewer", `Critically review the latest plan in .pi/planning/.`, ctx, signal);
+
+        // 🔥 Show the reviewer's critique
+        ctx.ui.notify(`### 🛡️ Reviewer Critique\n${reviewResult.output}`, "warning");
 
         planStatus = "awaiting_approval";
         updateWidget();
 
         return {
-          content: [{ type: "text", text: `### Planning Complete\nPlan: ${currentPlanPath || "check .pi/planning/"}\nStatus: Awaiting Approval\n\nUse the **approve_plan** tool to proceed.` }],
+          content: [{ type: "text", text: `### Planning Complete\nPlan: ${currentPlanPath || "check .pi/planning/"}\nStatus: Awaiting Approval\n\n**Review the logs above.** Use the **approve_plan** tool to proceed if it looks good, or tell me to revise the plan.` }],
         };
       } catch (err) {
         planStatus = "idle";
         isPlanModeActive = false;
         updateWidget();
-        return { content: [{ type: "text", text: `Planning failed: ${err}` }] };
-      }
-    },
-  });
+        return {
+          content: [{ type: "text", text: `Planning failed: ${err}` }],
+          details: { phase: "scout", status: "error" },
+        };
+      },
+    });
 
-  pi.registerTool({
-    name: "approve_plan",
-    label: "Approve Plan",
-    description: "Approve the generated plan and unlock implementation agents.",
-    parameters: Type.Object({}),
-    async execute(_id, _params, _sig, _upd, _ctx) {
-      if (!isPlanModeActive) return { content: [{ type: "text", text: "Not in plan mode." }] };
-      planStatus = "approved";
-      updateWidget();
-      return { content: [{ type: "text", text: "✅ Plan approved. Implementation agents unlocked." }] };
-    },
-  });
+    pi.registerTool({
+      name: "approve_plan",
+      label: "Approve Plan",
+      description: "Approve the generated plan and unlock implementation agents.",
+      parameters: Type.Object({}),
+      async execute(_id, _params, _sig, _upd, _ctx) {
+        if (!isPlanModeActive) return { content: [{ type: "text", text: "Not in plan mode." }], details: { status: "error" } };
+        planStatus = "approved";
+        updateWidget();
+        return { content: [{ type: "text", text: "✅ Plan approved. Implementation agents unlocked." }], details: { status: "approved" } };
+      },
+    });
 
-  pi.registerTool({
-    name: "exit_plan_mode",
-    label: "Exit Plan Mode",
-    description: "Restore regular operation.",
-    parameters: Type.Object({}),
-    async execute(_id, _params, _sig, _upd, _ctx) {
-      isPlanModeActive = false;
-      planStatus = "idle";
-      currentPlanPath = null;
-      updateWidget();
-      return { content: [{ type: "text", text: "Exited plan mode." }] };
-    },
-  });
+    pi.registerTool({
+      name: "exit_plan_mode",
+      label: "Exit Plan Mode",
+      description: "Restore regular operation.",
+      parameters: Type.Object({}),
+      async execute(_id, _params, _sig, _upd, _ctx) {
+        isPlanModeActive = false;
+        planStatus = "idle";
+        currentPlanPath = null;
+        updateWidget();
+        return { content: [{ type: "text", text: "Exited plan mode." }], details: { status: "idle" } };
+      },
+    });
 
   pi.registerTool({
     name: "switch_team",
@@ -1073,7 +1064,7 @@ export default function (pi: ExtensionAPI) {
 
       let output = "### Agent Tree\n";
       const sortedDirs = Object.keys(groups).sort();
-      
+
       for (const dir of sortedDirs) {
         output += `\n**${dir}/**\n`;
         const agents = groups[dir].sort((a, b) => a.name.localeCompare(b.name));
@@ -1149,11 +1140,13 @@ export default function (pi: ExtensionAPI) {
         if (agentStates.has(key))
           return {
             content: [{ type: "text", text: `Specialist already active.` }],
+            details: { action, agent, status: "error" },
           };
         const def = allAgentDefs.find((d) => d.name.toLowerCase() === key);
         if (!def)
           return {
             content: [{ type: "text", text: `Specialist ID unknown.` }],
+            details: { action, agent, status: "error" },
           };
 
         const sess = path.join(
@@ -1185,10 +1178,11 @@ export default function (pi: ExtensionAPI) {
           content: [
             { type: "text", text: `Enlisted ${displayName(def.name)}.` },
           ],
+          details: { action, agent, status: "done" },
         };
       } else {
         if (!agentStates.has(key))
-          return { content: [{ type: "text", text: `ID not active.` }] };
+          return { content: [{ type: "text", text: `ID not active.` }], details: { action, agent, status: "error" } };
         agentStates.delete(key);
         if (teams[activeTeamName])
           teams[activeTeamName] = teams[activeTeamName].filter(
@@ -1198,6 +1192,7 @@ export default function (pi: ExtensionAPI) {
         updateWidget();
         return {
           content: [{ type: "text", text: `Specialist decommissioned.` }],
+          details: { action, agent, status: "done" },
         };
       }
     },
@@ -1225,8 +1220,15 @@ export default function (pi: ExtensionAPI) {
           content: [{ type: "text", text: `Piping context to: ${agent}...` }],
         });
 
+      // 🔥 Show exactly what the Dispatcher is asking
+      ctx.ui.notify(`### 📤 Dispatcher -> [${agent}]\n${task}`, "muted");
+
       const res = await dispatchAgent(agent, task, ctx, signal);
       const status = res.exitCode === 0 ? "SUCCESS" : "FAILURE";
+
+      // 🔥 Show exactly what the sub-agent returned
+      const logType = res.exitCode === 0 ? "info" : "error";
+      ctx.ui.notify(`### 📥 [${agent}] -> Dispatcher\n${res.output}`, logType);
 
       return {
         content: [
@@ -1236,8 +1238,7 @@ export default function (pi: ExtensionAPI) {
           },
         ],
       };
-    },
-    renderCall: (args, theme) => {
+    },    renderCall: (args, theme) => {
       const task = (args as any).task || "";
       const preview = task.length > 50 ? task.slice(0, 47) + "..." : task;
       return new Text(
@@ -1308,8 +1309,18 @@ export default function (pi: ExtensionAPI) {
 
   // ── Commands ─────────────────────────────────
 
-  pi.registerCommand("agents-team", {
-    description: "Switch active context.",
+  pi.registerCommand("thinking", {
+    description: "Change the agent's thinking level (off, low, medium, high)",
+    handler: async (_args, ctx) => {
+      const levels = ["off", "low", "medium", "high"];
+      const choice = await ctx.ui.select("Select Thinking Level", levels);
+      if (choice) {
+        pi.setThinkingLevel(choice as any);        ctx.ui.notify(`Thinking level set to: ${choice.toUpperCase()}`, "success");
+      }
+    },
+  });
+
+  pi.registerCommand("agents-team", {    description: "Switch active context.",
     handler: async (_args, ctx) => {
       const names = Object.keys(teams);
       if (names.length === 0) return;
@@ -1473,15 +1484,16 @@ ${teamsList}
     widgetCtx = ctx;
     contextWindow = ctx.model?.contextWindow || 0;
 
-    loadAgents(ctx.cwd);
-    if (Object.keys(teams).length > 0) {
+    // Set standard thinking level to high
+    pi.setThinkingLevel("high");
+
+    loadAgents(ctx.cwd);    if (Object.keys(teams).length > 0) {
       activateTeam(activeTeamName || Object.keys(teams)[0]);
     }
 
     const exportFormats = listExportFormats();
 
-    setActiveTools([
-      "dispatch_agent",
+    pi.setActiveTools([      "dispatch_agent",
       "manage_team",
       "switch_team",
       "list_active_team",

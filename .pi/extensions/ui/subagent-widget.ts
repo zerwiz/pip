@@ -21,7 +21,7 @@ import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
 import { applyExtensionDefaults } from "../src/ui/themeMap.js";
-import { buildMemoryBlock } from "./memory.ts";
+import { buildMemoryBlock } from "../util/memory.ts";
 
 interface AgentDef {
 	name: string;
@@ -51,7 +51,7 @@ export default function (pi: ExtensionAPI) {
 	function parseAgentFile(filePath: string): AgentDef | null {
 		try {
 			const raw = fs.readFileSync(filePath, "utf-8");
-			const match = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+			const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
 			if (!match) return null;
 
 			const frontmatter: Record<string, string> = {};
