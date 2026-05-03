@@ -638,7 +638,7 @@ export default function (pi: ExtensionAPI) {
         wrapped.push(...wrapText(content, contentWidth));
       }
 
-      if (wrapped.length === 0) wrapped.push("initializing child process...");
+      if (wrapped.length === 0) wrapped.push("initializing child process. Waiting for data....");
 
       const visible = wrapped.slice(-8);
 
