@@ -108,7 +108,8 @@ All 14 documents at a glance:
 | 11 | [PLAN-MODE.md](PLAN-MODE.md) | Features | ~101 |
 | 12 | [UPDATE-2026-05-02.md](UPDATE-2026-05-02.md) | History | ~48 |
 | 13 | [HANDOFF_PROTOCOL.md](HANDOFF_PROTOCOL.md) | Operations | — |
-| 14 | [pi-documentation-links.md](pi-documentation-links.md) | Index | — |
+| 14 | [JUSTFILE-PLAY-BUTTON-ISSUE.md](JUSTFILE-PLAY-BUTTON-ISSUE.md) | Troubleshooting | — |
+| 15 | [pi-documentation-links.md](pi-documentation-links.md) | Index | — |
 
 ---
 
@@ -129,10 +130,13 @@ All 14 documents at a glance:
 - [UTIL-EXTENSIONS-USAGE.md](UTIL-EXTENSIONS-USAGE.md) — `util/` details
 - [MAIN-UI-EXTENSIONS-USAGE.md](MAIN-UI-EXTENSIONS-USAGE.md) — `ui/` details
 
+### Troubleshooting
+- [JUSTFILE-PLAY-BUTTON-ISSUE.md](JUSTFILE-PLAY-BUTTON-ISSUE.md) — Play button not working
+
 ### History & Migration
 - [MIGRATION-GUIDE.md](MIGRATION-GUIDE.md) — Architecture migration
 - [UPDATE-2026-05-02.md](UPDATE-2026-05-02.md) — Latest system update
 
 ---
 
-**Total Documents**: 14 | **Total Lines**: ~3500+
+**Total Documents**: 15 | **Total Lines**: ~3700+
