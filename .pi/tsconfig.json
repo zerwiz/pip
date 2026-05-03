@@ -25,6 +25,7 @@
     "extensions/**/*.ts",
     "extensions/src/**/*.ts",
     "themes/**/*.json",
+    "docs/pure-focus.ts",
   ],
   "exclude": ["node_modules", "ref", "planning"],
 }

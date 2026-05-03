@@ -8,10 +8,11 @@ Complete documentation for the PIP agent platform, organized by category.
 |------|----------|
 | Full project structure | [STRUCTURE.md](STRUCTURE.md) |
 | How to run extensions | [JUSTFILE-STARTUP-MECHANISM.md](JUSTFILE-STARTUP-MECHANISM.md) |
+| Extension system docs | [../extensions/README.md](../extensions/README.md) |
 | Extension usage maps | [COMBINED-EXTENSIONS-USAGE.md](COMBINED-EXTENSIONS-USAGE.md) |
 | Agent YAML configs | [AGENT-YAML-CONFIGURATION.md](AGENT-YAML-CONFIGURATION.md) |
 | Migration guide | [MIGRATION-GUIDE.md](MIGRATION-GUIDE.md) |
-| Daily checklist | [CHECKLIST.md](CHECKLIST.md) |
+| Daily checklist | [CHECKLIST.md](../agents/CHECKLIST.md) |
 
 ---
 
@@ -77,7 +78,8 @@ Complete documentation for the PIP agent platform, organized by category.
 
 | Document | Description |
 |----------|-------------|
-| [Extension Checklist](../extensions/CHECKLIST.md) | Daily operational checklist for the agent team system (Pi 0.70.5+ updated) |
+| [Agent Checklist](../agents/CHECKLIST.md) | Daily operational checklist for the agent team system (Pi 0.70.5+ updated) |
+| [Extension README](../extensions/README.md) | Extension system documentation (root level) |
 
 ## Legacy Archive
 
@@ -89,13 +91,13 @@ Complete documentation for the PIP agent platform, organized by category.
 
 ## Document Inventory
 
-All 12 documents at a glance:
+All 14 documents at a glance:
 
 | # | Document | Category | Lines |
 |---|----------|----------|-------|
-| 1 | [STRUCTURE.md](STRUCTURE.md) | Architecture | ~1050 |
+| 1 | [STRUCTURE.md](STRUCTURE.md) | Architecture | ~1100 |
 | 2 | [MIGRATION-GUIDE.md](MIGRATION-GUIDE.md) | Migration | ~515 |
-| 3 | [CHECKLIST.md](CHECKLIST.md) | Operational | ~344 |
+| 3 | [CHECKLIST.md](../agents/CHECKLIST.md) | Operational | ~344 |
 | 4 | [COMBINED-EXTENSIONS-USAGE.md](COMBINED-EXTENSIONS-USAGE.md) | Extensions | ~300 |
 | 5 | [UTIL-EXTENSIONS-USAGE.md](UTIL-EXTENSIONS-USAGE.md) | Extensions | ~280 |
 | 6 | [UI-EXTENSIONS-USAGE.md](UI-EXTENSIONS-USAGE.md) | Extensions | ~250 |
@@ -105,6 +107,8 @@ All 12 documents at a glance:
 | 10 | [AGENT-TEAM-CHAIN-TEST.md](AGENT-TEAM-CHAIN-TEST.md) | Extensions | ~44 |
 | 11 | [PLAN-MODE.md](PLAN-MODE.md) | Features | ~101 |
 | 12 | [UPDATE-2026-05-02.md](UPDATE-2026-05-02.md) | History | ~48 |
+| 13 | [HANDOFF_PROTOCOL.md](HANDOFF_PROTOCOL.md) | Operations | — |
+| 14 | [pi-documentation-links.md](pi-documentation-links.md) | Index | — |
 
 ---
 
@@ -116,8 +120,9 @@ All 12 documents at a glance:
 3. [AGENT-YAML-CONFIGURATION.md](AGENT-YAML-CONFIGURATION.md) — Understand the agent system
 
 ### Daily Operations
-- [CHECKLIST.md](CHECKLIST.md) — Run through before each session
+- [CHECKLIST.md](../agents/CHECKLIST.md) — Run through before each session
 - [JUSTFILE-STARTUP-MECHANISM.md](JUSTFILE-STARTUP-MECHANISM.md) — Reference for starting extensions
+- [HANDOFF_PROTOCOL.md](HANDOFF_PROTOCOL.md) — Agent handoff protocol
 
 ### Deep Dives
 - [UI-EXTENSIONS-USAGE.md](UI-EXTENSIONS-USAGE.md) — `src/ui/` details
@@ -130,4 +135,4 @@ All 12 documents at a glance:
 
 ---
 
-**Total Documents**: 12 | **Total Lines**: ~3200+
+**Total Documents**: 14 | **Total Lines**: ~3500+

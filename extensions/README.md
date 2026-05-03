@@ -1,46 +1,63 @@
-# Extension Location Strategy
+# Extension System
 
 ## Overview
-
-This directory (`extensions/`) is the **primary location for all Pi extensions**. It follows a clean, forward-looking architecture where:
-
-- **Existing legacy extensions** remain in `.pi/extensions/` (read-only, historical)
-- **New extensions** should be created here going forward
-
+ 
+This directory (`extensions/`) is the **primary location for all Pi extensions**.
+ 
 ## Directory Structure
-
+ 
 ```
 pip/
-├── extensions/                 # ← NEW: Primary extension location
-│   ├── agent-team.ts          # Team dispatcher
-│   ├── agent-chain.ts         # Chain orchestrator
-│   ├── damage-control.ts      # Safety layer
-│   ├── theme-cycler.ts        # Theme switching
-│   ├── minimal.ts             # Minimal UI
-│   └── util/                  # Shared utilities
-├── .pi/extensions/            # ← LEGACY: Historical extensions
-│   ├── theme-cycler.ts        # Legacy copy
-│   ├── themeMap.ts            # Legacy theme mappings
-│   └── util/                  # Legacy utilities
-└── justfile                   # Uses both locations via pi-loader
+├── extensions/                 # Primary extension location
+│   └── README.md              # This file
+└── justfile                   # Loads extensions via pi-loader
 ```
-
-## Loading Order
-
-The `pi-loader.ts` extension resolver checks locations in this order:
-
-1. `extensions/${extName}.ts` or `.js` (NEW extensions)
-2. `.pi/extensions/${extName}.ts` (LEGACY extensions)
-
-This ensures backward compatibility while encouraging new development in `extensions/`.
+ 
+## Loading
+ 
+Extensions are loaded via the justfile using `pi-loader.ts`:
+ 
+```bash
+just ext-full-stack
+  → PI_STACK="agent-team,damage-control,theme-cycler"
+  → pi -e .pi/extensions/util/pi-loader.ts
+```
+ 
+The `pi-loader.ts` resolver searches multiple directories to find extensions.
 
 ## Creating New Extensions
-
-### Step 1: Create in `extensions/`
-
+ 
+### Step 1: Create the Extension File
+ 
 ```bash
-mkdir extensions/my-new-extension.ts
-vi extensions/my-new-extension.ts
+# Create in root extensions/ directory
+vi extensions/my-extension.ts
+```
+ 
+### Step 2: Implement Default Factory
+ 
+Every extension must export a default factory function:
+ 
+```typescript
+import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+ 
+export default function (pi: ExtensionAPI) {
+  // Your extension logic here
+  pi.registerCommand("my-command", {
+    description: "My custom command",
+    handler: async () => {
+      // Command handler
+    },
+  });
+}
+```
+ 
+### Step 3: Register in justfile
+ 
+Add a justfile target:
+```just
+ext-my-extension:
+    @just run-pi "my-extension,theme-cycler"
 ```
 
 ### Step 2: Implement Default Factory
@@ -92,16 +109,32 @@ ext-full-stack:
     @just run-pi "agent-team,damage-control,theme-cycler"
 ```
 
-## Migration Notes
-
-- Existing extensions in `.pi/extensions/` will continue to work
-- New development should focus on `extensions/`
-- Documentation updates reflect the new location strategy
-- Legacy extensions remain read-only for reference
-
+## Extension Categories
+ 
+Extensions are automatically categorized by the `pi-loader` based on their registration:
+ 
+| Category | Purpose | Examples |
+|----------|---------|----------|
+| `ui-core` | Controls main UI layout/footer | `minimal`, `tool-counter` |
+| `ui-widget` | Adds widgets (panels, overlays) | `subagent-widget`, `session-replay` |
+| `function` | Core agent functionality | `agent-team`, `agent-chain` |
+| `utility` | Helper utilities | `damage-control`, `theme-cycler` |
+ 
+## Justfile Targets
+ 
+```just
+# Single extension
+ext-my-extension:
+    @just run-pi "my-extension,theme-cycler"
+ 
+# Full stack
+ext-full-stack:
+    @just run-pi "agent-team,damage-control,theme-cycler"
+```
+ 
 ## Extension Manifest
-
-See `extensions/util/manifest.ts` for the official extension registry.
+ 
+See `.pi/extensions/util/manifest.ts` for the official extension registry.
 
 ## Best Practices
 
@@ -127,8 +160,8 @@ Extensions in `extensions/` automatically get themed via `themeMap.ts`:
 - `tokyo-night` — Intentional, sharp focus
 
 ## See Also
-
-- `.pi/docs/MIGRATION-GUIDE.md` — Detailed migration steps
-- `.pi/docs/CHECKLIST.md` — Daily maintenance checklist
-- `.pi/extensions/themeMap.ts` — Theme mapping reference
-- `util/manifest.ts` — Extension registry
+ 
+- [`.pi/docs/MIGRATION-GUIDE.md`](../.pi/docs/MIGRATION-GUIDE.md) — Architecture migration guide
+- [`.pi/docs/JUSTFILE-STARTUP-MECHANISM.md`](../.pi/docs/JUSTFILE-STARTUP-MECHANISM.md) — Startup mechanism
+- [`.pi/docs/COMBINED-EXTENSIONS-USAGE.md`](../.pi/docs/COMBINED-EXTENSIONS-USAGE.md) — Usage maps
+- [`.pi/agents/README.md`](../.pi/agents/README.md) — Agent system docs
