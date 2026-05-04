@@ -1,42 +1,65 @@
 ---
 name: mindfulness
-description: Meditation, coaching, and mental wellness techniques.
+description: Build a meditation practice with guided sessions, streaks, and mindfulness reminders
+author: clawd-team
+version: 1.0.0
+triggers:
+  - "meditate now"
+  - "mindfulness practice"
+  - "guided meditation"
+  - "meditation streak"
+  - "be present"
 ---
 
-# Mindfulness
+# Mindfulness & Meditation
 
-## Setup
+Build a consistent meditation practice with guided sessions, progress tracking, and daily mindfulness reminders.
 
-```bash
-# No special setup. Relies on wellness principles and coaching logic.
-```
+## What it does
 
-## Guided Exercises
+This skill transforms your device into a personal meditation coach. It guides you through structured meditation sessions, tracks your practice streaks, logs sessions for long-term insights, and sends mindfulness reminders to keep you anchored throughout your day.
 
-```bash
-# Generate a guided meditation script
-llm "Write a 5-minute guided meditation script focusing on 'Relieving Work Stress'."
+## Usage
 
-# Breathing Exercises
-llm "Provide instructions for the '4-7-8' breathing technique."
-```
+### Start Meditation
+Initiate a guided meditation session. Choose your meditation type and duration, then follow along with step-by-step guidance.
 
-## Wellness Coaching
+### Quick Mindfulness
+Take a 2-5 minute breathing pause. Perfect for stressful moments or transitions between tasks. No commitment, just presence.
 
-```bash
-# Suggest daily mindfulness habits
-llm "Suggest 3 simple mindfulness habits that can be integrated into a busy developer's workday."
-```
+### Check Streak
+View your current meditation streak and session history. See weekly/monthly breakdowns of your practice consistency and total minutes logged.
 
-## Workflow
+### Set Reminders
+Configure daily or custom mindfulness reminders. Get gentle notifications to pause, breathe, and check in with yourself.
 
-1. **Identify Need** — Determine the current mental state or goal (e.g., focus, stress relief, sleep).
-2. **Select Technique** — Choose a suitable exercise (meditation, breathing, journaling).
-3. **Guidance** — Provide clear, soothing instructions for the exercise.
-4. **Reflect** — Encourage a brief period of reflection or journaling after the exercise.
+### Session Log
+Review detailed logs of past sessions: type, duration, date, and personal notes. Export your practice data for reflection or sharing.
 
-## Notes
+## Meditation Types
 
-- Focus on gentle, supportive language.
-- Ensure exercises are accessible to beginners.
-- Can be combined with `content-strategy` for personal growth planning.
+**Body Scan** — Systematically observe sensations from head to toe, releasing tension and building bodily awareness.
+
+**Breath Focus** — Anchor attention to the natural rhythm of your breath. Redirect your mind gently when it wanders.
+
+**Loving-Kindness** — Cultivate compassion by sending well-wishes to yourself and others in expanding circles.
+
+**Walking** — Meditate while moving. Synchronize breath with steps and notice your surroundings with full attention.
+
+**Open Awareness** — Observe thoughts and sensations without judgment. Develop witness consciousness and mental spaciousness.
+
+## Session Lengths
+
+- **2 min** — Micro-practice. Reset focus in the middle of your day.
+- **5 min** — Short sits. Build the habit without time friction.
+- **10 min** — Standard practice. Enough depth to settle your mind.
+- **20 min** — Deep work. Move beyond the surface chatter.
+- **Custom** — Set your own duration. Practice at your pace.
+
+## Tips
+
+- **Start small:** 2-3 minutes daily beats sporadic hour-long sessions. Consistency compounds over time.
+- **Pick one type:** Master breath focus before exploring other techniques. Foundation first.
+- **Meditate at the same time:** Morning sits anchor your day. Neural pathways strengthen with repetition.
+- **Don't aim for blank mind:** Thoughts are normal. The skill is noticing them without judgment—that's the practice.
+- **All data stays local on your machine:** Your meditation history, preferences, and reminders are stored securely on your device. Nothing leaves your control.

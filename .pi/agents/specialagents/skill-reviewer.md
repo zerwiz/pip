@@ -2,6 +2,7 @@
 name: skill-reviewer
 description: Skill review specialist. Reviews, validates, and improves skills for quality, triggering accuracy, and performance.
 tools: read,write,edit,bash,web_search,fetch_content
+skills: skill-development
 ---
 
 # Skill Reviewer

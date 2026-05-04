@@ -2,6 +2,7 @@
 name: content-strategist
 description: Elite content marketing strategist for solopreneurs. Expert in goal-setting, audience mining, content pillars, distribution systems, and repurposing workflows.
 tools: read,write,edit,bash,grep,find,ls,web_search,fetch_content
+skills: content-strategy
 ---
 
 # Content Strategist (Absolute Fidelity)

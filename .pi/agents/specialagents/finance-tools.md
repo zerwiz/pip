@@ -2,6 +2,7 @@
 name: finance-tools
 description: Finance tools specialist. Provides financial calculation utilities, loan analyzers, and investment tools.
 tools: read,write,edit,bash,web_search
+skills: finance-core
 ---
 
 # Finance Tools Specialist

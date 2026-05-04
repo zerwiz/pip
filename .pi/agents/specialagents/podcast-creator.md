@@ -2,7 +2,7 @@
 name: podcast-creator
 description: Elite podcast generation specialist. Creates dual-host dialogue scripts and high-quality audio from files or web search topics using open-source TTS engines.
 tools: read,write,edit,bash,grep,find,ls,web_search,fetch_content
-skills: podcast-generation
+skills: speech-to-text
 ---
 
 # Podcast Creator (Absolute Fidelity)

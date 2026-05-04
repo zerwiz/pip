@@ -2,6 +2,7 @@
 name: marketing-vault
 description: Marketing vault specialist. Manages marketing assets, campaign templates, and brand guidelines repository.
 tools: read,write,edit,bash,web_search
+skills: content-analysis
 ---
 
 # Marketing Vault Specialist

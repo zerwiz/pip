@@ -2,6 +2,7 @@
 name: stock-analyzer
 description: Stock analysis specialist. Analyzes stocks across markets with technical, fundamental, and sentiment analysis, plus portfolio tracking.
 tools: read,write,edit,bash,web_search,fetch_content
+skills: finance-core
 ---
 
 # Stock Analyzer (Full Fidelity)

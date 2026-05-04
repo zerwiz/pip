@@ -1,46 +1,317 @@
 ---
 name: vlm-tracker
-description: Automatically detect and analyze task-related images using Vision Language Models (VLM).
+description: 。（、、、）， VLM 。、、、、。
 ---
 
-# VLM Tracker
+# 
 
-## Setup
+## 
 
-```bash
-# Ensure a VLM-capable model is available (e.g., gpt-4o, gemini-1.5-pro).
+：
+
+1. ****（、、、、）。
+2. ****（ 08:30, 10:00, 20:00）。
+3. ****""、""、""、""。
+
+---
+
+## 
+
+### 1. 
+
+，：
+- （progress, goal, task, workout, note）
+- （、、、、）
+- 
+- 
+
+### 2.  VLM 
+
+ vlm ：
+
+** prompt **：
+```
+"，：
+- /
+- 
+- （、、）
+- "
 ```
 
-## Image Detection
+** prompt**：
 
-```bash
-# Detect and categorize task-related images in a directory
-llm "Analyze the images in './uploads/' and identify which ones are fitness logs, handwritten notes, or code screenshots."
+|  | Prompt |
+|---------|--------|
+|  | "，、" |
+|  | "，、、、" |
+|  | "，、" |
+|  | "，、、" |
+|  | "，、" |
+
+### 3. 
+
+ VLM ：
+- **/**：
+- ****：
+- ****：、、、
+- ****：
+
+### 4. 
+
+`edit_daily`
+
+
+### 5. 
+
+：
+
+```
+：
+
+📝 ：
+：， 15 。
+：， 80% 。
+：，。
+
+？？
 ```
 
-## Data Extraction
+---
 
-```bash
-# Extract statistics from a fitness log image
-llm "Extract the workout date, exercises, sets, reps, and weights from this image: [image path/content]."
+## 
+
+### 
+
+```markdown
+## 20:00 
+
+****: 📚 
+
+****: ![](path/to/image.jpg)
+
+**VLM**:
+
+| / | / |  |
+|----------|----------|------|
+|  (Unit 1) | 15  |  |
+|  (3) | 80% |  |
+
+| **** | | ** 2/3** |
+
+****:
+- : 2
+- : 
+
+****: ，
+
+---
+
+## 10:30 
+
+****: 🏃 
+
+****: ![](path/to/gym.jpg)
+
+**VLM**:
+
+|  |  |  |  |  |
+|---------|------|------|------|------|
+|  | 4 | 12 | 60kg | ✅  |
+|  | 4 | 10 | 80kg | ✅  |
+|  | 3 | 8 |  | ⚠️  |
+
+| **** | | | **** |
+
+****:
+- : 2640kg
+- : 45
+
+****: ，
 ```
 
-## Logging
+---
 
-```bash
-# Format and log extracted data to a journal
-llm "Format the following extracted data into a Markdown table and append it to 'JOURNAL.md': [extracted data]."
+## 
+
+### 
+
+ 22:00 ，：
+- 
+- 
+- （）
+
+### /
+
+，：
+- 
+- 
+- 
+- ：，
+
+---
+
+## 
+
+### 1：
+
+****：
+
+****：
+- 
+- 
+- 
+
+****：
+```
+📚 ：
+- （）
+- （）
+- （）
+
+：33% |  2 
 ```
 
-## Workflow
+### 2：
 
-1. **Image Detection** — Identify relevant images (notes, logs, screenshots) in the workspace.
-2. **VLM Recognition** — Use VLM to extract specific stats, progress, or content from the images.
-3. **Data Structuring** — Organize the extracted information into a structured format (JSON, Markdown).
-4. **Log to Daily Journal** — Automatically append the structured data to a central log or journal file.
+****：
 
-## Notes
+****：
+- 
+- 、、
+- 
 
-- Excellent for digitizing physical notes and logs.
-- Can be used for tracking progress over time (e.g., weightlifting, coding streaks).
-- Requires clear images for optimal recognition accuracy.
+****：
+```
+🏃 ：
+-  60kg × 12 × 4 ✅
+-  80kg × 10 × 4 ✅
+-   × 8 × 3 ✅
+
+：2640kg | ：45
+```
+
+### 3：
+
+****：
+
+****：
+- 
+- 
+- 
+
+****：
+```
+💼 ：
+- （）✅
+- （）✅
+- （）🔄 80%
+- （）⏳
+
+：67%
+```
+
+### 4：
+
+****：
+
+****：
+- 
+- 
+- 
+
+****：
+```
+🎨 ：
+：
+：、
+：100%，60%
+
+：，
+```
+
+### 5：
+
+****：
+
+****：
+- 
+- 
+- 
+
+****：
+```
+✅ ：
+： 15  |  100%
+： 8  |  73%
+： 21  |  100%
+
+🎉  3 ，！
+```
+
+---
+
+## Scope
+
+This skill ONLY:
+- 
+- 
+- 
+
+This skill NEVER:
+- 
+- （ VLM API）
+- 
+- （）
+
+---
+
+## Security & Privacy
+
+**Data that stays local:**
+- 
+-    USER.md 
+- 
+
+**This skill does NOT:**
+- 
+- 
+- 
+
+---
+
+## 
+
+1. ****: ，（ VLM API ）
+2. ****: VLM ，、
+3. ****: ，
+4. ****: ，
+5. ****: ，，
+
+---
+
+## 
+
+###  SOUL.md 
+
+：
+
+```markdown
+### 2.  (Logging & Estimation)
+
+- ：
+  1.  auto-target-tracker 
+  2. 
+  3. 
+  4.  USER.md 
+```
+
+###  HEARTBEAT.md 
+
+：
+
+```markdown
+## 
+- 22:00 
+- 
+- 
+```

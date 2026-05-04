@@ -116,46 +116,55 @@ web-content-fetcher:
   name: web-content-fetcher
   description: Web page content extraction specialist
   tools: read,write,edit,bash,grep,find,ls,web_search,fetch_content
+  skills: web-content-fetcher
 
 web-search-engine:
   name: web-search-engine
   description: Multi-engine web search specialist
   tools: read,grep,find,ls,bash,web_search,fetch_content
+  skills: web-search, meta-search
 
 image-analyzer:
   name: image-analyzer
   description: Image analysis and vision specialist
   tools: read,grep,find,ls,bash,web_search,fetch_content
+  skills: image-analysis
 
 image-editor:
   name: image-editor
   description: Image editing and manipulation specialist
   tools: read,write,edit,bash,grep,find,ls
+  skills: image-analysis
 
 video-analyzer:
   name: video-analyzer
   description: Video content analysis and frame extraction specialist using FFmpeg
   tools: read,write,edit,bash,grep,find,ls,web_search,fetch_content
+  skills: video-analysis
 
 llm-integrator:
   name: llm-integrator
   description: LLM integration and prompt engineering specialist
   tools: read,write,edit,bash,grep,find,ls
+  skills: skill-development
 
 speech-to-text:
   name: speech-to-text
   description: Speech recognition and transcription specialist
   tools: read,write,edit,bash,grep,find,ls
+  skills: speech-to-text
 
 vision-language:
   name: vision-language
   description: Multimodal vision-language specialist
   tools: read,grep,find,ls,bash,web_search,fetch_content
+  skills: vision-language
 
 podcast-creator:
   name: podcast-creator
   description: Podcast script and audio generation specialist
   tools: read,write,edit,bash,grep,find,ls
+  skills: speech-to-text
 
 seo-writer:
   name: seo-writer
@@ -166,6 +175,7 @@ market-analyzer:
   name: market-analyzer
   description: Market research and competitive analysis specialist
   tools: read,grep,find,ls,bash,web_search,fetch_content
+  skills: finance-core
 
 ui-ux-designer:
   name: ui-ux-designer
@@ -181,31 +191,43 @@ storyboard-creator:
   name: storyboard-creator
   description: Storyboard and visual sequence creator
   tools: read,write,edit,bash,grep,find,ls
+  skills: creative-storyboard
 
 skill-builder:
   name: skill-builder
   description: Pi skill development and validation specialist
   tools: read,write,edit,bash,grep,find,ls
+  skills: skill-development
 
 skill-finder:
   name: skill-finder
   description: Skill discovery and integration specialist
   tools: read,grep,find,ls,bash,web_search
+  skills: skill-development
 
 skill-reviewer:
   name: skill-reviewer
   description: Skill code review and security auditor
   tools: read,bash,grep,find,ls,write
+  skills: skill-development
 
 stock-analyzer:
   name: stock-analyzer
   description: Stock market and financial data specialist
   tools: read,grep,find,ls,bash,web_search,fetch_content
+  skills: finance-core
 
 finance-advisor:
   name: finance-advisor
   description: Personal finance and investment advisor
   tools: read,grep,find,ls,bash,web_search,fetch_content
+  skills: finance-core
+
+finance-tools:
+  name: finance-tools
+  description: Finance tools specialist. Provides financial calculation utilities, loan analyzers, and investment tools.
+  tools: read,write,edit,bash,web_search
+  skills: finance-core
 
 gift-advisor:
   name: gift-advisor
@@ -221,11 +243,19 @@ content-strategist:
   name: content-strategist
   description: Content strategy and planning specialist
   tools: read,write,edit,bash,grep,find,ls,web_search
+  skills: content-strategy
 
 content-analyzer:
   name: content-analyzer
   description: Deep content analysis and summarization specialist
   tools: read,grep,find,ls,bash,web_search,fetch_content
+  skills: content-analysis
+
+marketing-vault:
+  name: marketing-vault
+  description: Marketing vault specialist. Manages marketing assets, campaign templates, and brand guidelines repository.
+  tools: read,write,edit,bash,web_search
+  skills: content-analysis
 
 blog-author:
   name: blog-author
@@ -266,11 +296,13 @@ chart-creator:
   name: chart-creator
   description: Data visualization and chart generation specialist
   tools: read,write,edit,bash,grep,find,ls
+  skills: chart-creation
 
 document-processor:
   name: document-processor
   description: Multi-format document processing (PDF, DOCX)
   tools: read,write,edit,bash,grep,find,ls
+  skills: document-processing
 
 presentation-creator:
   name: presentation-creator
@@ -281,6 +313,7 @@ spreadsheet-processor:
   name: spreadsheet-processor
   description: Data analysis and spreadsheet processing (XLSX)
   tools: read,write,edit,bash,grep,find,ls
+  skills: spreadsheet-processing
 
 writing-planner:
   name: writing-planner
@@ -296,6 +329,7 @@ academic-search:
   name: academic-search
   description: Academic paper and scholarly research specialist
   tools: read,grep,find,ls,bash,web_search,fetch_content
+  skills: academic-search
 
 daily-paper:
   name: daily-paper
@@ -306,16 +340,19 @@ open-academic:
   name: open-academic
   description: Open academic resources and data specialist
   tools: read,grep,find,ls,bash,web_search,fetch_content
+  skills: academic-search
 
 research-assistant:
   name: research-assistant
   description: General research and context gathering assistant
   tools: read,grep,find,ls,bash,web_search,fetch_content
+  skills: research-tools
 
 meta-search:
   name: meta-search
   description: Advanced multi-engine meta-search specialist
   tools: read,grep,find,ls,bash,web_search,fetch_content
+  skills: meta-search, web-search
 
 shader-extractor:
   name: shader-extractor

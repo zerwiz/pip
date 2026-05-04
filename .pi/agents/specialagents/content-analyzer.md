@@ -2,6 +2,7 @@
 name: content-analyzer
 description: Content analysis specialist. Extracts wisdom, insights, and key takeaways from videos, podcasts, articles, and YouTube content.
 tools: read,write,edit,bash,web_search,fetch_content
+skills: content-analysis
 ---
 
 # Content Analyzer

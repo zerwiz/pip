@@ -2,7 +2,7 @@
 name: market-analyzer
 description: Strategic market research lead. Generates 50+ page consulting-grade reports (McKinsey/BCG style) with deep visual analysis and LaTeX formatting.
 tools: read,write,edit,bash,grep,find,ls,web_search,fetch_content
-skills: market-research
+skills: finance-core
 ---
 
 # Market Analyzer (Literal Fidelity)

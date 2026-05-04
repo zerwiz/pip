@@ -9,7 +9,7 @@ All notable changes to PIP (Pi Agent Platform).
 - **Templates directory** — `.pi/templates/` with subdirectories for extensions, agents, skills, prompt-templates, and themes
 - **Extension templates** — `basic-tool.ts`, `event-handler.ts`, `custom-command.ts`, `ui-widget.ts`, `plan-mode.ts` in `.pi/templates/extensions/`
 - **Agent templates** — `generic-agent.md`, `coding-agent.md`, `research-agent.md`, `agent-with-memory.md` in `.pi/templates/agents/`
-- **Skill templates** — `web-research/SKILL.md`, `code-review/SKILL.md`, `doc-generator/SKILL.md` in `.pi/templates/skills/`
+- **Skill templates** — `web-search/SKILL.md`, `code-review/SKILL.md`, `doc-generator/SKILL.md` in `.pi/templates/skills/`
 - **Prompt templates** — `review.md`, `component.md`, `explain.md` in `.pi/templates/prompt-templates/`
 - **Theme templates** — `dark-theme.json`, `light-theme.json`, `nord-theme.json` in `.pi/templates/themes/`
 - **Documentation links file** — `.pi/docs/pi-documentation-links.md` with ALL Pi documentation URLs and template locations
@@ -31,7 +31,7 @@ All notable changes to PIP (Pi Agent Platform).
 - **Extension system** — Three-layer extension architecture:
   - Entry layer (`extensions/ui/`) — 6 primary extensions (agent-team, agent-chain, cross-agent, pi-pi, subagent-widget, tilldone)
   - Middle layer (`extensions/util/`) — 12 utilities (pi-loader, damage-control, memory, manifest, types, etc.)
-  - Base layer (`extensions/src/ui/`) — 10 shared UI components (themeMap, theme-cycler, pure-focus, minimal, etc.)
+  - Base layer (`extensions/src/ui/`) — 10 shared UI components (themeMap, themecycler, pure-focus, minimal, etc.)
 - **Dynamic extension loader** (`pi-loader.ts`) — Single-entry loader with categorized loading order, UI core conflict resolution, and multi-directory path resolution
 - **Justfile startup system** — `run-pi` helper with ~25 targets for different extension stacks
 - **Extension manifest** — Categorized extension metadata (ui-core, ui-widget, function, utility) with conflict resolution
@@ -43,32 +43,45 @@ All notable changes to PIP (Pi Agent Platform).
 - **Cross-agent discovery** — Scans `.claude/`, `.gemini/`, `.codex/` directories for commands, skills, and agents
 - **Legacy docs archive** — `.pi/docs/olddocs/` stores reference planning docs, migration summaries, and legacy guides
 - **Extension checklist** — Moved to `.pi/extensions/CHECKLIST.md` with Pi 0.70.5+ updated procedures
+- **Skill subsystem migration** — All 49 skills ported from `ref/skills/` to `.pi/skills/` with full subsystem components
+- **Missing skills created** — `image-edit`, `llm`, `qingyan-research`, `skill-vetter`
+- **skill.json files** — Generated for all 49 skills with valid script references
+- **Agent-skill alignment** — All 46 special agents mapped to correct skills in `agents.yaml` and agent `.md` files
+- **Test script** — `.pi/scripts/test-skill.sh` for validating skill integrity
+- **Skills README** — `.pi/skills/README.md` with full inventory and status tracking
+- **Migration plan** — `.pi/plans/refmigration/SKILL-AGENT-ALIGNMENT-PLAN.md` with phased approach and progress tracking
 
 ### Changed
 
 - **Pi 0.70.5+ breaking change** — Multiple `-e` flags (`pi -e ext1.ts -e ext2.ts`) are unstable; all extensions now loaded via justfile with single `-e` flag to `pi-loader.ts`
-- **Removed all hardcoded paths from agent definitions** — 16 references across 11 agent files converted from `/piwithstuff/` and `/pip/` to relative `.pi/...` paths
+- **Removed all hardcoded paths from agent definitions** — 16 references across 11 agent files converted from `/pipwithstuff/` and `/pip/` to relative `.pi/...` paths
 - **Documentation sweep** — All 8 README/docs updated to reflect justfile-first loading pattern, removed outdated `pi -e` multi-flag examples
 - **Extension checklist** — Moved from `.pi/docs/CHECKLIST.md` to `.pi/extensions/CHECKLIST.md`, updated for Pi 0.70.5+ loading procedures
 - **STRUCTURE.md** — Added reference to `.pi/docs/olddocs/` legacy archive directory
-- Standardized import architecture across all extensions with correct relative paths to `themeMap.ts`, `memory-export.ts`, and `memory.ts`
-- Migrated from z.ai skills to Pi-native extension patterns
-- Moved extensions from flat structure to three-layer hierarchy (`ui/`, `util/`, `src/ui/`)
-- Consolidated extension loading to single `-e` flag via `pi-loader.ts` for Pi 0.70.5+ stability
-- Deprecated `agent-team-chain.ts` wrapper in favor of direct `agent-team.ts` usage
+- **Standardized import architecture** across all extensions with correct relative paths to `themeMap.ts`, `memory-export.ts`, and `memory.ts`
+- **Migrated from z.ai skills to Pi-native extension patterns**
+- **Moved extensions from flat structure to three-layer hierarchy (`ui/`, `util/`, `src/ui/`)**
+- **Consolidated extension loading to single `-e` flag via `pi-loader.ts` for Pi 0.70.5+ stability**
+- **Deprecated `agent-team-chain.ts` wrapper in favor of direct `agent-team.ts` usage**
+- **Sanitization complete** — Removed Chinese characters from all Python/TypeScript files in `.pi/skills/`
+- **Open-source migration** — Replaced all `zai`/`ZAI` references with open-source alternatives (Ollama, Whisper, Coqui TTS)
+- **File integrity fix** — Re-ported 42 corrupted Python/TypeScript files from `ref/skills/` to `.pi/skills/`
+- **Directory standardization** — Moved `xlsx.py` to `scripts/` for `spreadsheet-processing`, moved `src/` to `scripts/` for `stock-analysis`
 
 ### Updated
 
 - **May 2, 2026** — Replaced `firecrawl` with `pi-web-access` tools (`web_search`, `fetch_content`) in 11 agent files
 - **May 2, 2026** — Added `web_search,fetch_content` to tools list in all agent definitions for web access capability
 - **May 2, 2026** — Updated all 11 agent files to be aware of `.pi/templates/` and to check `.pi/docs/pi-documentation-links.md` for updates
-- **May 2, 2026** — Agents now compare web documentation with local templates and update templates when new features are discovered
 - **May 2, 2026** — Created `.pi/docs/pi-documentation-links.md` with ALL Pi documentation URLs and template locations
-- **May 2, 2026** — Converted all agent paths from hardcoded `/piwithstuff/` and `/pip/` to relative `.pi/...` paths (11 files, 16 references)
+- **May 2, 2026** — Converted all agent paths from hardcoded `/pipwithstuff/` and `/pip/` to relative `.pi/...` paths (11 files, 16 references)
 - **May 2, 2026** — Documentation updated for Pi 0.70.5+ justfile-first extension loading (README, STRUCTURE.md, all usage maps, justfile docs)
 - **May 2, 2026** — Created implementation plan for missing features in `agent-team.ts` (plan mode system, list_team_agents tool, commands, system prompt updates)
 - **May 2, 2026** — Recursive agent discovery across all `.pi/agents/` subdirectories, enhanced TUI tree view for `list_agents`, removed duplicate tool registrations, added `getTeamsCatalog` helper, standardized on `import * as path`
-- All `ui/` extensions updated for recursive directory scanning (agent-team, agent-chain, subagent-widget, cross-agent)
+- **May 4, 2026** — Updated `SKILL-AGENT-ALIGNMENT-PLAN.md` with completed phases and progress tracking (v1.4.0)
+- **May 4, 2026** — Fixed `skill.json` script references across 49 skills to point to actual existing files
+- **May 4, 2026** — Updated agent definitions in `.pi/agents/specialagents/` with correct skill mappings
+- **May 4, 2026** — Updated `.pi/agents/agents.yaml` with skill fields for all 46 special agents
 
 ### Removed
 
@@ -77,6 +90,7 @@ All notable changes to PIP (Pi Agent Platform).
 - Broken external exports (`initialize`, `setActiveTools`) referencing closure-scoped variables
 - Duplicate tool registrations and redundant function definitions (`parseAgentsYaml`, etc.)
 - `conversation-viewer.test.ts` — test coverage satisfied by `truncateToWidth` safety net in implementation
+- **ref/ directory** — Added to `.gitignore` (reference files no longer tracked)
 
 ### Fixed
 
@@ -101,6 +115,9 @@ All notable changes to PIP (Pi Agent Platform).
 - **agent-chain.ts** — Fixed memory import path (changed `./memory.ts` to `../util/memory.js`)
 - **agent-chain.ts** — Fixed tool result types to include required `details` property
 - **agent-chain.ts** — Fixed null handling for context usage percentage in footer rendering
+- **Corrupted Python/TS files** — Re-ported 42 files from `ref/skills/` to `.pi/skills/` (May 4, 2026)
+- **skill.json references** — Fixed all script references to point to existing files (May 4, 2026)
+- **Directory structure** — Standardized `src/` → `scripts/` for `stock-analysis` and `xlsx.py` location for `spreadsheet-processing`
 
 ### Updated
 
