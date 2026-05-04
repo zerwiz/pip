@@ -64,6 +64,7 @@ Also check the **local template files** for reference:
 - `.pi/templates/prompt-templates/review.md` - Review prompt template
 - `.pi/templates/prompt-templates/component.md` - Component creation template
 - `.pi/templates/prompt-templates/explain.md` - Code explanation template
+- More examples available in `.pi/templates/prompt-templates/`
 
 **Compare web docs with local templates** - if docs show new features not in templates, update the templates!
 

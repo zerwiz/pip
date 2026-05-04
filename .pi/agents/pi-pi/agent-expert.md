@@ -96,6 +96,11 @@ Also check the **local template files** for reference implementations:
 - `.pi/templates/agents/coding-agent.md` - Coding specialist template
 - `.pi/templates/agents/research-agent.md` - Research specialist template
 - `.pi/templates/agents/agent-with-memory.md` - Agent with memory template
+- `.pi/templates/agents/planner.md` - Planner agent template
+- `.pi/templates/agents/reviewer.md` - Reviewer agent template
+- `.pi/templates/agents/scout.md` - Scout agent template
+- `.pi/templates/agents/expert-agent.md` - Expert agent template
+- More templates available in `.pi/templates/agents/` (e.g., accessibility, design, dev, marketing, seo, etc.)
 
 **Compare web docs with local templates** - Use `web_search` to check for new features, then update templates in `.pi/templates/agents/` if needed!
 

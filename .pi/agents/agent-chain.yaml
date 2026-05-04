@@ -1,8 +1,5 @@
 # Agent Chain Configurations
 # These chains use agents from agents.yaml
-# Each chain defines a sequence of agents with their prompts
-# Chains can be selected and run using run_chain tool
-# Available agents: scout, planner, developer, reviewer, documenter, bowser, session-manager
 
 # Full development pipeline
 plan-build-review:
@@ -64,9 +61,9 @@ browser-flow:
   description: "Browser automation and testing workflow"
   steps:
     - agent: scout
-      prompt: "Analyze the target website and identify automation opportunities: $INPUT"
+      prompt: "Analyze the target environment and identify automation opportunities: $INPUT"
     - agent: developer
-      prompt: "Write Playwright scripts for the identified automation tasks:\n\n$INPUT"
+      prompt: "Write automation scripts for the identified tasks:\n\n$INPUT"
     - agent: bowser
       prompt: "Execute the browser automation and capture results:\n\n$INPUT"
     - agent: documenter
@@ -89,10 +86,8 @@ security-research-flow:
   steps:
     - agent: scout
       prompt: "Scan the codebase for potential security issues: $INPUT"
-    - agent: ext-builder
-      prompt: "Create custom security scanning tools:\n\n$INPUT"
-    - agent: pi-dev-expert
-      prompt: "Provide security architecture guidance:\n\n$INPUT"
+    - agent: red-team
+      prompt: "Perform adversarial testing and identify vulnerabilities:\n\n$INPUT"
     - agent: developer
       prompt: "Implement security fixes and improvements:\n\n$INPUT"
     - agent: reviewer
@@ -116,7 +111,7 @@ extensions-workflow:
   description: "Pi extensions development workflow"
   steps:
     - agent: pi-dev-expert
-      prompt: "Plan the extension architecture:\n\n$INPUT"
+      prompt: "Plan the extension architecture: $INPUT"
     - agent: ext-builder
       prompt: "Build the extension with proper API integration:\n\n$INPUT"
     - agent: developer
@@ -125,15 +120,6 @@ extensions-workflow:
       prompt: "Document the extension:\n\n$INPUT"
     - agent: reviewer
       prompt: "Review the extension for quality and compliance:\n\n$INPUT"
-
-# Fast execution team
-fast-exec-team:
-  description: "Quick plan and implement cycles"
-  steps:
-    - agent: planner
-      prompt: "Create a quick plan: $INPUT"
-    - agent: developer
-      prompt: "Implement the quick plan:\n\n$INPUT"
 
 # Documentation workflow
 docs-workflow:
@@ -158,60 +144,3 @@ architecture-review:
       prompt: "Provide architectural guidance:\n\n$INPUT"
     - agent: reviewer
       prompt: "Final architecture review:\n\n$INPUT"
-
-# --- Specialized Pipelines ---
-
-# Deep multimodal research and extraction
-deep-research-chain:
-  description: "Deep research — meta-search, extraction, and synthesis"
-  steps:
-    - agent: meta-search
-      prompt: "Perform a broad multi-engine search for: $INPUT"
-    - agent: research-assistant
-      prompt: "Extract key information and context from the search results:\n\n$INPUT"
-    - agent: content-analyzer
-      prompt: "Analyze and synthesize the gathered information into a comprehensive report:\n\n$INPUT"
-
-# Multimodal analysis and processing
-multimodal-analysis-chain:
-  description: "Multimodal analysis — vision, language, and document processing"
-  steps:
-    - agent: image-analyzer
-      prompt: "Analyze the provided image(s) or video frames: $INPUT"
-    - agent: vision-language
-      prompt: "Perform vision-language reasoning based on the visual analysis:\n\n$INPUT"
-    - agent: document-processor
-      prompt: "Process and format the analysis results into a structured document:\n\n$INPUT"
-
-# Content strategy and authoring
-content-creation-chain:
-  description: "Content creation — strategy, planning, and professional authoring"
-  steps:
-    - agent: content-strategist
-      prompt: "Develop a content strategy for: $INPUT"
-    - agent: writing-planner
-      prompt: "Create a detailed structure and plan for the content:\n\n$INPUT"
-    - agent: blog-author
-      prompt: "Write the professional content based on the plan and strategy:\n\n$INPUT"
-
-# Business and financial intelligence
-business-intelligence-chain:
-  description: "Business intelligence — market analysis and financial advisory"
-  steps:
-    - agent: market-analyzer
-      prompt: "Perform a market and competitive analysis for: $INPUT"
-    - agent: stock-analyzer
-      prompt: "Analyze relevant financial and stock market data:\n\n$INPUT"
-    - agent: finance-advisor
-      prompt: "Provide strategic financial advice based on the analysis:\n\n$INPUT"
-
-# Academic research and summarization
-academic-paper-chain:
-  description: "Academic pipeline — search, synthesis, and processing"
-  steps:
-    - agent: academic-search
-      prompt: "Search for academic papers and scholarly resources: $INPUT"
-    - agent: daily-paper
-      prompt: "Synthesize and summarize the identified academic literature:\n\n$INPUT"
-    - agent: document-processor
-      prompt: "Format the research summary into a professional academic brief:\n\n$INPUT"

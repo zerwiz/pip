@@ -1,9 +1,14 @@
 # Master Agent Registry
-# Synchronized with .md files in the agent tree
+# Synchronized with .md files in:
+# - .pi/agents/agents/ (Core)
+# - .pi/agents/specialagents/ (Special)
+# - .pi/agents/pi-pi/ (Meta)
+
+# --- Core Agents (.pi/agents/agents/) ---
 
 scout:
   name: scout
-  description: Fast recon and codebase exploration agent. Specialized in discovering file paths, configurations, and documentation storage locations across the agent system.
+  description: Fast recon and codebase exploration agent. Specialized in discovering file paths, configurations, and documentation storage locations.
   tools: read,grep,find,ls
 
 planner:
@@ -31,12 +36,7 @@ red-team:
   description: Security and adversarial testing
   tools: read,bash,grep,find,ls
 
-session-manager:
-  name: session-manager
-  description: Session management agent for handling chat sessions, retrieving session metadata, managing session history, and coordinating multi-session operations.
-  tools: read,write,grep,find,ls
-
-frontendcoder:
+frontend-coder:
   name: frontend-coder
   description: UI/UX implementation, component generation, and styling
   tools: read,write,edit,bash,grep,find,ls
@@ -46,12 +46,17 @@ bowser:
   description: Headless browser automation agent using Playwright CLI.
   tools: read,write,ls
 
-ext-builder:
-  name: ext-builder
-  description: Pi extensions expert — knows how to build custom tools, event handlers, commands, shortcuts, state management, custom rendering, and tool overrides
-  tools: read,write,edit,bash,grep,find,ls
+indexer:
+  name: indexer
+  description: Scans a requested directory, reads key files, and writes INDEX.md — a navigable map of folders, files, and what each part does for other agents
+  tools: read,write,edit,grep,find,ls,bash
 
-# --- Domain Specialists ---
+plan-reviewer:
+  name: plan-reviewer
+  description: Plan critic — reviews, challenges, and validates implementation plans
+  tools: read,grep,find,ls
+
+# --- Special Agents (.pi/agents/specialagents/) ---
 
 netlify-troubleshooter:
   name: netlify-troubleshooter
@@ -63,303 +68,17 @@ pi-dev-expert:
   description: Specialized in the Pi Coding Agent ecosystem, including core primitives, extensions, skills, and terminal-first orchestration.
   tools: read,write,edit,bash,grep,find,ls
 
-plan-reviewer:
-  name: plan-reviewer
-  description: Plan critic — reviews, challenges, and validates implementation plans
-  tools: read,grep,find,ls
-
-# --- Homepage Team ---
-
-dev-agent:
-  name: dev-agent
-  description: Homepage development specialist who turns designs into functional, high-performance webpages
+ralph:
+  name: ralph
+  description: Ralph Wiggum — queue worker; one .txt ticket at a time (todo→inprogress→done), single HTML output per ticket.
   tools: read,write,edit,bash,grep,find,ls
 
-content-agent:
-  name: content-agent
-  description: Homepage content specialist who creates compelling copy, optimizes for engagement and SEO
-  tools: read,write,edit,bash,grep,find,ls
+session-manager:
+  name: session-manager
+  description: Session management agent for handling chat sessions, retrieving session metadata, and managing session history.
+  tools: read,write,grep,find,ls
 
-marketing-agent:
-  name: marketing-agent
-  description: Homepage marketing specialist who develops strategies, positioning, and conversion optimization approaches
-  tools: read,write,bash,grep
-
-research-agent:
-  name: research-agent
-  description: Homepage research assistant who gathers context, analyzes competitors, and validates content strategy
-  tools: read,grep,find,ls,bash,web-search
-
-design-agent:
-  name: design-agent
-  description: Homepage visual designer and UI/UX specialist for building beautiful, accessible homepages
-  tools: read,write,edit,bash,grep,find,ls
-
-seo-agent:
-  name: seo-agent
-  description: Homepage SEO specialist who optimizes pages for search engines while maintaining great UX
-  tools: read,write,edit,bash,grep
-
-accessibility-agent:
-  name: accessibility-agent
-  description: Homepage accessibility specialist who ensures WCAG compliance and inclusive design for all users
-  tools: read,write,edit,bash,grep
-
-image-agent:
-  name: image-agent
-  description: Homepage visual specialist who selects, optimizes, and creates compelling images for visual design
-  tools: read,write,edit,bash,grep
-
-# --- Special Agents ---
-
-web-content-fetcher:
-  name: web-content-fetcher
-  description: Web page content extraction specialist
-  tools: read,write,edit,bash,grep,find,ls,web_search,fetch_content
-  skills: web-content-fetcher
-
-web-search-engine:
-  name: web-search-engine
-  description: Multi-engine web search specialist
-  tools: read,grep,find,ls,bash,web_search,fetch_content
-  skills: web-search, meta-search
-
-image-analyzer:
-  name: image-analyzer
-  description: Image analysis and vision specialist
-  tools: read,grep,find,ls,bash,web_search,fetch_content
-  skills: image-analysis
-
-image-editor:
-  name: image-editor
-  description: Image editing and manipulation specialist
-  tools: read,write,edit,bash,grep,find,ls
-  skills: image-analysis
-
-video-analyzer:
-  name: video-analyzer
-  description: Video content analysis and frame extraction specialist using FFmpeg
-  tools: read,write,edit,bash,grep,find,ls,web_search,fetch_content
-  skills: video-analysis
-
-llm-integrator:
-  name: llm-integrator
-  description: LLM integration and prompt engineering specialist
-  tools: read,write,edit,bash,grep,find,ls
-  skills: skill-development
-
-speech-to-text:
-  name: speech-to-text
-  description: Speech recognition and transcription specialist
-  tools: read,write,edit,bash,grep,find,ls
-  skills: speech-to-text
-
-vision-language:
-  name: vision-language
-  description: Multimodal vision-language specialist
-  tools: read,grep,find,ls,bash,web_search,fetch_content
-  skills: vision-language
-
-podcast-creator:
-  name: podcast-creator
-  description: Podcast script and audio generation specialist
-  tools: read,write,edit,bash,grep,find,ls
-  skills: speech-to-text
-
-seo-writer:
-  name: seo-writer
-  description: SEO-optimized content writing specialist
-  tools: read,write,edit,bash,grep,find,ls,web_search
-
-market-analyzer:
-  name: market-analyzer
-  description: Market research and competitive analysis specialist
-  tools: read,grep,find,ls,bash,web_search,fetch_content
-  skills: finance-core
-
-ui-ux-designer:
-  name: ui-ux-designer
-  description: UI/UX design and wireframing specialist
-  tools: read,write,edit,bash,grep,find,ls
-
-visual-designer:
-  name: visual-designer
-  description: Visual design and branding specialist
-  tools: read,write,edit,bash,grep,find,ls
-
-storyboard-creator:
-  name: storyboard-creator
-  description: Storyboard and visual sequence creator
-  tools: read,write,edit,bash,grep,find,ls
-  skills: creative-storyboard
-
-skill-builder:
-  name: skill-builder
-  description: Pi skill development and validation specialist
-  tools: read,write,edit,bash,grep,find,ls
-  skills: skill-development
-
-skill-finder:
-  name: skill-finder
-  description: Skill discovery and integration specialist
-  tools: read,grep,find,ls,bash,web_search
-  skills: skill-development
-
-skill-reviewer:
-  name: skill-reviewer
-  description: Skill code review and security auditor
-  tools: read,bash,grep,find,ls,write
-  skills: skill-development
-
-stock-analyzer:
-  name: stock-analyzer
-  description: Stock market and financial data specialist
-  tools: read,grep,find,ls,bash,web_search,fetch_content
-  skills: finance-core
-
-finance-advisor:
-  name: finance-advisor
-  description: Personal finance and investment advisor
-  tools: read,grep,find,ls,bash,web_search,fetch_content
-  skills: finance-core
-
-finance-tools:
-  name: finance-tools
-  description: Finance tools specialist. Provides financial calculation utilities, loan analyzers, and investment tools.
-  tools: read,write,edit,bash,web_search
-  skills: finance-core
-
-gift-advisor:
-  name: gift-advisor
-  description: Personalized gift recommendation specialist
-  tools: read,grep,find,ls,bash,web_search
-
-fortune-analyzer:
-  name: fortune-analyzer
-  description: Wealth and fortune analysis specialist
-  tools: read,grep,find,ls,bash,web_search
-
-content-strategist:
-  name: content-strategist
-  description: Content strategy and planning specialist
-  tools: read,write,edit,bash,grep,find,ls,web_search
-  skills: content-strategy
-
-content-analyzer:
-  name: content-analyzer
-  description: Deep content analysis and summarization specialist
-  tools: read,grep,find,ls,bash,web_search,fetch_content
-  skills: content-analysis
-
-marketing-vault:
-  name: marketing-vault
-  description: Marketing vault specialist. Manages marketing assets, campaign templates, and brand guidelines repository.
-  tools: read,write,edit,bash,web_search
-  skills: content-analysis
-
-blog-author:
-  name: blog-author
-  description: Professional blog writing specialist
-  tools: read,write,edit,bash,grep,find,ls,web_search
-
-fullstack-developer:
-  name: fullstack-developer
-  description: Full-stack application development specialist
-  tools: read,write,edit,bash,grep,find,ls
-
-mindfulness-coach:
-  name: mindfulness-coach
-  description: Mindfulness and meditation specialist
-  tools: read,grep,find,ls,bash,web_search
-
-auto-target:
-  name: auto-target
-  description: Automated target tracking and analysis
-  tools: read,grep,find,ls,bash
-
-anti-manipulation:
-  name: anti-manipulation
-  description: Anti-manipulation and critical thinking specialist
-  tools: read,grep,find,ls,bash,web_search
-
-browser-agent:
-  name: browser-agent
-  description: Browser automation and web interaction specialist
-  tools: read,write,edit,bash,grep,find,ls
-
-dream-analyzer:
-  name: dream-analyzer
-  description: Dream interpretation and analysis specialist
-  tools: read,grep,find,ls,bash,web_search
-
-chart-creator:
-  name: chart-creator
-  description: Data visualization and chart generation specialist
-  tools: read,write,edit,bash,grep,find,ls
-  skills: chart-creation
-
-document-processor:
-  name: document-processor
-  description: Multi-format document processing (PDF, DOCX)
-  tools: read,write,edit,bash,grep,find,ls
-  skills: document-processing
-
-presentation-creator:
-  name: presentation-creator
-  description: Professional presentation and slide creator
-  tools: read,write,edit,bash,grep,find,ls
-
-spreadsheet-processor:
-  name: spreadsheet-processor
-  description: Data analysis and spreadsheet processing (XLSX)
-  tools: read,write,edit,bash,grep,find,ls
-  skills: spreadsheet-processing
-
-writing-planner:
-  name: writing-planner
-  description: Writing structure and planning specialist
-  tools: read,write,edit,bash,grep,find,ls
-
-ai-news-collector:
-  name: ai-news-collector
-  description: AI industry news collection and synthesis
-  tools: read,grep,find,ls,bash,web_search,fetch_content
-
-academic-search:
-  name: academic-search
-  description: Academic paper and scholarly research specialist
-  tools: read,grep,find,ls,bash,web_search,fetch_content
-  skills: academic-search
-
-daily-paper:
-  name: daily-paper
-  description: Daily academic paper summary specialist
-  tools: read,grep,find,ls,bash,web_search,fetch_content
-
-open-academic:
-  name: open-academic
-  description: Open academic resources and data specialist
-  tools: read,grep,find,ls,bash,web_search,fetch_content
-  skills: academic-search
-
-research-assistant:
-  name: research-assistant
-  description: General research and context gathering assistant
-  tools: read,grep,find,ls,bash,web_search,fetch_content
-  skills: research-tools
-
-meta-search:
-  name: meta-search
-  description: Advanced multi-engine meta-search specialist
-  tools: read,grep,find,ls,bash,web_search,fetch_content
-  skills: meta-search, web-search
-
-shader-extractor:
-  name: shader-extractor
-  description: Web shader extraction and analysis specialist
-  tools: read,grep,find,ls,bash,web_search,fetch_content
-
-# --- Meta Experts (Pi-Pi Team) ---
+# --- Meta Experts (.pi/agents/pi-pi/) ---
 
 pi-orchestrator:
   name: pi-orchestrator
@@ -368,45 +87,45 @@ pi-orchestrator:
 
 skill-expert:
   name: skill-expert
-  description: Pi skills expert — knows SKILL.md format, frontmatter fields, directory structure, validation rules, and skill command registration
+  description: Pi skills expert — knows SKILL.md format, frontmatter fields, directory structure, and validation rules.
   tools: read,grep,find,ls,bash
 
 agent-expert:
   name: agent-expert
-  description: Pi agent definitions expert — knows the .md frontmatter format for agent personas, teams.yaml structure, agent-team orchestration, and session management
+  description: Pi agent definitions expert — knows the .md frontmatter format for agent personas, teams.yaml structure, and orchestration.
   tools: read,grep,find,ls,bash
 
-ext-expert:
-  name: ext-expert
-  description: Pi extensions expert — knows how to build custom tools, event handlers, commands, shortcuts, state management, custom rendering, and tool overrides
+ext-builder:
+  name: ext-builder
+  description: Pi extensions expert — knows how to build custom tools, event handlers, commands, shortcuts, and custom rendering.
   tools: read,write,edit,bash,grep,find,ls
 
 tui-expert:
   name: tui-expert
-  description: Pi TUI expert — knows all built-in components, custom components, overlays, keyboard input, widgets, footers, and custom editors
+  description: Pi TUI expert — knows all built-in components, custom components, overlays, keyboard input, and widgets.
   tools: read,grep,find,ls,bash
 
 cli-expert:
   name: cli-expert
-  description: Pi CLI expert — knows all command line arguments, flags, environment variables, subcommands, output modes, and non-interactive usage
+  description: Pi CLI expert — knows all command line arguments, flags, environment variables, and output modes.
   tools: read,grep,find,ls,bash
 
 config-expert:
   name: config-expert
-  description: Pi configuration expert — knows settings.json, providers, models, packages, keybindings, and all configuration options
+  description: Pi configuration expert — knows settings.json, providers, models, packages, and keybindings.
   tools: read,grep,find,ls,bash
 
 prompt-expert:
   name: prompt-expert
-  description: Pi prompt templates expert — knows the single-file .md format, frontmatter, positional arguments, and /template invocation
+  description: Pi prompt templates expert — knows the single-file .md format, frontmatter, and positional arguments.
   tools: read,grep,find,ls,bash
 
 theme-expert:
   name: theme-expert
-  description: Pi themes expert — knows the JSON format, all 51 color tokens, vars system, hex/256-color values, hot reload, and theme distribution
+  description: Pi themes expert — knows the JSON format, all 51 color tokens, vars system, and hot reload.
   tools: read,grep,find,ls,bash
 
 keybinding-expert:
   name: keybinding-expert
-  description: Pi keyboard shortcut expert — knows registerShortcut(), Key IDs, modifier combos, reserved keys, and keybindings.json customization
+  description: Pi keyboard shortcut expert — knows registerShortcut(), Key IDs, and reserved keys.
   tools: read,grep,find,ls,bash

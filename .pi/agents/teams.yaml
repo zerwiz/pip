@@ -1,5 +1,5 @@
-# Teams Configuration for roto/.pi/agents
-# Each team uses only agents that exist in agents.yaml for discovery by dispatch agent
+# Teams Configuration for Pi Agents
+# Each team uses only agents that exist in agents.yaml
 
 # --- Project Teams ---
 
@@ -25,6 +25,7 @@ security-research-team:
   - netlify-troubleshooter
   - ext-builder
   - pi-dev-expert
+  - red-team
 
 # Browser automation team - Web scraping and testing
 browser-automation-team:
@@ -38,13 +39,6 @@ session-team:
   - developer
   - documenter
 
-# Build and deploy team - CI/CD and deployment workflows
-build-deploy-team:
-  - developer
-  - netlify-troubleshooter
-  - planner
-  - reviewer
-
 # Architecture and review team - Design and code quality
 architecture-team:
   - planner
@@ -53,45 +47,12 @@ architecture-team:
   - ext-builder
   - pi-dev-expert
 
-# Extensions and customization team - Pi extensions development
-extensions-team:
-  - ext-builder
-  - developer
-  - documenter
-  - pi-dev-expert
-
-# Fast execution team - Quick plan and implement cycles
-fast-exec-team:
-  - planner
-  - developer
-  - scout
-
-# Cleanup and maintenance team - Session cleanup and documentation
-maintenance-team:
-  - documenter
-  - session-manager
-  - developer
-  - reviewer
-
-# --- Domain Teams ---
-
-# Homepage development and optimization team
-homepage-team:
-  - dev-agent
-  - content-agent
-  - design-agent
-  - marketing-agent
-  - research-agent
-  - seo-agent
-  - accessibility-agent
-  - image-agent
-
-# Pi-Pi meta team - Building and configuring Pi itself
+# Meta Experts team - Building and configuring Pi itself
 pi-pi-meta-team:
   - pi-orchestrator
   - skill-expert
   - agent-expert
-  - ext-expert
+  - ext-builder
   - tui-expert
   - cli-expert
   - config-expert
@@ -99,143 +60,31 @@ pi-pi-meta-team:
   - theme-expert
   - keybinding-expert
 
-# --- Specialized Teams ---
-
-# Multimodal analysis and generation team
-multimodal-team:
-  - image-analyzer
-  - image-editor
-  - video-analyzer
-  - speech-to-text
-  - vision-language
-  - chart-creator
-  - shader-extractor
-
-# Web intelligence and automation team
-web-intelligence-team:
-  - web-search-engine
-  - web-content-fetcher
-  - browser-agent
-  - meta-search
-  - ai-news-collector
-
-# Content strategy and creation team
-content-creation-team:
-  - seo-writer
-  - blog-author
-  - podcast-creator
-  - presentation-creator
-  - writing-planner
-  - content-strategist
-
-# Business and financial analysis team
-business-analysis-team:
-  - market-analyzer
-  - stock-analyzer
-  - finance-advisor
-  - fortune-analyzer
-  - spreadsheet-processor
-
-# Academic and scholarly research team
-academic-research-team:
-  - academic-search
-  - daily-paper
-  - open-academic
-  - research-assistant
-  - document-processor
-  - content-analyzer
-
-# Advanced development and skill building team
-advanced-dev-team:
-  - llm-integrator
-  - fullstack-developer
-  - skill-builder
-  - skill-finder
-  - skill-reviewer
-
-# Personal assistant and coaching team
-personal-assistant-team:
-  - mindfulness-coach
-  - anti-manipulation
-  - dream-analyzer
-  - gift-advisor
-
 # --- Global Access ---
 
-# All specialists - Full roster access
-all-specialists:
+# All active agents - Full roster access
+all-agents:
   - scout
   - planner
   - developer
   - reviewer
   - documenter
   - red-team
-  - session-manager
   - frontend-coder
   - bowser
-  - ext-builder
+  - indexer
+  - plan-reviewer
   - netlify-troubleshooter
   - pi-dev-expert
-  - plan-reviewer
-  - dev-agent
-  - content-agent
-  - marketing-agent
-  - research-agent
-  - design-agent
-  - seo-agent
-  - accessibility-agent
-  - image-agent
+  - ralph
+  - session-manager
   - pi-orchestrator
   - skill-expert
   - agent-expert
-  - ext-expert
+  - ext-builder
   - tui-expert
   - cli-expert
   - config-expert
   - prompt-expert
   - theme-expert
   - keybinding-expert
-  - web-content-fetcher
-  - web-search-engine
-  - image-analyzer
-  - image-editor
-  - video-analyzer
-  - llm-integrator
-  - speech-to-text
-  - vision-language
-  - podcast-creator
-  - seo-writer
-  - market-analyzer
-  - ui-ux-designer
-  - visual-designer
-  - storyboard-creator
-  - skill-builder
-  - skill-finder
-  - skill-reviewer
-  - stock-analyzer
-  - finance-advisor
-  - gift-advisor
-  - fortune-analyzer
-  - content-strategist
-  - content-analyzer
-  - blog-author
-  - fullstack-developer
-  - mindfulness-coach
-  - auto-target
-  - anti-manipulation
-  - browser-agent
-  - dream-analyzer
-  - chart-creator
-  - document-processor
-  - presentation-creator
-  - spreadsheet-processor
-  - writing-planner
-  - ai-news-collector
-  - academic-search
-  - daily-paper
-  - open-academic
-  - research-assistant
-  - meta-search
-  - shader-extractor
-  - coding-agent
-  - interview-specialist

@@ -1,5 +1,5 @@
 ---
-name: research-agent
+name: Homepage-research-agent
 description: Homepage research assistant who gathers context, analyzes competitors, and validates content strategy
 models:
 tools: read,grep,find,ls,bash,web-search

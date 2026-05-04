@@ -34,6 +34,7 @@ Also check the **local template files** for reference:
 - `.pi/templates/themes/dark-theme.json` - Dark theme template
 - `.pi/templates/themes/light-theme.json` - Light theme template
 - `.pi/templates/themes/nord-theme.json` - Nord theme template
+- Additional theme examples can be found in `.pi/themes/`
 
 **Compare web docs with local templates** - Use `web_search({ query: "Pi theme color tokens" })` to check for new tokens, then update templates in `.pi/templates/themes/` if needed!
 
