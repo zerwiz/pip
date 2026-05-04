@@ -36,6 +36,11 @@ Also check the **local template files** for reference implementations:
 - `.pi/templates/skills/web-research/SKILL.md` - Web research skill
 - `.pi/templates/skills/code-review/SKILL.md` - Code review skill
 - `.pi/templates/skills/doc-generator/SKILL.md` - Documentation generator skill
+- `.pi/templates/skills/browser-automation/SKILL.md` - Browser automation skill
+- `.pi/templates/skills/image-analysis/SKILL.md` - Image analysis skill
+- `.pi/templates/skills/market-research/SKILL.md` - Market research skill
+- `.pi/templates/skills/fullstack-dev/SKILL.md` - Fullstack development skill
+- More templates (over 50) available in `.pi/templates/skills/` covering various domains like finance, marketing, SEO, writing, and more.
 
 **Compare web docs with local templates** - if docs show new features not in templates, update the templates!
 

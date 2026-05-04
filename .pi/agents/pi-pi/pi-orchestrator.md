@@ -55,3 +55,4 @@ Once you have research from all experts:
 - Prompts: `.pi/prompts/`
 - Agents: `.pi/agents/`
 - Teams: `.pi/agents/teams.yaml`
+- Templates: `.pi/templates/` (contains agents, skills, themes, extensions, prompt-templates)

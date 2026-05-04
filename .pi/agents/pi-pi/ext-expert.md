@@ -39,6 +39,7 @@ Also check the **local template files** for reference implementations:
 - `.pi/templates/extensions/custom-command.ts` - Custom command template
 - `.pi/templates/extensions/ui-widget.ts` - UI widget template
 - `.pi/templates/extensions/plan-mode.ts` - Plan mode template
+- Additional extension patterns can be found in `extensions/`
 
 **Compare web docs with local templates** - if docs show new features not in templates, update the templates!
 
