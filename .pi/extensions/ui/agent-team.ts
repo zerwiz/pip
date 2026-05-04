@@ -1362,10 +1362,10 @@ export default function (pi: ExtensionAPI) {
     handler: async (_args, ctx) => {
       try {
         await exportMemory("json", ctx.cwd);
-        ctx.ui.log(`✅ Memory export complete: .pi/memory-export.json`);
+        ctx.ui.notify(`✅ Memory export complete: .pi/memory-export.json`, "info");
         await cleanupExports(7 * 24 * 60 * 60 * 1000);
       } catch (error) {
-        ctx.ui.log(`❌ Export failed: ${error}`);
+        ctx.ui.notify(`❌ Export failed: ${error}`, "error");
       }
     },
   });
@@ -1375,10 +1375,10 @@ export default function (pi: ExtensionAPI) {
     handler: async (_args, ctx) => {
       try {
         await exportMemory("text", ctx.cwd);
-        ctx.ui.log(`✅ Memory export complete: .pi/memory-export.txt`);
+        ctx.ui.notify(`✅ Memory export complete: .pi/memory-export.txt`, "info");
         await cleanupExports(7 * 24 * 60 * 60 * 1000);
       } catch (error) {
-        ctx.ui.log(`❌ Export failed: ${error}`);
+        ctx.ui.notify(`❌ Export failed: ${error}`, "error");
       }
     },
   });
@@ -1388,10 +1388,10 @@ export default function (pi: ExtensionAPI) {
     handler: async (_args, ctx) => {
       try {
         await exportMemory("md", ctx.cwd);
-        ctx.ui.log(`✅ Memory export complete: .pi/memory-export.md`);
+        ctx.ui.notify(`✅ Memory export complete: .pi/memory-export.md`, "info");
         await cleanupExports(7 * 24 * 60 * 60 * 1000);
       } catch (error) {
-        ctx.ui.log(`❌ Export failed: ${error}`);
+        ctx.ui.notify(`❌ Export failed: ${error}`, "error");
       }
     },
   });
@@ -1401,9 +1401,9 @@ export default function (pi: ExtensionAPI) {
     handler: async (_args, ctx) => {
       try {
         const result = await exportMemory("preview", ctx.cwd);
-        ctx.ui.log(`👀 Memory Preview:\n${result}`);
+        ctx.ui.notify(`👀 Memory Preview:\n${result}`, "info");
       } catch (error) {
-        ctx.ui.log(`❌ Preview failed: ${error}`);
+        ctx.ui.notify(`❌ Preview failed: ${error}`, "error");
       }
     },
   });
@@ -1486,7 +1486,7 @@ ${teamsList}
     ctx.ui.setFooter((_tui, theme) => ({
       render(width: number): string[] {
         const usage = ctx.getContextUsage();
-        const pct = usage ? usage.percent : 0 || 0;
+        const pct = usage?.percent ?? 0;
         const bar =
           "#".repeat(Math.max(0, Math.round(pct / 10))) +
           "-".repeat(Math.max(0, 10 - Math.round(pct / 10)));
