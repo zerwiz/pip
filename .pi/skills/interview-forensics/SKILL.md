@@ -1,46 +1,53 @@
 ---
 name: interview-forensics
-description: Expert-grade interview design and analysis based on Topgrading and Performance-based Hiring.
+description: Analyze resumes and design interview strategies using evidence-based methodology. Transforms interview prep from "read resume → ask questions" into "define standard → forensic evidence → future simulation". Combines Geoff Smart's Topgrading, Lou Adler's performance-based hiring, and Daniel Kahneman's bias control. Use when preparing for interviews, creating structured interview guides, or designing questions to validate candidate competencies.
 ---
 
-# Interview Forensics
+# Interview Designer Skill
 
-## Setup
+> **Core Mission**: Elevate interview planning from "glancing at resume and asking questions" to "evidence-based investigation and projection."
+> **Operating Mechanism**: Define Scorecard (set standards) → Forensic Scan (evidence gathering) → Future Simulation (performance prediction).
+> **Prompt Strategy**: This skill uses \<Chain of Thought\>. When executing, maintain an "Objective Evaluator" perspective, seeking both Red Flags and Green Signals.
 
-```bash
-# No special setup. Relies on structured interviewing frameworks.
-```
+## 1. Dynamic War Room (Expert Panel)
 
-## Scorecard Definition
+Dynamically summon the most matching **best minds** into the war room based on **candidate's role attributes**:
 
-```bash
-# Define a scorecard for a Senior Backend Engineer role
-llm "Create a Topgrading scorecard for a Senior Backend Engineer. Include mission, outcomes, and competencies (technical and behavioral)."
-```
+*   **Geoff Smart (Who)**: Responsible for **Define & Verify**.
+    *   *Principle*: Scorecard First. Before looking at any resume, clarify what the standard for an "A Player" is.
+*   **Lou Adler (Performance-based)**: Responsible for **Predict**.
+    *   *Principle*: Past performance predicts future performance *only if* the context is similar. Must design simulations for future scenarios.
+*   **Daniel Kahneman (Bias Control)**: Responsible for **De-bias**.
+    *   *Principle*: Beware of "confirmation bias." If concerns are found, also seek counter-evidence; if highlights are found, verify their replicability.
+*   **Domain Expert**: Responsible for **Depth**.
 
-## Forensic Scan
+## 2. Core Execution Workflow
 
-```bash
-# Analyze a candidate's career history for patterns
-llm "Perform a forensic scan of this CV: [CV content]. Identify 'Passenger vs Driver' moments and evaluate if they demonstrate 'First Principles' thinking."
-```
+### Step 1: Scorecard Definition - *Smart's Priority*
+**Don't look at the resume first!** Based on JD or role requirements, define A Player standards for this position:
+*   **Mission**: One sentence - why does this role exist?
+*   **Outcomes**: 3-5 specific, measurable results that must be achieved within 12 months.
+*   **Competencies**: Hard/soft skills required to achieve the above outcomes.
 
-## Future Simulation
+### Step 2: Forensic Resume Scan - *Smart's Forensic*
+Use Step 1 standards to scan the resume, looking for **Gaps (discrepancies)** and **High Points (highlights)**:
+*   **The "Too Good To Be True" Heuristic**: Logical gaps behind perfect data.
+*   **The "Passenger vs Driver" Heuristic**: Individual's true contributions under big company halo.
+*   **The "First Principles" Heuristic**: Principle understanding behind technical jargon.
 
-```bash
-# Design a performance-based interview question
-llm "Design a performance-based simulation for a candidate to demonstrate their ability to scale a legacy system, focusing on Lou Adler's methodology."
-```
+### Step 3: Pressure Test & Future Simulation - *Adler's Prediction*
+Design two types of questions:
+1.  **Pressure Test Scripts (for past)**: Design Forensic STAR follow-ups targeting Step 2 concerns (originally "torpedo questions," but more objective).
+2.  **Future Simulation (for future)**: Design a specific Performance Problem.
+    *   *Example*: "We're entering this new market next year, and the biggest obstacle is X. If you join, how would you analyze this problem in your first week?"
 
-## Workflow
+## 3. Question Design Principles
 
-1. **Define Scorecard** — Establish clear mission, outcomes, and competencies before the interview.
-2. **Forensic Scan** — Deep dive into past performance to identify patterns and truth-seeking.
-3. **Future Simulation** — Use realistic scenarios to test how the candidate will perform in the specific role.
-4. **Bias Control** — Apply Daniel Kahneman's techniques to minimize cognitive bias in evaluation.
+1.  **Cannot Be Memorized**: Forces candidates to think on the spot (Simulation) or recall painful memories (Pressure Test).
+2.  **Forced Trade-offs**: Choose between two "correct" options to test values.
+3.  **Detail Granularity**: Must be able to probe down to "what diagram did you draw" or "what exact words did you say."
 
-## Notes
+## 4. Output Format
 
-- Prioritize "Drivers" who take ownership over "Passengers" who just go along for the ride.
-- Look for "First Principles" thinking to ensure deep understanding rather than just following procedures.
-- Use structured scoring to compare candidates objectively.
+Directly call `templates/interview_guide_template.md` to generate the report.
+**Note**: When generating the guide, include both **[Red Flags] (concerns)** and **[Green Signals] (highlight verification)** to maintain objectivity in assessment.

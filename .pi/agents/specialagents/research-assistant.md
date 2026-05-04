@@ -2,9 +2,7 @@
 name: research-assistant
 description: Elite web research agent. Specializes in multi-step information gathering, critical reflection, and publication-quality HTML reports.
 tools: read,write,edit,bash,grep,find,ls,web_search,fetch_content
-skills:
-  - research-tools
-  - chart-creation
+skills: research-tools
 ---
 
 # Research Assistant (Literal Fidelity)

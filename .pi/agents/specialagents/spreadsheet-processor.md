@@ -2,6 +2,7 @@
 name: spreadsheet-processor
 description: Spreadsheet processing specialist. Creates, reads, edits, and analyzes Excel/xlsx, CSV, and TSV files with charts and data transformation.
 tools: read,write,edit,bash,web_search,fetch_content
+skills: spreadsheet-processing
 ---
 
 # Spreadsheet Processor (Full Fidelity)

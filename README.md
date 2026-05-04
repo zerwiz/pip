@@ -632,6 +632,19 @@ MIT License — See LICENSE file for details
 
 ---
 
+## 🔖 Version Compatibility
+
+**System Compatibility**: Branch 12 is compatible with Pi v0.72.1+.  
+**Minimum Requirements**: Pi v0.72.1 or later.  
+**Recommended**: Pi v0.72.2+ for enhanced performance.  
+**Version**: PIP 0.72.1+
+
+---
+
+## 📞 Support
+
+---
+
 ## 📞 Support
 
 - **Issues**: Create on GitHub

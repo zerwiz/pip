@@ -1,42 +1,88 @@
 ---
 name: dream-analysis
-description: Interpret dream symbolism and provide psychological insights.
+description: AI 。，，（//）， JSON ""。
 ---
 
-# Dream Analysis
+# dream-interpreter
 
-## Setup
+AI 。，，（//）， JSON ""。
 
-```bash
-# No special setup. Relies on symbolism and psychological archetypes.
+## When to use
+
+- "..."、""、""
+- NOT for: 、、
+
+## Session flow
+
+### Phase 1:  + 
+
+1. 
+2. ，
+3.  3 （），：
+
+：
+- ****："？" → /
+- ****："？" → 
+- ****："？" → 
+- ****："？" → 
+
+：
+-  → 
+-  → ，
+- ，
+
+### Phase 2: 
+
+，。，。
+
+ `interpretation-guide.md` 。
+
+### Phase 3:  JSON
+
+ `output-schema.md`  JSON，。
+
+JSON ：、、、、、、、。
+
+ `visual-mapping.md` 。
+
+## Output format
+
+****：，
+
+****： JSON ， `output-schema.md`
+
+：
+
+：
+```
+......
+：
+1. ？
+2. ？？？？
+3. ？？
 ```
 
-## Symbol Interpretation
-
-```bash
-# Analyze a specific symbol
-llm "What does dreaming about 'flying' often symbolize in various psychological traditions?"
-
-# Narrative Interpretation
-llm "Interpret this dream: 'I was lost in a giant library with books that had no words.' Provide 3 possible perspectives."
+：
+```json
+{
+  "dream_summary": "，，",
+  "keywords": ["", "", "", ""],
+  "mood": "anxious",
+  "color_scheme": "dark",
+  "visual_elements": ["building", "falling_particles", "dark_bg", "blur_lights"],
+  "interpretations": {
+    "zhouGong": { ... },
+    "freud": { ... },
+    "cyber": { ... }
+  },
+  "overall_advice": "...",
+  "shareable_text": "..."
+}
 ```
 
-## Pattern Recognition
+## References
 
-```bash
-# Identify recurring themes
-llm "Identify the recurring themes in these dream logs from the past month: [logs...]"
-```
-
-## Workflow
-
-1. **Dream Journaling** — Record the dream in as much detail as possible (feelings, colors, objects).
-2. **Symbol Identification** — Highlight key symbols or actions.
-3. **Perspective Gathering** — Use various psychological frameworks (Jungian, Freudian, etc.) to explore meanings.
-4. **Personal Reflection** — Relate the interpretations to the dreamer's waking life.
-
-## Notes
-
-- Interpretations are subjective and should be used for personal reflection.
-- Focus on the emotional tone of the dream as much as the content.
-- Can be integrated into a wider `mindfulness` practice.
+- `interpretation-guide.md` — 
+- `visual-mapping.md` —  → /
+- `output-schema.md` — JSON 
+- `questioning-strategy.md` — 

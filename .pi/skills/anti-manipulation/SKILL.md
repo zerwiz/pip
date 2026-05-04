@@ -1,43 +1,245 @@
 ---
 name: anti-manipulation
-description: Critical thinking, logic checking, and identifying manipulative techniques.
+description: PUA（Pickup Artist）。、、，、、，（、），。：、PUA/、NPD（）、、、、skill。
 ---
 
-# Anti-Manipulation
+# PUA - 
 
-## Setup
+## 
 
-```bash
-# No special setup. Relies on logic and critical thinking principles.
-```
+。：
 
-## Argument Analysis
+- ****：，（、、）、、
+- ****：
+- ****：、、（gaslighting）
+- ****：
 
-```bash
-# Identify logical fallacies
-llm "Analyze this political speech for logical fallacies: [speech text...]"
+## 🚀  - 
 
-# Detect Manipulative Language
-llm "Check this marketing email for 'FOMO' (Fear Of Missing Out) or other manipulative triggers."
-```
+**skill，，：**
 
-## Fact Checking
+### 1：
+"？"
+- 、、
+- 、、
+- 、、
+- 、、、、
+- 、、
 
-```bash
-# Verify claims
-web_search "fact check: [claim]"
-```
+### 2：
+"，？"
+- 
+- PUA
+- NPD（）
+- 
+- 
+- 
+- 
+- 
+- 
+- （）
 
-## Workflow
+### 3：
+"，："
+- （）
+- 
+- 
+- 
 
-1. **Input Information** — Provide the text, speech, or claim to be analyzed.
-2. **Deconstruction** — Break down the information into core arguments.
-3. **Logic Check** — Evaluate the validity of the arguments and identify fallacies (e.g., ad hominem, straw man).
-4. **Contextual Review** — Look for missing information or emotional manipulation.
-5. **Synthesis** — Provide a balanced, critical assessment of the information.
+### 4：
+"："
+- 
+- 
+- 
 
-## Notes
+### 5：（）
+"，PUA，，："
+- PUA？
+- NPD？
+- ？
+- ？
+- PUA
 
-- Promotes objective reasoning and media literacy.
-- Useful for evaluating complex debates, news, or high-pressure communication.
-- Combine with `content-analysis` for deeper insight.
+---
+
+## 
+
+**，：**
+
+**：**
+
+1. ****：PUA（5），，，。
+
+2. ****：""（2），，，，。
+
+3. ****：，（、、），。
+
+4. ****：、，，。
+
+### 1：
+
+【1】【2】，：
+- 
+- 
+- 
+
+### 2：
+
+（、），：
+
+- 
+- 
+- PUA/
+
+### 3：
+
+，：
+
+**：**
+- ：
+  - （Narcissism）：、、
+  - （Machiavellianism）：、、
+  - （Psychopathy）：、、
+- ：
+- ：、、
+
+**：**
+- ：
+- （Gaslighting）：，
+- （Love Bombing）：，
+- （Silent Treatment）：
+- ：，
+- （Triangulation）：
+- ：
+
+**：**
+- 
+- 
+- 
+- 
+
+### 4：
+
+，：
+
+- 
+- 
+- 
+- 
+
+### 5：
+
+：
+
+**：**
+- 
+- 
+- 
+
+**：**
+- 
+- 
+- 
+
+**：**
+- 
+- 
+- 
+
+## 
+
+：
+
+### 1. /
+- 
+- 
+- 
+
+### 2. PUA/
+- 
+- （//）
+- 
+
+### 3. 
+- 
+- （：、）
+- 
+
+### 4. 
+- 
+- 
+- 
+
+### 5. 
+- 
+- 
+- 
+
+### 6. 
+- 
+- 
+- 
+
+## 
+
+1. ****：，
+2. ****：
+3. ****：，
+4. ****：，
+5. ****：，
+
+## 
+
+### 1：
+
+**：** "'？'，"
+
+**：**
+
+### 
+- ****：
+- ****：，
+- ****：，
+
+### PUA
+- ****：
+- ****：
+- ****：
+
+### 
+- ****：
+- ****：
+- ****：
+
+### 
+- ，：
+  - 
+  - 
+  - 
+
+### 
+- ****："，"
+- ****：
+- ****：，，
+
+### 
+- ****：，
+- ****：
+- ****：
+
+---
+
+### 2：（）
+
+****：
+
+**：**
+
+**AI（1）**：？
+****：，6
+
+**AI（2）**：，？
+****：PUA，
+
+**AI（3）**：，、、，。
+****：，，，。3，，、、。，"，"。""、""。，，"，"，。

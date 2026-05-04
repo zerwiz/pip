@@ -1,43 +1,157 @@
 ---
 name: ai-news
-description: Collect and synthesize the latest news in the field of Artificial Intelligence.
+description: AI 。 AI ，：" AI ？"" AI "" AI ？""AI ？"。：、、、、、、AI /Agent 。，，。
 ---
 
-# AI News
+# AI News Collector
 
-## Setup
+、 AI 。
 
-```bash
-# No special setup. Relies on web_search and content-analysis.
+## 
+
+**"AI news today"。**  SEO ，（、Meme ）。、。
+
+## 
+
+### 1. （ 8 ， 10-12 ）
+
+ **6 ** ， 1 ：
+
+####  A：/Newsletter （ 🔑）
+
+， 10+ 。
+
+```
+：
+- "last week in AI" []
+- "AI weekly roundup" []
+- "the batch AI newsletter"
+- site:substack.com AI news []
 ```
 
-## News Collection
+， web_fetch ，。
 
-```bash
-# Find latest AI breakthroughs
-web_search "latest major AI research breakthroughs this week"
+####  B：/（ 🔑）
 
-# Monitor specific companies
-web_search "OpenAI latest product announcements"
+，。
+
+```
+：
+- "viral AI tool" OR "viral AI agent"
+- "AI trending" site:reddit.com OR site:news.ycombinator.com
+- "GitHub trending AI" OR "AI open source trending"
+- AI buzzing OR "everyone is talking about" AI
+- "most popular AI" this week
 ```
 
-## Synthesis and Reporting
+####  C：
 
-```bash
-# Summarize AI news for a newsletter
-web_search "AI news today" | llm "Provide a 3-bullet summary of the most important AI news from the last 24 hours."
+```
+：
+- "AI model release" OR "LLM launch" []
+- "AI product launch" []
+- OpenAI OR Anthropic OR Google OR Meta AI announcement
+- " " OR "AI "
 ```
 
-## Workflow
+####  D：
 
-1. **Query Definition** — Specify the area of AI (LLMs, Robotics, Ethics, etc.).
-2. **Information Retrieval** — Use `web_search` with `--recency` filters.
-3. **Filtering** — Identify high-impact news from reputable sources.
-4. **Summarization** — Use `content-analysis` to create concise updates.
-5. **Distribution** — Format the news for a blog post, newsletter, or briefing.
+```
+：
+- "AI startup funding" []
+- "AI acquisition" OR "AI IPO"
+- "AI " OR ""
+```
 
-## Notes
+####  E：
 
-- AI is a fast-moving field; recency filters are essential.
-- Cross-reference social media (X/Twitter) and research papers (ArXiv) for early news.
-- Use `academic-search` for deeper dives into research news.
+```
+：
+- "AI breakthrough" OR "AI paper" []
+- "state of the art" machine learning
+- "AI " OR ""
+```
+
+####  F：
+
+```
+：
+- "AI regulation" OR "AI policy" []
+- "AI law" OR "AI governance" 
+- "AI " OR ""
+```
+
+### 2. 
+
+，：
+
+-  Newsletter / → 
+-  3+  → ，
+-  → 
+
+### 3. （）
+
+| ❌  | ✅  |  |
+|---|---|---|
+| "AI news today February 2026" | "AI weekly roundup February 2026" | ， |
+| "AI news today" | "viral AI tool" + "AI model release"  |  |
+| "artificial intelligence breaking news" |  | ， |
+|  |  "this week" "today" "latest" | / |
+|  3  |  8 ， 6  | 3  30% |
+
+### 4. 
+
+（1-5 ）：
+
+|  |  |  |
+|------|------|------|
+|  | ⭐⭐⭐  | 3+  =  |
+|  | ⭐⭐⭐  | GitHub star 、Twitter 、HN  |
+| （、） | ⭐⭐⭐  |  PR  |
+|  | ⭐⭐  |  >  |
+| / | ⭐⭐  | |
+| （、） | ⭐⭐  |  |
+| （） | ⭐  |  |
+
+### 5. 
+
+， **15-25 **：
+
+```
+## 🔥 AI （YYYY-MM-DD）
+
+### ⭐⭐⭐⭐⭐ 
+
+1. **[]**
+   > （ 50 ）
+   > 🔗 [](URL)
+
+### ⭐⭐⭐⭐ 
+
+2. ...
+
+### ⭐⭐⭐ 
+
+...
+
+---
+📊  XX  |  XX  | ：A/B/C/D/E/F | ：HH:MM
+```
+
+### 6. 
+
+- ，，/
+- ""
+- /（ Clawdbot → Moltbot → OpenClaw）
+
+## 
+
+ [references/sources.md](references/sources.md)。
+
+## 
+
+-  HTTPS 
+- /，""
+- ，
+-  8 
+- ，

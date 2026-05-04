@@ -1,43 +1,43 @@
 ---
 name: ui-design
-description: Design user interfaces and user experiences with wireframing and component specifications.
+description: UI/UX design intelligence and implementation guidance for building polished interfaces. Use when the user asks for UI design, UX flows, information architecture, visual style direction, design systems/tokens, component specs, copy/microcopy, accessibility, or to generate/critique/refine frontend UI (HTML/CSS/JS, React, Next.js, Vue, Svelte, Tailwind). Includes workflows for (1) generating new UI layouts and styling, (2) improving existing UI/UX, (3) producing design-system tokens and component guidelines, and (4) turning UX recommendations into concrete code changes.
 ---
 
-# UI Design
+Follow these steps to deliver high-quality UI/UX output with minimal back-and-forth.
 
-## Setup
+## 1) Triage
+Ask only what you must to avoid wrong work:
+- Target platform: web / iOS / Android / desktop
+- Stack (if code changes): React/Next/Vue/Svelte, CSS/Tailwind, component library
+- Goal and constraints: conversion, speed, brand vibe, accessibility level (WCAG AA?)
+- What you have: screenshot, Figma, repo, URL, user journey
+
+If the user says "" (design + UX + code + design system), treat it as four deliverables and ship in that order.
+
+## 2) Produce Deliverables (pick what fits)
+Always be concrete: name components, states, spacing, typography, and interactions.
+
+- **UI concept + layout**: Provide a clear visual direction, grid, typography, color system, key screens/sections.
+- **UX flow**: Map the user journey, critical paths, error/empty/loading states, edge cases.
+- **Design system**: Tokens (color/typography/spacing/radius/shadow), component rules, accessibility notes.
+- **Implementation plan**: Exact file-level edits, component breakdown, and acceptance criteria.
+
+## 3) Use Bundled Assets
+This skill bundles data you can cite for inspiration/standards.
+
+- **Design intelligence data**: Read from `skills/ui-ux-pro-max/assets/data/` when you need palettes, patterns, or UI/UX heuristics.
+- **Upstream reference**: If you need more phrasing/examples, consult `skills/ui-ux-pro-max/references/upstream-skill-content.md`.
+
+## 4) Optional Script (Design System Generator)
+If you need to quickly generate tokens and page-specific overrides, use the bundled script:
 
 ```bash
-# No special setup. Relies on design principles and LLM for specs.
+python3 skills/ui-ux-pro-max/scripts/design_system.py --help
 ```
 
-## Wireframing and Layout
+Prefer running it when the user wants a structured token output (ASCII-friendly).
 
-```bash
-# Generate a wireframe description
-llm "Create a low-fidelity wireframe layout for a mobile fitness app dashboard."
-
-# Component Specifications
-llm "Write detailed CSS and layout specifications for a 'Dark Mode' toggle switch."
-```
-
-## Design Feedback
-
-```bash
-# Analyze a screenshot for UI improvements
-fetch_content "current_ui.png" "Review this UI for accessibility and spacing. Suggest 5 improvements."
-```
-
-## Workflow
-
-1. **Define User Goals** — Understand what the user needs to achieve.
-2. **Information Architecture** — Map out the flow and structure.
-3. **Wireframing** — Create low-fidelity layouts to test structure.
-4. **High-Fidelity Design** — Define colors, typography, and components.
-5. **Specification** — Generate CSS/HTML or React code for implementation.
-
-## Notes
-
-- Focus on usability and accessibility (WCAG standards).
-- Maintain consistency across components.
-- Use `vision-language` skills to review and iterate on designs.
+## Output Standards
+- Default to ASCII-only tokens/variables unless the project already uses Unicode.
+- Include: spacing scale, type scale, 2-3 font pair options, color tokens, component states.
+- Always cover: empty/loading/error, keyboard navigation, focus states, contrast.

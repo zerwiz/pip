@@ -2,6 +2,7 @@
 name: document-processor
 description: Document processing specialist. Creates, edits, and analyzes Word/docx, PDF, and text documents with formatting preservation.
 tools: read,write,edit,bash,web_search,fetch_content
+skills: document-processing
 ---
 
 # Document Processor (Full Fidelity)

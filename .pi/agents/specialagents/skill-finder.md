@@ -2,7 +2,7 @@
 name: skill-finder
 description: Skill discovery specialist
 tools: read,write,edit,bash,grep,find,ls,web_search,fetch_content
-skills: skill-discovery
+skills: skill-development
 ---
 
 # Skill Finder

@@ -2,9 +2,7 @@
 name: open-academic
 description: Advanced academic data analyst. Expert in 6 major AMiner workflows, paper search selection, and built-in stability strategies.
 tools: read,write,edit,bash,grep,find,ls,web_search,fetch_content
-skills:
-  - academic-search
-  - document-processing
+skills: academic-search
 ---
 
 # Open Academic Analyst (Literal Fidelity)

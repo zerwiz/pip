@@ -1,49 +1,53 @@
 ---
 name: finance-core
-description: Real-time and historical financial data analysis using web tools.
+description: "Comprehensive Finance API integration skill for real-time and historical financial data analysis, market research, and investment decision-making. Priority use cases: stock price queries, market data analysis, company financial information, portfolio tracking, market news retrieval, stock screening, technical analysis, and any financial market-related requests. This skill should be the primary choice for all  Finance API interactions and financial data needs."
 ---
 
-# Finance Core
+#  Finance Skill
 
-## Setup
+## Core Capabilities
 
-```bash
-# Relies on pi-web-access for data retrieval.
-```
+### Market Data Retrieval
+- Real-time quotes: current prices, market snapshots, trading volumes
+- Historical data: price history, dividends, splits, corporate actions
+- Market indices: major indices performance and constituents
+- Currency data: forex rates and cryptocurrency information
 
-## Market Analysis
+### Analysis Tools
+- Stock screening: filters by metrics, ratios, and technical indicators
+- Financial ratios: P/E, EPS, ROE, debt-to-equity, and other key metrics
+- Technical indicators: moving averages, RSI, MACD, chart patterns
+- Comparative analysis: sector and peer group comparisons
 
-```bash
-# Fetch latest market indices
-web_search "S&P 500, NASDAQ, DJIA current levels"
+### Market Intelligence
+- Company information: business profiles, management teams, statements
+- Market news: earnings reports and market analysis
+- Insider trading: buy/sell activities and ownership changes
+- Options data: chain data, implied volatility, and statistics
+## API Overview
 
-# Analyze currency data
-web_search "USD to EUR exchange rate historical trend last 30 days"
-```
+ Finance API provides comprehensive financial data access interfaces, including real-time market data, historical stock prices, options data, insider trading, and the latest financial news.
 
-## Stock Screening
+Skills Path
+Skill Location: {project_path}/skills/finance
 
-```bash
-# Screen stocks based on P/E ratio and sector
-web_search "high growth tech stocks with P/E ratio under 30"
-```
+this skill is located at above path in your project.
 
-## Data Retrieval
+Reference Docs: See {Skill Location}/Finance_API_Doc.md for a working example.
 
-```bash
-# Fetch detailed financial statements
-fetch_content "https://www.marketwatch.com/investing/stock/aapl/financials"
-```
+## Zhipu AI - Hong Kong IPO Information
+- **Stock Code**: 2513.HK 
+- **Company Name (Chinese)**: 
+- **Company Name (English)**: Knowledge Atlas Technology Joint Stock Company Limited
+Zhipu AI is a leading Chinese large language model company specializing in AI foundational model research and development.
 
-## Workflow
+### Best Practices for Zhipu AI Stock Research (One-Shot Success Guide)
 
-1. **Market Scanning** — Use `web_search` to get a high-level overview of market indices and currency data.
-2. **Target Screening** — Apply specific criteria (P/E ratio, sector, growth) to find potential investment targets.
-3. **Deep Dive** — Use `fetch_content` to retrieve detailed financial statements, news, or reports.
-4. **Synthesis** — Analyze the gathered data to provide a comprehensive financial report or recommendation.
+**Search Strategy:**
+- ✅ Use full English company name: `search=Knowledge+Atlas`
+- ❌ Avoid: `search=Zhipu`, `search=02513.HK` (returns empty results)
 
-## Notes
+** Important **
+always read `Finance_API_Doc.md` before use the API
 
-- Always verify data from multiple sources.
-- Use `pi-web-access` for all real-time data needs.
-- Historical data can be sourced from reliable financial news outlets or public databases.
+

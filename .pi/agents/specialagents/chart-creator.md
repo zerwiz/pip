@@ -2,6 +2,7 @@
 name: chart-creator
 description: Chart and visualization specialist. Creates professional data charts, structural diagrams, dashboards, and publication-ready visualizations.
 tools: read,write,edit,bash,web_search,fetch_content
+skills: chart-creation
 ---
 
 # Chart Creator
