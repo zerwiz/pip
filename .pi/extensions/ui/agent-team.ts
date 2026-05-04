@@ -18,15 +18,26 @@
  * pi -e extensions/agent-team.ts
  */
 
-import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
-import { Type } from "@sinclair/typebox";
+import type {
+  ExtensionAPI,
+  ExtensionContext,
+  ExtensionCommandContext,
+  ExtensionUIContext,
+  Theme,
+  ThemeColor,
+} from "@mariozechner/pi-coding-agent";
+import { Type, type Static } from "@sinclair/typebox";
 import {
   exportMemory,
   cleanupExports,
   listExportFormats,
 } from "../util/memory-export";
-import { handleMemoryExport } from "../util/memory-tools";
-import { Text, truncateToWidth, visibleWidth } from "@mariozechner/pi-tui";
+import {
+  Text,
+  truncateToWidth,
+  visibleWidth,
+  type TUI,
+} from "@mariozechner/pi-tui";
 import { spawn } from "child_process";
 import {
   readdirSync,
@@ -408,7 +419,7 @@ export default function (pi: ExtensionAPI) {
     | "awaiting_approval"
     | "approved" = "idle";
   let currentPlanPath: string | null = null;
-  let widgetCtx: any;
+  let widgetCtx: ExtensionContext | undefined;
   let sessionDir = "";
   let contextWindow = 0;
   let widgetFrame = 0;
@@ -525,13 +536,13 @@ export default function (pi: ExtensionAPI) {
     state: AgentState,
     isLastInList: boolean,
     width: number,
-    theme: any,
+    theme: Theme,
   ): string[] {
     const frame = SPINNER[widgetFrame % SPINNER.length];
     const safeWidth = Math.max(10, width - 2);
 
     let icon = theme.fg("dim", "○");
-    let nameColor = "dim";
+    let nameColor: ThemeColor = "dim";
 
     if (state.status === "running") {
       icon = theme.fg("accent", frame);
@@ -580,7 +591,7 @@ export default function (pi: ExtensionAPI) {
       const contentWidth = Math.max(20, safeWidth - 10);
 
       let raw = "",
-        color = "dim",
+        color: ThemeColor = "dim",
         prefix = "";
       if (state.activeTools.size > 0) {
         raw = `using tools: ${Array.from(state.activeTools).join(", ")}`;
@@ -627,7 +638,7 @@ export default function (pi: ExtensionAPI) {
   function updateWidget() {
     if (!widgetCtx) return;
 
-    widgetCtx.ui.setWidget("agent-team", (_tui: any, theme: any) => {
+    widgetCtx.ui.setWidget("agent-team", (_tui: TUI, theme: Theme) => {
       const text = new Text("", 0, 1);
       return {
         render(width: number): string[] {
@@ -685,7 +696,7 @@ export default function (pi: ExtensionAPI) {
   function dispatchAgent(
     agentName: string,
     task: string,
-    ctx: any,
+    ctx: ExtensionContext,
     signal?: AbortSignal,
   ): Promise<{ output: string; exitCode: number; elapsed: number }> {
     const key = agentName.toLowerCase();
@@ -764,51 +775,55 @@ export default function (pi: ExtensionAPI) {
       }
 
       let buffer = "";
-      proc.stdout!.setEncoding("utf-8");
-      proc.stdout!.on("data", (chunk: string) => {
-        buffer += chunk;
-        const lines = buffer.split("\n");
-        buffer = lines.pop() || "";
+      if (proc.stdout) {
+        proc.stdout.setEncoding("utf-8");
+        proc.stdout.on("data", (chunk: string) => {
+          buffer += chunk;
+          const lines = buffer.split("\n");
+          buffer = lines.pop() || "";
 
-        for (const line of lines) {
-          if (!line.trim()) continue;
-          try {
-            const event = JSON.parse(line);
-            if (event.type === "message_update") {
-              const delta = event.assistantMessageEvent;
-              if (delta?.type === "text_delta") {
-                textChunks.push(delta.delta || "");
-                state.lastWork = textChunks.join("");
+          for (const line of lines) {
+            if (!line.trim()) continue;
+            try {
+              const event = JSON.parse(line);
+              if (event.type === "message_update") {
+                const delta = event.assistantMessageEvent;
+                if (delta?.type === "text_delta") {
+                  textChunks.push(delta.delta || "");
+                  state.lastWork = textChunks.join("");
+                  state.currentMode = "working";
+                  updateWidget();
+                } else if (delta?.type === "thinking_delta") {
+                  state.lastThinking += delta.delta || "";
+                  state.currentMode = "thinking";
+                  updateWidget();
+                }
+              } else if (event.type === "tool_execution_start") {
+                state.toolCount++;
+                if (event.toolCall?.name)
+                  state.activeTools.add(event.toolCall.name);
+                state.currentMode = "tool";
+                updateWidget();
+              } else if (event.type === "tool_execution_end") {
+                if (event.toolCall?.name)
+                  state.activeTools.delete(event.toolCall.name);
                 state.currentMode = "working";
                 updateWidget();
-              } else if (delta?.type === "thinking_delta") {
-                state.lastThinking += delta.delta || "";
-                state.currentMode = "thinking";
+              } else if (
+                event.type === "message_end" &&
+                event.message?.usage &&
+                contextWindow > 0
+              ) {
+                state.contextPct =
+                  (event.message.usage.input / contextWindow) * 100;
                 updateWidget();
               }
-            } else if (event.type === "tool_execution_start") {
-              state.toolCount++;
-              if (event.toolCall?.name)
-                state.activeTools.add(event.toolCall.name);
-              state.currentMode = "tool";
-              updateWidget();
-            } else if (event.type === "tool_execution_end") {
-              if (event.toolCall?.name)
-                state.activeTools.delete(event.toolCall.name);
-              state.currentMode = "working";
-              updateWidget();
-            } else if (
-              event.type === "message_end" &&
-              event.message?.usage &&
-              contextWindow > 0
-            ) {
-              state.contextPct =
-                (event.message.usage.input / contextWindow) * 100;
-              updateWidget();
+            } catch {
+              // Ignore parse errors
             }
-          } catch (e) {}
-        }
-      });
+          }
+        });
+      }
 
       proc.on("close", (code) => {
         if (signal) signal.removeEventListener("abort", onAbort);
@@ -950,15 +965,18 @@ export default function (pi: ExtensionAPI) {
       },
     });
 
+  const SwitchTeamParams = Type.Object({
+    teamName: Type.String({ description: "Target Team ID" }),
+  });
+  type SwitchTeamParams = Static<typeof SwitchTeamParams>;
+
   pi.registerTool({
     name: "switch_team",
     label: "Switch Team",
     description: "Switch the active specialist roster.",
-    parameters: Type.Object({
-      teamName: Type.String({ description: "Target Team ID" }),
-    }),
+    parameters: SwitchTeamParams,
     async execute(_id, params, _sig, _upd, ctx) {
-      const { teamName } = params as { teamName: string };
+      const { teamName } = params as SwitchTeamParams;
       if (!teams[teamName])
         return {
           content: [
@@ -977,7 +995,7 @@ export default function (pi: ExtensionAPI) {
     renderCall: (args, theme) =>
       new Text(
         theme.fg("toolTitle", theme.bold("switch_team ")) +
-          theme.fg("accent", (args as any).teamName),
+          theme.fg("accent", (args as SwitchTeamParams).teamName),
         0,
         0,
       ),
@@ -988,7 +1006,7 @@ export default function (pi: ExtensionAPI) {
     label: "List Teams",
     description: "List all teams from teams.yaml that can be switched to.",
     parameters: Type.Object({}),
-    async execute(_id, _params, _sig, _upd, ctx) {
+    async execute(_id, _params, _sig, _upd, _ctx) {
       let output = "### Teams\n";
       if (Object.keys(teams).length > 0) {
         for (const [team, members] of Object.entries(teams)) {
@@ -1094,19 +1112,19 @@ export default function (pi: ExtensionAPI) {
       ),
   });
 
+  const ManageTeamParams = Type.Object({
+    action: Type.Enum({ add: "add", remove: "remove" }),
+    agent: Type.String({ description: "Specialist ID" }),
+  });
+  type ManageTeamParams = Static<typeof ManageTeamParams>;
+
   pi.registerTool({
     name: "manage_team",
     label: "Manage Team",
     description: "Add or remove specialists from the active roster.",
-    parameters: Type.Object({
-      action: Type.Enum({ add: "add", remove: "remove" }),
-      agent: Type.String({ description: "Specialist ID" }),
-    }),
+    parameters: ManageTeamParams,
     async execute(_id, params, _sig, _upd, ctx) {
-      const { action, agent } = params as {
-        action: "add" | "remove";
-        agent: string;
-      };
+      const { action, agent } = params as ManageTeamParams;
       const key = agent.toLowerCase();
 
       if (action === "add") {
@@ -1169,25 +1187,30 @@ export default function (pi: ExtensionAPI) {
         };
       }
     },
-    renderCall: (args, theme) =>
-      new Text(
+    renderCall: (args, theme) => {
+      const { action, agent } = args as ManageTeamParams;
+      return new Text(
         theme.fg("toolTitle", theme.bold("manage_team ")) +
-          theme.fg("accent", `${(args as any).action} ${(args as any).agent}`),
+          theme.fg("accent", `${action} ${agent}`),
         0,
         0,
-      ),
+      );
+    },
   });
+
+  const DispatchAgentParams = Type.Object({
+    agent: Type.String({ description: "Target Specialist ID" }),
+    task: Type.String({ description: "Comprehensive task description" }),
+  });
+  type DispatchAgentParams = Static<typeof DispatchAgentParams>;
 
   pi.registerTool({
     name: "dispatch_agent",
     label: "Dispatch Agent",
     description: "Delegate a task to a specialist agent.",
-    parameters: Type.Object({
-      agent: Type.String({ description: "Target Specialist ID" }),
-      task: Type.String({ description: "Comprehensive task description" }),
-    }),
+    parameters: DispatchAgentParams,
     async execute(_id, params, signal, upd, ctx) {
-      const { agent, task } = params as { agent: string; task: string };
+      const { agent, task } = params as DispatchAgentParams;
       if (upd)
         upd({
           content: [{ type: "text", text: `Piping context to: ${agent}...` }],
@@ -1213,12 +1236,13 @@ export default function (pi: ExtensionAPI) {
         ],
         details: { status: logType },
       };
-    },    renderCall: (args, theme) => {
-      const task = (args as any).task || "";
+    },
+    renderCall: (args, theme) => {
+      const { agent, task = "" } = args as DispatchAgentParams;
       const preview = task.length > 50 ? task.slice(0, 47) + "..." : task;
       return new Text(
         theme.fg("toolTitle", theme.bold("dispatch_agent ")) +
-          theme.fg("accent", (args as any).agent) +
+          theme.fg("accent", agent) +
           theme.fg("dim", " -> ") +
           theme.fg("muted", preview),
         0,
@@ -1227,13 +1251,16 @@ export default function (pi: ExtensionAPI) {
     },
   });
 
+  const SaveMemoryParams = Type.Object({
+    note: Type.String({ description: "Content to append to MEMORY.md" }),
+  });
+  type SaveMemoryParams = Static<typeof SaveMemoryParams>;
+
   pi.registerTool({
     name: "save_memory",
     label: "Save Memory",
     description: "Save notes to your persistent memory file.",
-    parameters: Type.Object({
-      note: Type.String({ description: "Content to append to MEMORY.md" }),
-    }),
+    parameters: SaveMemoryParams,
     async execute(id, params, _sig, _upd, ctx) {
       const agentKey = id.toLowerCase();
       const state = agentStates.get(agentKey);
@@ -1250,7 +1277,7 @@ export default function (pi: ExtensionAPI) {
           details: { status: "error" },
         };
 
-      const { note } = params as { note: string };
+      const { note } = params as SaveMemoryParams;
       const memoryDir = resolveMemoryDir(state.def.name, "project", ctx.cwd);
       ensureMemoryDir(memoryDir);
       const memoryFile = path.join(memoryDir, "MEMORY.md");
@@ -1274,7 +1301,7 @@ export default function (pi: ExtensionAPI) {
       }
     },
     renderCall: (args, theme) => {
-      const note = (args as any).note || "";
+      const { note = "" } = args as SaveMemoryParams;
       const preview = note.length > 30 ? note.slice(0, 27) + "..." : note;
       return new Text(
         theme.fg("toolTitle", theme.bold("save_memory ")) +
