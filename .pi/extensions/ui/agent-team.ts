@@ -1293,7 +1293,8 @@ export default function (pi: ExtensionAPI) {
       const levels = ["off", "low", "medium", "high"];
       const choice = await ctx.ui.select("Select Thinking Level", levels);
       if (choice) {
-        pi.setThinkingLevel(choice as any);        ctx.ui.notify(`Thinking level set to: ${choice.toUpperCase()}`, "success");
+        pi.setThinkingLevel(choice as "off" | "low" | "medium" | "high");
+        ctx.ui.notify(`Thinking level set to: ${choice.toUpperCase()}`, "info");
       }
     },
   });
@@ -1324,7 +1325,7 @@ export default function (pi: ExtensionAPI) {
       loadAgents(ctx.cwd);
       activateTeam(activeTeamName || Object.keys(teams)[0] || "all");
       updateWidget();
-      ctx.ui.notify("Configurations hot-reloaded.", "success");
+      ctx.ui.notify("Configurations hot-reloaded.", "info");
     },
   });
 
@@ -1360,7 +1361,7 @@ export default function (pi: ExtensionAPI) {
     description: "Export agent memory to JSON format",
     handler: async (_args, ctx) => {
       try {
-        const result = await exportMemory("json", ctx.cwd);
+        await exportMemory("json", ctx.cwd);
         ctx.ui.log(`✅ Memory export complete: .pi/memory-export.json`);
         await cleanupExports(7 * 24 * 60 * 60 * 1000);
       } catch (error) {
@@ -1373,7 +1374,7 @@ export default function (pi: ExtensionAPI) {
     description: "Export agent memory to plaintext format",
     handler: async (_args, ctx) => {
       try {
-        const result = await exportMemory("text", ctx.cwd);
+        await exportMemory("text", ctx.cwd);
         ctx.ui.log(`✅ Memory export complete: .pi/memory-export.txt`);
         await cleanupExports(7 * 24 * 60 * 60 * 1000);
       } catch (error) {
@@ -1386,7 +1387,7 @@ export default function (pi: ExtensionAPI) {
     description: "Export agent memory to markdown format",
     handler: async (_args, ctx) => {
       try {
-        const result = await exportMemory("md", ctx.cwd);
+        await exportMemory("md", ctx.cwd);
         ctx.ui.log(`✅ Memory export complete: .pi/memory-export.md`);
         await cleanupExports(7 * 24 * 60 * 60 * 1000);
       } catch (error) {
