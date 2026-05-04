@@ -1,5 +1,5 @@
 # ============================================================================
-# PIP MANAGED PACKAGES - All packages installed via ~/pip/.pi/tools/pip-manager.sh
+# PIP MANAGED PACKAGES - All packages installed via ~/pip/.pi/scripts/pip-manager.sh
 # ============================================================================
 # STANDARD LOCATIONS (Use these consistently across entire platform):
 #   - Python packages: python3 -m pip install <package>
@@ -14,7 +14,7 @@
 #
 # ALWAYS USE:
 #   - python3 -m pip (ensures correct python version used)
-#   - ~/pip/.pi/tools/pip-manager.sh for unified management
+#   - ~/pip/.pi/scripts/pip-manager.sh for unified management
 # ============================================================================
 
 # === CORE PIP ===

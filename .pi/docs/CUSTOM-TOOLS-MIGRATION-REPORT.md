@@ -1,23 +1,23 @@
 # Investigation Report: Custom Tools Migration Warning
 
 ## Overview
-When running `just run-pi "agent-team,theme-cycler"`, the following warning is displayed:
+When running `just run-pi "agent-team,theme-cycler"`, the following warning was previously displayed:
 > `Warning: Project tools/ directory contains custom tools. Custom tools have been merged into extensions.`
 
-This report explains why this warning appears, what the files in your `.pi/tools` directory are doing, and how to address the warning.
+This report explains why this warning appeared, what the files in your `.pi/scripts/` directory (formerly `.pi/tools/`) are doing, and how the issue was resolved.
 
 ---
 
-## 1. Why the Warning is Triggered
+## 1. Why the Warning was Triggered
 The Pi Coding Agent (version 0.35.0+) unified the legacy **Custom Tools** and **Hooks** systems into a single **Extensions** system. 
 
 The agent's loader scans for a directory named `tools/` (either in `~/.pi/agent/tools/` or your project's `.pi/tools/`). If it finds one, it assumes you are using the deprecated "Custom Tools" format and issues this warning to encourage migration to the `extensions/` directory and the new `ExtensionAPI`.
 
-In your case, you have a directory at `/home/zerwiz/pip/.pi/tools/`. Even though it doesn't contain legacy TypeScript tools, the mere existence of the directory name triggers the alert.
+Even if the directory doesn't contain legacy TypeScript tools, the mere existence of the directory name `tools/` triggers the alert.
 
 ---
 
-## 2. Analysis of `.pi/tools/`
+## 2. Analysis of `.pi/scripts/`
 The files in this directory are part of a custom Python package management strategy for your "PIP" platform. They are **not** legacy Pi Coding Agent tools, but rather utility scripts for the local environment.
 
 ### A. `pip-manager.sh`
@@ -40,27 +40,13 @@ This file serves as the manifest for the `pip-manager.sh` script.
 
 ---
 
-## 3. Findings & Diagnostic
-The warning is a **false positive** in the sense that you are not using "deprecated tools," but it is **correctly triggered** by the directory naming convention.
+## 3. Resolution
+The warning was a **false positive** triggered by the directory naming convention. 
 
-### Current Conflict
-- **Pi Agent Expectation:** `.pi/tools/` should contain legacy `.ts` files for the LLM to use as tools.
-- **Your Usage:** `.pi/tools/` contains bash/text utilities for Python environment management.
+### Action Taken
+To stop the warning while preserving your logic, the `.pi/tools/` directory has been renamed to **`.pi/scripts/`**. 
 
----
-
-## 4. Recommendations
-
-### Option A: Rename the Directory (Recommended)
-To stop the warning without changing your logic, rename the `.pi/tools/` directory to something that doesn't conflict with the agent's reserved names.
-- **New Path:** `.pi/util-scripts/` or `.pi/env-tools/`
-- **Action:** Rename the folder and update any references to `pip-manager.sh` (e.g., in `justfile` or other scripts).
-
-### Option B: Ignore the Warning
-If you don't mind the console noise, you can leave it as-is. The agent will attempt to load the files as tools, fail (since they aren't `.ts` files), and continue normally.
-
-### Option C: Migrate to Extensions
-If you eventually want these scripts to be usable **as tools by the agent**, you would move them to `extensions/` and wrap them in a TypeScript extension that uses `pi.registerTool()` and `pi.exec()` to call the shell script.
+Since the Pi Coding Agent does not scan the `scripts/` directory for legacy tools, the warning is no longer triggered, and your Python management utilities remain fully functional.
 
 ---
 

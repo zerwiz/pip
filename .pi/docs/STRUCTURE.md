@@ -32,9 +32,9 @@
 |-----------|---------|
 | `.context/` | Runtime context metadata (`session-state.json`) |
 | `agent-sessions/` | Runtime agent session storage |
-| `agents/` | Agent definitions, YAML configs, team rosters, pipeline chains |
+| `agents/` | Agent definitions (Core, Special, Meta), YAML configs, team rosters, pipeline chains |
 | `build_logs/` | Developer build artifacts and review request queue |
-| `docs/` | All project documentation (14 active files) |
+| `docs/` | All project documentation (15 active files) |
 | `docs/olddocs/` | Legacy reference docs (archived planning, migration summaries) |
 | `npm/` | NPM packages and node_modules |
 | `plans/` | Migration and strategy documents |
@@ -44,9 +44,10 @@
 | `reference/` | Backup location for massive file refactors |
 | `referencefiles/` | Alternative backup path for developer rewrites |
 | `reviews/` | Audit reports from reviewer and plan-reviewer agents |
+| `scripts/` | Python/Pip management utilities (`pip-manager.sh`, `py_requirements.txt`) |
 | `security_audits/` | Security audit findings from red-team agent |
-| `skills/` | Skill definitions (40+ skill directories with SKILL.md) |
-| `templates/` | Templates for agents, extensions, skills, themes, prompt-templates |
+| `skills/` | Skill definitions (on-demand loading from templates) |
+| `templates/` | Extensive library of templates for agents, extensions, skills, themes, prompt-templates |
 | `themes/` | 11 color theme configurations (JSON) |
 | `web_output/` | Browser automation artifacts from bowser agent |
 
@@ -78,62 +79,40 @@
     │   └── session-state.json       # Runtime session state
     │
     ├── agent-sessions/              # Runtime agent session storage
-    │   └── scout.json
+    │
+    ├── extensions/                  # Pi extensions (project-local)
+    │   ├── CHECKLIST.md             # Extension checklist
+    │   ├── README.md                # Extension documentation
+    │   ├── session-memory.ts        # Session history reinjection extension
+    │   ├── src/                     # Shared UI components
+    │   ├── ui/                      # Primary entry-point extensions
+    │   └── util/                    # Utility extensions and loaders
     │
     ├── agents/
     │   ├── README.md                # Agent system documentation
     │   ├── CHECKLIST.md             # Agent creation checklist
-    │   ├── agents.yaml              # Master agent registry (30 agents)
-    │   ├── teams.yaml               # Team rosters (13 teams)
-    │   ├── agent-chain.yaml         # Pipeline chains (14 chains)
+    │   ├── agents.yaml              # Master agent registry (24 agents)
+    │   ├── teams.yaml               # Team rosters (8 teams)
+    │   ├── agent-chain.yaml         # Pipeline chains (12 chains)
     │   ├── session-manager.yaml     # Session workflows
     │   ├── reviewer.yaml            # Standalone agent config (model + prompt)
     │   ├── agenttemplate.md         # Template for new agents
     │   │
-    │   ├── scout.md ── planner.md ── developer.md ── reviewer.md
-    │   ├── documenter.md ── red-team.md ── session-manager.md
-    │   ├── frontendcoder.md ── bowser.md ── ext-builder.md
-    │   ├── plan-reviewer.md ── netlify.md ── netlify-agent.md
-    │   └── pi-dev-expert.md
+    │   ├── agents/                  # Core Agents (10)
+    │   │   ├── bowser.md ── developer.md ── documenter.md
+    │   │   ├── frontendcoder.md ── indexer.md ── plan-reviewer.md
+    │   │   ├── planner.md ── red-team.md ── reviewer.md ── scout.md
     │   │
-    │   ├── agents/                  # Homepage team agent definitions
-    │   │   ├── accessibility-agent.md ── content-agent.md
-    │   │   ├── design-agent.md ── dev-agent.md ── expert-agent.md
-    │   │   ├── image-agent.md ── marketing-agent.md
-    │   │   ├── research-agent.md ── seo-agent.md
+    │   ├── specialagents/           # Special Agents (4)
+    │   │   ├── netlify-agent.md ── pi-dev-expert.md
+    │   │   ├── ralph.md ── session-manager.md
     │   │
-    │   ├── pi-pi/                   # Pi-Pi meta expert definitions
+    │   ├── pi-pi/                   # Meta Experts (10)
     │   │   ├── agent-expert.md ── cli-expert.md ── config-expert.md
     │   │   ├── ext-expert.md ── keybinding-expert.md ── pi-orchestrator.md
     │   │   ├── prompt-expert.md ── skill-expert.md ── theme-expert.md
     │   │   └── tui-expert.md
     │   │
-    │   ├── specialagents/           # Special agent definitions (40+ agents)
-    │   │   ├── academic-search.md ── ai-news-collector.md
-    │   │   ├── anti-manipulation.md ── auto-target.md ── blog-author.md
-    │   │   ├── browser-agent.md ── chart-creator.md ── coding-agent.md
-    │   │   ├── content-analyzer.md ── content-strategist.md
-    │   │   ├── daily-paper.md ── document-processor.md
-    │   │   ├── dream-analyzer.md ── execution-planner.md
-    │   │   ├── ffmpeg.md ── finance-advisor.md ── finance-tools.md
-    │   │   ├── fortune-analyzer.md ── fullstack-developer.md
-    │   │   ├── gift-advisor.md ── image-analyzer.md ── image-editor.md
-    │   │   ├── interview-forensics.md ── interview-specialist.md
-    │   │   ├── llm-integrator.md ── market-analyzer.md
-    │   │   ├── marketing-expert.md ── marketing-vault.md
-    │   │   ├── meta-search.md ── mindfulness-coach.md
-    │   │   ├── open-academic.md ── podcast-creator.md
-    │   │   ├── presentation-creator.md ── research-assistant.md
-    │   │   ├── seo-writer.md ── shader-extractor.md ── skill-builder.md
-    │   │   ├── skill-finder.md ── skill-reviewer.md ── speech-to-text.md
-    │   │   ├── spreadsheet-processor.md ── stock-analyzer.md
-    │   │   ├── storyboard-creator.md ── ui-ux-designer.md
-    │   │   ├── video-analyzer.md ── vision-language.md
-    │   │   ├── visual-designer.md ── vlm-tracker.md
-    │   │   ├── web-content-fetcher.md ── web-search-engine.md
-    │   │   └── writing-planner.md
-    │   │
-    │   ├── homepageteam/            # Homepage team configs
     │   └── util/                    # Agent utilities
     │       ├── memory-export.ts
     │       └── memory-tools.ts
@@ -142,6 +121,7 @@
     │   ├── README.md                # Documentation library index
     │   ├── STRUCTURE.md             # This file
     │   ├── AGENT-YAML-CONFIGURATION.md  # YAML config documentation
+    │   ├── CUSTOM-TOOLS-MIGRATION-REPORT.md # Migration investigation report
     │   ├── AGENT-TEAM-CHAIN-TEST.md # agent-team-chain docs
     │   ├── HANDOFF_PROTOCOL.md      # Agent handoff protocol
     │   ├── JUSTFILE-STARTUP-MECHANISM.md # Justfile startup docs
@@ -175,30 +155,18 @@
     ├── reviews/                     # Audit reports (reviewer agent output)
     ├── reference/                   # Backup for massive refactors
     ├── referencefiles/              # Alternative backup path
-    ├── security_audits/             # Red-team audit findings
-    ├── skills/                      # Skill definitions (40+ skills)
-    │   ├── academic-search/ ── ai-news/ ── anti-manipulation/
-    │   ├── blog-writing/ ── browser-automation/ ── chart-creation/
-    │   ├── content-analysis/ ── content-strategy/ ── creative-storyboard/
-    │   ├── daily-paper/ ── document-processing/ ── dream-analysis/
-    │   ├── execution-planner/ ── ffmpeg/ ── finance-core/
-    │   ├── finance-tools/ ── fortune-analyzer/ ── fullstack-dev/
-    │   ├── gift-advisor/ ── image-analysis/ ── interview-forensics/
-    │   ├── marketing-vault/ ── market-research/ ── meta-search/
-    │   ├── mindfulness/ ── podcast-generation/ ── presentation-design/
-    │   ├── research-tools/ ── seo-writing/ ── shader-extraction/
-    │   ├── skill-development/ ── skill-discovery/ ── speech-to-text/
-    │   ├── spreadsheet-processing/ ── stock-analysis/ ── storyboard/
-    │   ├── ui-design/ ── video-analysis/ ── vision-language/
-    │   ├── visual-design/ ── vlm-tracker/ ── web-content-fetcher/
-    │   ├── web-search/ ── writing-planning/
-    │   └── (each contains SKILL.md)
+    ├── scripts/                     # Python/Pip management utilities
+    │   ├── pip-manager.sh           # Centralized pip manager script
+    │   └── py_requirements.txt      # Python managed packages manifest
     │
-    ├── templates/                   # Templates for various components
-    │   ├── agents/                 # Agent templates (agent-with-memory, coding-agent, etc.)
-    │   ├── extensions/              # Extension templates (basic-tool, custom-command, etc.)
+    ├── security_audits/             # Red-team audit findings
+    ├── skills/                      # Skill definitions (Empty - loading from templates)
+    │
+    ├── templates/                   # Extensive library of templates
+    │   ├── agents/                 # Agent templates (Accessibility, Design, etc.)
+    │   ├── extensions/              # Extension templates (basic-tool, ui-widget, etc.)
     │   ├── prompt-templates/        # Prompt templates (component, explain, review)
-    │   ├── skills/                 # Skill templates (code-review, doc-generator, web-research)
+    │   ├── skills/                 # Skill templates (50+ domain skills)
     │   └── themes/                 # Theme templates (dark, light, nord)
     │
     ├── web_output/                  # Browser automation artifacts (bowser)
@@ -297,7 +265,7 @@ Patterns marked with `ask: true` prompt the user before executing. Patterns with
 
 ### `.pi/teams.yaml`
 
-Legacy team definitions — simple lists of agent names. **Superseded by** `.pi/agents/teams.yaml` which has more detailed team configurations (13 teams vs 6 here). Kept for backward compatibility.
+Legacy team definitions — simple lists of agent names. **Superseded by** `.pi/agents/teams.yaml` which has more detailed team configurations (8 active teams). Kept for backward compatibility.
 
 | Team | Members |
 |------|---------|
@@ -315,7 +283,7 @@ Legacy team definitions — simple lists of agent names. **Superseded by** `.pi/
 | Extension | Count | Purpose |
 |-----------|-------|---------|
 | `.yaml` | 7 | Agent configs, teams, chains, safety rules |
-| `.md` | 35+ | Agent definitions, documentation |
+| `.md` | 30+ | Agent definitions, documentation |
 | `.ts` | 28 | TypeScript extensions and utilities |
 | `.py` | 6 | Python model and test modules |
 | `.json` | 14 | Theme configs, package files, settings |
