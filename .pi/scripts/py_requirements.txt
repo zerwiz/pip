@@ -1,0 +1,47 @@
+# ============================================================================
+# PIP MANAGED PACKAGES - All packages installed via ~/pip/.pi/tools/pip-manager.sh
+# ============================================================================
+# STANDARD LOCATIONS (Use these consistently across entire platform):
+#   - Python packages: python3 -m pip install <package>
+#   - System pip fallback: /usr/bin/python3 -m pip install <package>
+#   - User install: pip3 install --user <package>
+# ============================================================================
+#
+# DO NOT USE:
+#   - brew install <python3> without package isolation
+#   - /usr/local/bin/pip (conflicts with virtualenvs)
+#   - /home/zerwiz/pip/.local/bin/pip (non-standard)
+#
+# ALWAYS USE:
+#   - python3 -m pip (ensures correct python version used)
+#   - ~/pip/.pi/tools/pip-manager.sh for unified management
+# ============================================================================
+
+# === CORE PIP ===
+pip
+setuptools
+wheel
+build
+
+# === PIP MANAGER & PLATFORM ===
+pip-manager
+pip-shims
+
+# === DEVELOPMENT TOOLS ===
+black
+flake8
+pytest>=7.0.0
+pytest-cov
+mypy>=1.0.0
+ruff>=0.1.0
+isort
+
+# === CI/CD ===
+pyyaml>=6.0.1
+requests>=2.28.0
+httpx>=0.24.0
+
+# === PIP FIXES ===
+# If system pip is broken/unavailable
+pip
+pipx>=1.2.0
