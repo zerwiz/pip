@@ -15,7 +15,7 @@ piwithstuff/
         └── AGENT-TEAM-CHAIN-TEST.md     # This documentation
 ```
 
-**Note**: Extensions in `.pi/extensions/` are loaded via justfile (`/home/zerwiz/pip/justfile`). New custom extensions should be created in `/home/zerwiz/pip/extensions/`.
+**Note**: Extensions in `.pi/extensions/` are loaded via justfile (`~/pip/justfile`). New custom extensions should be created in `~/pip/extensions/`.
 
 ## Extension Loading Summary
 

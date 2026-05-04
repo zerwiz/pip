@@ -1,6 +1,6 @@
 # PIP - Complete Structure Documentation
 
-## Root Level: `/home/zerwiz/pip/`
+## Root Level: `~/pip/`
 
 | File | Purpose |
 |------|---------|
@@ -55,7 +55,7 @@
 ## Complete Directory Tree
 
 ```
-/home/zerwiz/pip/
+~/pip/
 ├── justfile
 ├── README.md
 ├── CHANGELOG.md
@@ -234,7 +234,7 @@ Note: `ref/` directory at root is gitignored and its content is not tracked in v
 
 ## Extension System
 
-Extensions now live at the **root level** `/home/zerwiz/pip/extensions/` (not inside `.pi/`).
+Extensions now live at the **root level** `~/pip/extensions/` (not inside `.pi/`).
 
 See [`/extensions/README.md`](../extensions/README.md) for full extension documentation.
 

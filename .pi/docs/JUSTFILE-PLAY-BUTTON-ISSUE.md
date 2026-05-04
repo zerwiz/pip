@@ -7,7 +7,7 @@ When clicking the "play button" (Run/Execute) on `justfile` in your editor (VS C
 ```
 Command 'conda' not found, did you mean:
   command 'conga' from snap conga (1.4.0)
-bash: /home/zerwiz/pip/justfile: Permission denied
+bash: ~/pip/justfile: Permission denied
 ```
 
 ## Root Cause

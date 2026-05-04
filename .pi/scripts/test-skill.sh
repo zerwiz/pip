@@ -5,7 +5,7 @@
 set -e
 
 SKILL_NAME="$1"
-BASE_DIR="/home/zerwiz/pip/.pi/skills"
+BASE_DIR="~/pip/.pi/skills"
 SKILL_DIR="$BASE_DIR/$SKILL_NAME"
 
 if [ -z "$SKILL_NAME" ]; then

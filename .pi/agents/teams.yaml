@@ -1,4 +1,4 @@
-# Teams Configuration for pip/.pi/agents
+# Teams Configuration for roto/.pi/agents
 # Each team uses only agents that exist in agents.yaml for discovery by dispatch agent
 
 # --- Project Teams ---

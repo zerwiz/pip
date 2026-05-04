@@ -196,7 +196,7 @@ mkdir -p .pi/web_output .pi/agent-sessions
 
 ### [ ] Verify paths in agent files
 
-- [ ] No hardcoded `/piwithstuff/` or `/pip/` references — all should use relative paths (`.pi/...`)
+- [ ] No hardcoded `/piwithstuff/` or `~/pip/` references — all should use relative paths (`.pi/...`)
 - [ ] No `/Users/`, `/home/user/`, or other machine-specific absolute paths
 - [ ] All paths are relative (`.pi/...`) or use environment variables
 
@@ -284,7 +284,7 @@ ls -d .pi/reviews .pi/planning .pi/security_audits
 ls -d .pi/web_output .pi/agent-sessions
 ```
 
-- [ ] No `/piwithstuff/` or `/pip/` references in any agent `.md` file
+- [ ] No `/piwithstuff/` or `~/pip/` references in any agent `.md` file
 - [ ] All paths are relative to project root (`.pi/...`)
 - [ ] No machine-specific paths (`/Users/`, `/home/*/`)
 - [ ] No machine-specific paths (`/Users/`, `/home/*/`)

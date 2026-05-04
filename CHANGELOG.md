@@ -54,7 +54,7 @@ All notable changes to PIP (Pi Agent Platform).
 ### Changed
 
 - **Pi 0.70.5+ breaking change** — Multiple `-e` flags (`pi -e ext1.ts -e ext2.ts`) are unstable; all extensions now loaded via justfile with single `-e` flag to `pi-loader.ts`
-- **Removed all hardcoded paths from agent definitions** — 16 references across 11 agent files converted from `/pipwithstuff/` and `/pip/` to relative `.pi/...` paths
+- **Removed all hardcoded paths from agent definitions** — 16 references across 11 agent files converted from `/pipwithstuff/` and `~/pip/` to relative `.pi/...` paths
 - **Documentation sweep** — All 8 README/docs updated to reflect justfile-first loading pattern, removed outdated `pi -e` multi-flag examples
 - **Extension checklist** — Moved from `.pi/docs/CHECKLIST.md` to `.pi/extensions/CHECKLIST.md`, updated for Pi 0.70.5+ loading procedures
 - **STRUCTURE.md** — Added reference to `.pi/docs/olddocs/` legacy archive directory
@@ -74,7 +74,7 @@ All notable changes to PIP (Pi Agent Platform).
 - **May 2, 2026** — Added `web_search,fetch_content` to tools list in all agent definitions for web access capability
 - **May 2, 2026** — Updated all 11 agent files to be aware of `.pi/templates/` and to check `.pi/docs/pi-documentation-links.md` for updates
 - **May 2, 2026** — Created `.pi/docs/pi-documentation-links.md` with ALL Pi documentation URLs and template locations
-- **May 2, 2026** — Converted all agent paths from hardcoded `/pipwithstuff/` and `/pip/` to relative `.pi/...` paths (11 files, 16 references)
+- **May 2, 2026** — Converted all agent paths from hardcoded `/pipwithstuff/` and `~/pip/` to relative `.pi/...` paths (11 files, 16 references)
 - **May 2, 2026** — Documentation updated for Pi 0.70.5+ justfile-first extension loading (README, STRUCTURE.md, all usage maps, justfile docs)
 - **May 2, 2026** — Created implementation plan for missing features in `agent-team.ts` (plan mode system, list_team_agents tool, commands, system prompt updates)
 - **May 2, 2026** — Recursive agent discovery across all `.pi/agents/` subdirectories, enhanced TUI tree view for `list_agents`, removed duplicate tool registrations, added `getTeamsCatalog` helper, standardized on `import * as path`

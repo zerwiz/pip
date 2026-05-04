@@ -235,7 +235,7 @@ Basic validation passed for all tested skills:
 | `vision-language` | ✅ | ✅ | ✅ | ✅ |
 | `stock-analysis` | ✅ | ✅ | ✅ | ✅ |
 
-**Test command**: `/home/zerwiz/pip/.pi/scripts/test-skill.sh <skill-name>`
+**Test command**: `~/pip/.pi/scripts/test-skill.sh <skill-name>`
 
 ---
 
