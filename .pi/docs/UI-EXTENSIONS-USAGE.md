@@ -101,7 +101,7 @@ This document maps every file in `.pi/extensions/src/ui/` to the consumers that 
 
 | Consumer | Path |
 |---|---|
-| `justfile` | `/home/zerwiz/pip/justfile` (line 132 — import validation) |
+| `justfile` | `~/pip/justfile` (line 132 — import validation) |
 | `justfilechain` | `.pi/extensions/util/justfilechain` (build/test/run/verify targets) |
 
 **Notes:** Referenced in justfile targets for building, testing, and running. The justfile validates that it imports from `agent-team.ts`. Documentation references exist in `.pi/docs/AGENT-TEAM-CHAIN-TEST.md`, `.pi/docs/MIGRATION-GUIDE.md`, and `.pi/docs/UPDATE-2026-05-02.md`.

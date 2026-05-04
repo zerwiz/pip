@@ -1303,7 +1303,7 @@ find .pi -type f -name "*.md" -exec \
 
 ### Documentation Links
 
-- [Z.AI Architecture Analysis](https://github.com/zerwiz/pip/tree/.pi/docs/open-sourcealternatives.md)
+- [Z.AI Architecture Analysis](s://github.com/zerwiz~/pip/tree/.pi/docs/open-sourcealternatives.md)
 - [Skills Subsystems](https://docs.pi.ai/skills)
 - [Open-Source Alternatives](https://docs.pi.ai/alternatives)
 - [Migration Guide](https://docs.pi.ai/migration)

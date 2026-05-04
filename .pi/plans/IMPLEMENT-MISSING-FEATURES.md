@@ -1,8 +1,8 @@
 # Implementation Plan: Missing Features in `agent-team.ts`
 
 ## Context
-- **Target file**: `/home/zerwiz/pip/.pi/extensions/ui/agent-team.ts` (1516 lines)
-- **Reference**: `/home/zerwiz/pip/ref/piwithstuff-main/extensions/agent-team.ts` (1569 lines)
+- **Target file**: `~/pip/.pi/extensions/ui/agent-team.ts` (1516 lines)
+- **Reference**: `~/pip/ref/piwithstuff-main/extensions/agent-team.ts` (1569 lines)
 - **Directory structure**: Extension lives in `.pi/extensions/ui/`, imports from `../util/` and `./themeMap.ts`
 
 ---
@@ -390,9 +390,9 @@ import { applyExtensionDefaults } from "../src/ui/themeMap";
 ```
 
 **Verify** these resolve correctly in the new directory structure:
-- `../util/memory-export` → `/home/zerwiz/pip/.pi/extensions/util/memory-export.ts`
-- `../util/memory-tools` → `/home/zerwiz/pip/.pi/extensions/util/memory-tools.ts`
-- `./themeMap.ts` → `/home/zerwiz/pip/.pi/extensions/ui/themeMap.ts`
+- `../util/memory-export` → `~/pip/.pi/extensions/util/memory-export.ts`
+- `../util/memory-tools` → `~/pip/.pi/extensions/util/memory-tools.ts`
+- `./themeMap.ts` → `~/pip/.pi/extensions/ui/themeMap.ts`
 
 **No changes needed** if files exist at these paths.
 

@@ -134,7 +134,7 @@ This document maps every file in `.pi/extensions/util/` to the consumers that im
 | Consumer | Path |
 |---|---|
 | *(standalone extension)* | Loaded via `just ext-damage-control` |
-| `justfile` | `/home/zerwiz/pip/justfile` |
+| `justfile` | `~/pip/justfile` |
 | `justfilechain` | `.pi/extensions/util/justfilechain` |
 
 **Notes:** Depends on `themeMap.ts` for defaults. Leaf extension — not imported by other code. Uses `yaml` package for rule parsing.
@@ -191,7 +191,7 @@ This document maps every file in `.pi/extensions/util/` to the consumers that im
 
 | Consumer | Path |
 |---|---|
-| `justfile` | `/home/zerwiz/pip/justfile` |
+| `justfile` | `~/pip/justfile` |
 
 **Notes:** Not a TypeScript source file. Referenced by the root justfile for agent-team-chain lifecycle management.
 

@@ -32,18 +32,18 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd pip/.pi
+          cd roto/.pi
           npm ci
 
       - name: Run TypeScript linting
         run: |
-          cd pip/.pi
+          cd roto/.pi
           npm run lint || true
 
       - name: Validate project structure
         run: |
           echo "Validating project structure..."
-          ls -la pip/.pi
+          ls -la roto/.pi
           echo "Structure validation complete"
 
   # Build TypeScript
@@ -63,12 +63,12 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd pip/.pi
+          cd roto/.pi
           npm ci
 
       - name: Build TypeScript
         run: |
-          cd pip/.pi
+          cd roto/.pi
           npm run build
           echo "Build completed successfully"
 
@@ -76,7 +76,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts
-          path: pip/.pi/dist/
+          path: roto/.pi/dist/
 
   # Test Python modules
   test-python:
@@ -94,13 +94,13 @@ jobs:
 
       - name: Install Python dependencies
         run: |
-          cd pip/.pi
+          cd roto/.pi
           python3 -m pip install -r requirements.txt || true
-          echo "Python dependencies installed (pip: ~/pip/.pi)"
+          echo "Python dependencies installed (pip: ~~/pip/.pi)"
 
       - name: Run Python tests
         run: |
-          cd pip/.pi/py
+          cd roto/.pi/py
           python -m pytest || true
 
   # Integration tests
@@ -135,7 +135,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build-artifacts
-          path: pip/.pi/dist/
+          path: roto/.pi/dist/
 
       - name: Deploy to staging
         run: |
@@ -156,7 +156,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build-artifacts
-          path: pip/.pi/dist/
+          path: roto/.pi/dist/
 
       - name: Deploy to production
         run: |
@@ -175,13 +175,13 @@ jobs:
       - name: Validate extension structure
         run: |
           echo "Validating extensions..."
-          ls -la pip/.pi/extensions/
+          ls -la roto/.pi/extensions/
           echo "Extension validation complete"
 
       - name: Validate agent structure
         run: |
           echo "Validating agents..."
-          ls -la pip/.pi/agents/
+          ls -la roto/.pi/agents/
           echo "Agent validation complete"
 
   # Generate documentation
@@ -225,5 +225,5 @@ jobs:
       - name: Notify failure
         run: |
           echo "CI/CD Pipeline failed!"
-          echo "Check https://github.com/zerwiz/pip/actions for details"
+          echo "Check https://github.com/zerwiz~/pip/actions for details"
           echo "Review the failing jobs and fix any issues"

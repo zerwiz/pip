@@ -14,7 +14,7 @@ We have moved a significant number of files around during the cleanup process. W
 
 - **Extensions are no longer loading correctly** from their original locations
 - **Dependencies are broken** because paths point to moved files
-- **The justfile** (`/home/zerwiz/pip/justfile`) still references original file locations
+- **The justfile** (`~/pip/justfile`) still references original file locations
 - **We CANNOT rewrite the justfile** - it must work with existing configurations
 - **We CANNOT rewrite extensions** - they must work as they did before
 - **We MUST make everything work again** with minimal changes
@@ -30,7 +30,7 @@ We have moved a significant number of files around during the cleanup process. W
 - We will ONLY create new routing/configuration files
 
 ### Bootstrap Strategy
-- **Root extensions** (`/home/zerwiz/pip/.pi/extensions/`) should boot the regular `www.pi.dev` way
+- **Root extensions** (`~/pip/.pi/extensions/`) should boot the regular `www.pi.dev` way
 - **Subdirectory extensions** (`ui/`, `util/`, `src/`) should boot exactly as the justfile specifies
 - **File paths** must be routed correctly so extensions find their dependencies
 
@@ -39,7 +39,7 @@ We have moved a significant number of files around during the cleanup process. W
 ## New Extension Directory Structure
 
 ```
-/home/zerwiz/pip/.pi/extensions/
+~/pip/.pi/extensions/
 ├── ui/                                    # TUI (Terminal User Interface) Files
 │   ├── agent-chain.ts
 │   ├── agent-team-chain.ts
@@ -79,10 +79,10 @@ We have moved a significant number of files around during the cleanup process. W
 
 | Location | Boot Behavior | Purpose |
 |----------|---------------|---------|
-| `/home/zerwiz/pip/.pi/extensions/` | Regular `www.pi.dev` bootstrap | Main extensions that follow standard bootstrap |
-| `/home/zerwiz/pip/.pi/extensions/ui/` | Justfile-specified paths | TUI-specific files with custom bootstrap |
-| `/home/zerwiz/pip/.pi/extensions/util/` | Justfile-specified paths | Utility extensions with custom bootstrap |
-| `/home/zerwiz/pip/.pi/extensions/src/` | Justfile-specified paths | Source function extensions with custom bootstrap |
+| `~/pip/.pi/extensions/` | Regular `www.pi.dev` bootstrap | Main extensions that follow standard bootstrap |
+| `~/pip/.pi/extensions/ui/` | Justfile-specified paths | TUI-specific files with custom bootstrap |
+| `~/pip/.pi/extensions/util/` | Justfile-specified paths | Utility extensions with custom bootstrap |
+| `~/pip/.pi/extensions/src/` | Justfile-specified paths | Source function extensions with custom bootstrap |
 
 ### 2. File Path Routing
 
@@ -219,9 +219,9 @@ We are "PRODUCTION READY" when:
 
 For questions or issues during reconfiguration:
 
-- Review agent documentation in `/home/zerwiz/pip/.pi/agents/`
-- Check extension documentation in `/home/zerwiz/pip/.pi/extensions/util/`
-- Reference planning docs in `/home/zerwiz/pip/.pi/plans/`
+- Review agent documentation in `~/pip/.pi/agents/`
+- Check extension documentation in `~/pip/.pi/extensions/util/`
+- Reference planning docs in `~/pip/.pi/plans/`
 
 ---
 
@@ -230,7 +230,7 @@ For questions or issues during reconfiguration:
 **BLOCKER**: Must resolve before any production deployment
 ```
 
-# The planning document has been created at `/home/zerwiz/pip/.pi/plans/RECONFIGURATION-PLAN.md` with all the critical information about:
+# The planning document has been created at `~/pip/.pi/plans/RECONFIGURATION-PLAN.md` with all the critical information about:
 # - The new extension directory structure
 # - Booting behavior requirements
 # - File path routing needs
