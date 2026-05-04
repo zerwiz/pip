@@ -34,11 +34,10 @@ import {
   writeFileSync,
   existsSync,
   mkdirSync,
-  unlinkSync,
   lstatSync,
 } from "fs";
 import * as path from "path";
-const { join, resolve } = path;
+const { join } = path;
 import { homedir } from "os";
 import { applyExtensionDefaults } from "../src/ui/themeMap";
 
@@ -85,16 +84,7 @@ const MAX_MEMORY_LINES = 200;
 
 // ── Shared State ────────────────────────────────
 
-export const agentStates: Map<string, AgentState> = new Map();
-export let allAgentDefs: AgentDef[] = [];
-export let teams: Record<string, string[]> = {};
-export let activeTeamName = "";
-export let activeMemoryKey = "";
-
 // ── Plan Mode State ─────────────────────────────
-export let isPlanModeActive = false;
-export let planStatus: 'idle' | 'scouting' | 'planning' | 'reviewing' | 'awaiting_approval' | 'approved' = 'idle';
-export let currentPlanPath: string | null = null;
 
 // ── Memory & Safety Helpers ──────────────────────
 
@@ -273,34 +263,6 @@ function wrapText(text: string, width: number): string[] {
 // ── Configuration Parsers ───────────────────────
 
 /**
- * Robust YAML-lite parser for agents.yaml.
- */
-function parseAgentsYaml(
-  raw: string,
-): Record<string, { name: string; description: string; tools: string }> {
-  const agents: Record<
-    string,
-    { name: string; description: string; tools: string }
-  > = {};
-  let current: string | null = null;
-  for (const line of raw.split("\n")) {
-    if (line.trim() === "") continue;
-    const itemMatch = line.match(/^(\S[^:]*):$/);
-    if (itemMatch) {
-      current = itemMatch[1].trim();
-      agents[current] = { name: current, description: "", tools: "" };
-      continue;
-    }
-    const keyMatch = line.match(/^\s+(name|description|tools):\s*(.+)$/);
-    if (keyMatch && current) {
-      agents[current][keyMatch[1] as "name" | "description" | "tools"] =
-        keyMatch[2].trim();
-    }
-  }
-  return agents;
-}
-
-/**
  * Robust YAML-lite parser for teams.yaml.
  */
 function parseTeamsYaml(raw: string): Record<string, string[]> {
@@ -437,6 +399,15 @@ export default function (pi: ExtensionAPI) {
   let allAgentDefs: AgentDef[] = [];
   let teams: Record<string, string[]> = {};
   let activeTeamName = "";
+  let isPlanModeActive = false;
+  let planStatus:
+    | "idle"
+    | "scouting"
+    | "planning"
+    | "reviewing"
+    | "awaiting_approval"
+    | "approved" = "idle";
+  let currentPlanPath: string | null = null;
   let widgetCtx: any;
   let sessionDir = "";
   let contextWindow = 0;
@@ -905,7 +876,7 @@ export default function (pi: ExtensionAPI) {
 
       try {
         // Phase 1: Scout
-        if (upd) upd({ content: [{ type: "text", text: "🔍 Starting Scout Phase..." }] });
+        if (upd) upd({ content: [{ type: "text", text: "🔍 Starting Scout Phase..." }], details: "" });
         const scoutResult = await dispatchAgent("scout", `Perform a deep reconnaissance of the codebase related to: ${task}`, ctx, signal);
 
         // 🔥 Show what the scout found
@@ -914,7 +885,7 @@ export default function (pi: ExtensionAPI) {
         // Phase 2: Planner
         planStatus = "planning";
         updateWidget();
-        if (upd) upd({ content: [{ type: "text", text: "🧠 Starting Planning Phase..." }] });
+        if (upd) upd({ content: [{ type: "text", text: "🧠 Starting Planning Phase..." }], details: "" });
         const planResult = await dispatchAgent("planner", `Generate a detailed implementation plan for: ${task}. Save it to .pi/planning/`, ctx, signal);
 
         // 🔥 Show the proposed plan
@@ -927,7 +898,7 @@ export default function (pi: ExtensionAPI) {
         // Phase 3: Reviewer
         planStatus = "reviewing";
         updateWidget();
-        if (upd) upd({ content: [{ type: "text", text: "🛡️ Starting Review Phase..." }] });
+        if (upd) upd({ content: [{ type: "text", text: "🛡️ Starting Review Phase..." }], details: "" });
         const reviewResult = await dispatchAgent("plan-reviewer", `Critically review the latest plan in .pi/planning/`, ctx, signal);
 
         // 🔥 Show the reviewer's critique
@@ -1220,10 +1191,11 @@ export default function (pi: ExtensionAPI) {
       if (upd)
         upd({
           content: [{ type: "text", text: `Piping context to: ${agent}...` }],
+          details: "",
         });
 
       // 🔥 Show exactly what the Dispatcher is asking
-      ctx.ui.notify(`### 📤 Dispatcher -> [${agent}]\n${task}`, "muted");
+      ctx.ui.notify(`### 📤 Dispatcher -> [${agent}]\n${task}`, "info");
 
       const res = await dispatchAgent(agent, task, ctx, signal);
       const status = res.exitCode === 0 ? "SUCCESS" : "FAILURE";
@@ -1239,6 +1211,7 @@ export default function (pi: ExtensionAPI) {
             text: `### [${agent}] Task ${status}\n- **Duration:** ${Math.round(res.elapsed / 1000)}s\n\n**Output:**\n${res.output}`,
           },
         ],
+        details: { status: logType },
       };
     },    renderCall: (args, theme) => {
       const task = (args as any).task || "";
@@ -1265,7 +1238,7 @@ export default function (pi: ExtensionAPI) {
       const agentKey = id.toLowerCase();
       const state = agentStates.get(agentKey);
       if (!state)
-        return { content: [{ type: "text", text: `Agent not found.` }] };
+        return { content: [{ type: "text", text: `Agent not found.` }], details: { status: "error" } };
 
       const hasWriteTools =
         state.def.tools.includes("write") || state.def.tools.includes("edit");
@@ -1274,6 +1247,7 @@ export default function (pi: ExtensionAPI) {
           content: [
             { type: "text", text: `This agent does not have write tools.` },
           ],
+          details: { status: "error" },
         };
 
       const { note } = params as { note: string };
@@ -1290,10 +1264,12 @@ export default function (pi: ExtensionAPI) {
         writeFileSync(memoryFile, updated, "utf-8");
         return {
           content: [{ type: "text", text: `Memory saved to ${memoryFile}` }],
+          details: { status: "done" },
         };
       } catch (e) {
         return {
           content: [{ type: "text", text: `Failed to save memory: ${e}` }],
+          details: { status: "error" },
         };
       }
     },
@@ -1317,7 +1293,8 @@ export default function (pi: ExtensionAPI) {
       const levels = ["off", "low", "medium", "high"];
       const choice = await ctx.ui.select("Select Thinking Level", levels);
       if (choice) {
-        pi.setThinkingLevel(choice as any);        ctx.ui.notify(`Thinking level set to: ${choice.toUpperCase()}`, "success");
+        pi.setThinkingLevel(choice as "off" | "low" | "medium" | "high");
+        ctx.ui.notify(`Thinking level set to: ${choice.toUpperCase()}`, "info");
       }
     },
   });
@@ -1348,7 +1325,7 @@ export default function (pi: ExtensionAPI) {
       loadAgents(ctx.cwd);
       activateTeam(activeTeamName || Object.keys(teams)[0] || "all");
       updateWidget();
-      ctx.ui.notify("Configurations hot-reloaded.", "success");
+      ctx.ui.notify("Configurations hot-reloaded.", "info");
     },
   });
 
@@ -1384,7 +1361,7 @@ export default function (pi: ExtensionAPI) {
     description: "Export agent memory to JSON format",
     handler: async (_args, ctx) => {
       try {
-        const result = await exportMemory("json", ctx.cwd);
+        await exportMemory("json", ctx.cwd);
         ctx.ui.log(`✅ Memory export complete: .pi/memory-export.json`);
         await cleanupExports(7 * 24 * 60 * 60 * 1000);
       } catch (error) {
@@ -1397,7 +1374,7 @@ export default function (pi: ExtensionAPI) {
     description: "Export agent memory to plaintext format",
     handler: async (_args, ctx) => {
       try {
-        const result = await exportMemory("text", ctx.cwd);
+        await exportMemory("text", ctx.cwd);
         ctx.ui.log(`✅ Memory export complete: .pi/memory-export.txt`);
         await cleanupExports(7 * 24 * 60 * 60 * 1000);
       } catch (error) {
@@ -1410,7 +1387,7 @@ export default function (pi: ExtensionAPI) {
     description: "Export agent memory to markdown format",
     handler: async (_args, ctx) => {
       try {
-        const result = await exportMemory("md", ctx.cwd);
+        await exportMemory("md", ctx.cwd);
         ctx.ui.log(`✅ Memory export complete: .pi/memory-export.md`);
         await cleanupExports(7 * 24 * 60 * 60 * 1000);
       } catch (error) {
