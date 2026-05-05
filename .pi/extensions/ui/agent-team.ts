@@ -21,8 +21,6 @@
 import type {
   ExtensionAPI,
   ExtensionContext,
-  ExtensionCommandContext,
-  ExtensionUIContext,
   Theme,
   ThemeColor,
 } from "@mariozechner/pi-coding-agent";
@@ -36,7 +34,6 @@ import {
   Text,
   truncateToWidth,
   visibleWidth,
-  type TUI,
 } from "@mariozechner/pi-tui";
 import { spawn } from "child_process";
 import {
@@ -638,7 +635,8 @@ export default function (pi: ExtensionAPI) {
   function updateWidget() {
     if (!widgetCtx) return;
 
-    widgetCtx.ui.setWidget("agent-team", (_tui: TUI, theme: Theme) => {
+    // biome-ignore lint/suspicious/noExplicitAny: nominal type mismatch between package versions
+    widgetCtx.ui.setWidget("agent-team", (_tui: any, theme: any) => {
       const text = new Text("", 0, 1);
       return {
         render(width: number): string[] {
